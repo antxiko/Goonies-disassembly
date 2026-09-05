@@ -1,0 +1,134 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The code — The Goonies (Konami, 1986)</title>
+<style>
+:root{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;--linea:#23262e;
+  --rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+@media (prefers-color-scheme:light){:root{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;
+  --panel:#f7f6f2;--linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}}
+:root[data-theme="dark"]{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;
+  --linea:#23262e;--rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+:root[data-theme="light"]{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;--panel:#f7f6f2;
+  --linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--tinta);padding:0 1.25rem 6rem;
+  font:15px/1.7 ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.w{max-width:1120px;margin:0 auto}
+.n{max-width:68ch}
+h1,h2,h3,h4{font-weight:400;text-wrap:balance}
+a{color:var(--cyan)}
+img{image-rendering:pixelated;max-width:100%;height:auto;display:block}
+header.top{display:flex;flex-direction:column;align-items:center;gap:1.5rem;
+  padding:4rem 0 2rem;text-align:center}
+header.top img{width:min(100%,642px)}
+.claim{max-width:60ch;color:var(--suave);font-size:1.05rem}
+.claim b{color:var(--tinta);font-weight:400}
+.ficha{display:flex;flex-wrap:wrap;justify-content:center;gap:0 1.5rem;width:100%;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--suave);
+  border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);padding:.85rem 0}
+.ficha b{color:var(--rojo);font-weight:400}
+nav{display:flex;flex-wrap:wrap;gap:1.25rem;justify-content:center;padding:1.25rem 0;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+nav a{color:var(--suave);text-decoration:none;border-bottom:1px solid transparent}
+nav a:hover,nav a:focus{color:var(--tinta);border-bottom-color:var(--rojo)}
+nav.docs{border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);
+  margin-bottom:1rem}
+section{margin-top:4.5rem;scroll-margin-top:1rem}
+section>h2{font-size:1rem;letter-spacing:.1em;text-transform:uppercase;
+  border-left:3px solid var(--rojo);padding-left:.9rem;margin:0 0 1.5rem}
+.cifras{display:grid;gap:1px;background:var(--linea);border:1px solid var(--linea);
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.cifra{background:var(--panel);padding:1.1rem}
+.cifra b{display:block;font-size:1.7rem;color:var(--oro);font-weight:400;
+  font-variant-numeric:tabular-nums;line-height:1.2}
+.cifra span{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--suave)}
+.hall{border-top:1px solid var(--linea);padding-top:1.75rem;margin-top:2.5rem}
+.hall:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.hall h3{margin:0 0 .75rem;font-size:1.15rem;color:var(--rojo)}
+.hall h4{color:var(--oro);margin:1.5rem 0 .5rem;font-size:.95rem}
+.hall p{margin:0 0 1rem}
+pre.asm{background:var(--panel);border-left:2px solid var(--verde);margin:1.25rem 0;
+  padding:1rem 1.1rem;overflow-x:auto;font-size:13px;line-height:1.6;color:var(--tinta)}
+.par{display:grid;gap:1.25rem;grid-template-columns:1fr}
+@media(min-width:820px){.par{grid-template-columns:1fr 1fr}}
+.par figure{margin:0}
+table{border-collapse:collapse;width:100%;margin:1.25rem 0;font-size:13px;display:block;
+  overflow-x:auto}
+th,td{text-align:left;padding:.5rem .75rem;border-bottom:1px solid var(--linea)}
+th{color:var(--suave);font-weight:400;font-size:11px;letter-spacing:.07em;text-transform:uppercase}
+td.num{font-variant-numeric:tabular-nums;color:var(--oro)}
+.nivel{margin-top:2rem}
+.nivel h3{margin:0 0 .9rem;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase}
+.nivel em{color:var(--cyan);font-style:normal}
+.sep{color:var(--suave);margin:0 .6rem}
+.rejilla{display:grid;gap:.9rem;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.rejilla figure{margin:0;background:var(--panel);box-shadow:0 0 0 1px var(--linea)}
+.rejilla figcaption{display:flex;justify-content:space-between;padding:.45rem .65rem;
+  font-size:11px;color:var(--suave);border-top:1px solid var(--linea)}
+.dir{font-variant-numeric:tabular-nums;color:var(--verde)}
+footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--linea);
+  color:var(--suave);font-size:12px}
+
+/* Aviso de trabajo en curso: tiene que verse antes que las cifras, porque un
+   100% mal leido hace mas dano que no ponerlo. */
+.aviso{background:#3a2a10;border-left:3px solid var(--oro);margin:1.5rem auto;
+  padding:1rem 1.2rem;max-width:900px;border-radius:4px}
+.aviso p{margin:0;color:var(--tinta);font-size:15px;line-height:1.65}
+.galeria{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;margin:1.5rem 0}
+.galeria figure{margin:0}
+.galeria img{width:100%;height:auto;image-rendering:pixelated;
+  border:1px solid var(--linea);border-radius:3px}
+.galeria figcaption{color:var(--suave);font-size:13px;margin-top:.5rem}
+audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
+</style>
+<div class="w"><nav class="top"><a href="index.html">Home</a><a href="GETTING-STARTED.html">Start</a><a href="THE-GAME.html">The game</a><a href="THE-LEVELS.html">The 100 rooms</a><a href="THE-CARTRIDGE.html">The cartridge</a><a href="THE-CODE.html" style=color:var(--tinta)>The code</a><a href="FINDINGS.html">Findings</a><a href="IN-THE-EMULATOR.html">In the emulator</a><a href="OPEN-QUESTIONS.html">Open questions</a><a href="es/EL-CODIGO.html" style="margin-left:auto;color:var(--oro)">Castellano</a></nav>
+<h1 id="the-code">The code</h1>
+<h2 id="the-main-loop">The main loop</h2>
+<p><code>0x40BF</code> counts the frame, checks pause and dispatches by scene. <code>(0xE000)</code> is the scene and <code>(0xE001)</code> the subscene, and every scene splits into its subscenes with a chain of <code>djnz</code>: register <code>b</code> arrives holding the subscene and counts down until it lands on the right piece.</p>
+<p>The nine scenes are in the table at <code>0x40F6</code>:</p>
+<table><tr><th>scene</th><th>what it does</th></tr><tr><td>0</td><td>the intro: the sign coming down, and the caption</td></tr><tr><td>1</td><td>wait, touches no VRAM</td></tr><tr><td>2</td><td>the title, the nine walking, and the game</td></tr><tr><td>3</td><td>the countdown</td></tr><tr><td>4</td><td>the level starts</td></tr><tr><td>5</td><td>the game</td></tr><tr><td>6</td><td>a life lost</td></tr><tr><td>7</td><td>game over</td></tr><tr><td>8</td><td>round cleared</td></tr></table>
+<h2 id="the-table-dispatcher">The table dispatcher</h2>
+<p>Twenty-six times over, this shows up:</p>
+<pre><code>call 04060h
+defw target_0, target_1, ...</code></pre>
+<p><code>0x4060</code> does a <code>pop hl</code> to recover its own return address — which is the start of the table — then <code>add a,a</code>, and jumps to entry number <code>a</code>. The <code>pop</code> also removes the return, so <b>the target finishes on its own account</b>.</p>
+<p>How many entries each table has is not estimated: they are closed, in this order, by the <code>ld hl,&lt;nnnn&gt; / push hl</code> that manufactures the return address, by the fit that no entry points inside the table itself, and in one case by a <code>call</code>. All twenty-six are in <code>src/goonies.entries</code> with their arithmetic.</p>
+<h2 id="the-three-drawing-interpreters">The three drawing interpreters</h2>
+<p>The cartridge does not store screens: it stores scripts, and it has three ways of reading them.</p>
+<p><b><code>0x4682</code>, literal script.</b> <code>[vramAddr][bytes...]</code>, with <code>0xFE</code> to change address and carry on and <code>0xFF</code> to close. Written byte by byte with WRTVRM.</p>
+<p><b><code>0x4699</code>, the same script but erasing.</b> It is the same routine with <code>c = 0</code> instead of <code>0xFF</code>, so the <code>and c</code> at <code>0x4692</code> turns every byte into a zero. The same script paints and erases, with nothing stored on the side.</p>
+<p><b><code>0x469D</code>, RLE script</b>, straight through the VDP port:</p>
+<pre><code>0x00        end
+0x80        change address and carry on
+0x01..0x7F  the next byte, repeated n times
+0x81..0xFF  n &amp; 0x7F literal bytes</code></pre>
+<p>And <b>it reads backwards from what it looks like</b>. What separates the two cases is where the <code>djnz</code> jumps back to: the one at <code>0x46BA</code> returns to <code>ld a,(de) / inc de</code> — so it <b>re-reads</b>, and that is why bit 7 set is the literal — and the one at <code>0x46C4</code> returns only to <code>out (c),a</code>, so bit 7 clear is the run.</p>
+<p>That the reading is right is proved by the fit: <b>every script ends exactly where the next one begins</b>, with not a byte to spare. <code>tools/formatos.py</code> walks them and <code>tools/cobertura.py</code> checks the fit.</p>
+<h2 id="how-64-000-tiles-fit-in-2-983-bytes">How 64,000 tiles fit in 2,983 bytes</h2>
+<p>A hundred rooms of 32x20 tiles: <b>64,000 tiles</b>. And they take this:</p>
+<table><tr><th></th><th>bytes</th></tr><tr><td>the 25 maps, 80 bytes each</td><td>2,000</td></tr><tr><td>the definitions of the 108 blocks</td><td>717</td></tr><tr><td>the block pointer table</td><td>216</td></tr><tr><td>the map pointer table</td><td>50</td></tr><tr><td><b>total</b></td><td><b>2,983</b></td></tr></table>
+<p>Which is <b>twenty-one tiles per byte</b>. Three layers make it possible:</p>
+<p><b>One.</b> A level is eighty bytes: four columns by twenty rows of <b>8x4 tile blocks</b>. That gives 32 columns by 80 rows, which is the same as saying the four rooms one after another. They are built in RAM at <code>0xE600</code>, <code>0xE880</code>, <code>0xEB00</code> and <code>0xED80</code> — 640 bytes each — and <code>0x5F13</code> dumps whichever one is current into the name table from row 2 on, since the top two rows are the scoreboard.</p>
+<p><b>Two.</b> <b>Bit 7 of the byte asks for the block mirrored</b>, and that is used <b>615 times out of 2,000</b>. Mirroring a block is free: it is read backwards.</p>
+<p><b>Three.</b> The 108 blocks <b>share tails</b>. When two end with the same rows, the second one&#x27;s pointer starts halfway into the first and those bytes serve both. Counting each byte once they take <b>717</b> instead of <b>841</b>. Block 9, for instance, is two bytes of its own (<code>0x39 0x03</code>) with the whole of block 10 tucked in behind.</p>
+<p>And on top of that each block is compressed. <code>0x5A05</code> decompresses it onto <code>0xE1F0</code> and stops when the pointer reaches <code>0xE210</code>, that is at exactly 32 tiles:</p>
+<pre><code>0x0n        n zeroes
+0x1n        n times 0x40
+0x2n &lt;b&gt;    n times &lt;b&gt;
+0x3n &lt;b&gt;    the pair factory at 0x5A50
+anything    that tile, as is</code></pre>
+<p><b>All 108 blocks are used.</b> Not one is spare.</p>
+<h2 id="how-the-four-rooms-link-up">How the four rooms link up</h2>
+<p>Two twin tables of <b>19 rows by 4 columns</b>, at <code>0x52DB</code> and <code>0x5327</code>. <code>0x52CD</code> enters with <code>(0xE06A)*4 + the current room</code>: the row is picked by the level&#x27;s <em>room layout</em> and the column by the room you are in.</p>
+<p>The 19 rows are not an estimate. The 25 bytes at <code>0x9D67</code> — one per level, the ones that go into <code>(0xE06A)</code> — top out at 18, so 19 rows are needed and not one more. And 19×4 = 76 bytes is exactly what there is from <code>0x52DB</code> to <code>0x5327</code>, and as much again from <code>0x5327</code> to <code>0x5373</code>.</p>
+<p>Which of the two gets consulted depends on which side you leave by: at <code>0x5290</code>, if the column drops below <code>0x15</code> it goes to the first; at <code>0x5296</code>, if it reaches <code>0xC0</code>, to the second. One is the left-hand exit and the other the right.</p>
+<h2 id="the-sprites">The sprites</h2>
+<p><code>0x586A</code> assembles <b>three sprites in one go</b> from a nine-byte entry: y offset, x offset and pattern number, three times over. The entry is picked by <code>(ix+005h)</code> times nine.</p>
+<p>And there is a rotation so the same ones do not always flicker. Sprite attributes are copied into VRAM starting <b>each frame at a different spot</b> in the buffer at <code>0xE0AC</code>. Eleven positions, and each entry brings where it starts and how many bytes go before wrapping: <code>0xE0AC+8n</code> and <code>0x54-8n</code>, with n from 0 to 10. Those <code>0x54</code> bytes are 21 sprites.</p>
+<p>But the first eleven sprites are out of the rotation: they always go in the same place, because they are <b>the scoreboard and the player</b>, which cannot be allowed to flicker.</p>
+<h2 id="the-sound">The sound</h2>
+<p>The engine lives at <code>0xB585..0xB80A</code> and plays through the PSG with WRTPSG. You ask for a piece with <code>ld a,&lt;n&gt; / call 0B590h</code>, and the <code>and 03fh</code> at <code>0xB59F</code> says the number fits in six bits. Before playing it checks the priority of whatever is already sounding (<code>cp e / ret c</code>), so <b>a weak effect does not trample the music</b>.</p>
+<p>Each voice is a pointer, and the voices of a piece are <b>consecutive</b> in the table: <code>0x5BCB</code> does <code>add a,a</code> and takes 2 or 3 entries from <code>0xB814 + n*2</code>. That is why the table is not split into pieces: it is a bag of 47 pointers. The last three are <code>0xBFEE</code>, which is where the padding starts: they are empty voices.</p>
+<p>And mind where that table begins, which very nearly slipped through. It looks like it runs from <code>0xB814</code> to <code>0xB874</code> with 48 entries, and then the first one is <code>0x393C</code>, which is nowhere near the music. It does not. <b>The period table has twelve bytes, not ten</b> — it is a whole chromatic octave, and the twelve come out in a ratio of 1.059 to each other, which is the twelfth root of two — so it reaches <code>0xB816</code> and the pointers are 47. That the sum is <code>0xB814 + n*2</code> only means <b>the first piece is number 1</b>: there is no piece 0.</p>
+<footer><p><em>The Goonies</em> was published by Konami for the MSX in 1986; its catalogue number is RC-734 and it is 32 KB. The game is based on the Richard Donner film (Warner Bros., 1985). All rights in the game remain with their holders. This is preservation, study and documentation work, and the cartridge image is not distributed.</p></footer></div>

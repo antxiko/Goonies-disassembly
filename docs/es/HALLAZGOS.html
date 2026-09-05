@@ -1,0 +1,136 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hallazgos — The Goonies (Konami, 1986)</title>
+<style>
+:root{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;--linea:#23262e;
+  --rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+@media (prefers-color-scheme:light){:root{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;
+  --panel:#f7f6f2;--linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}}
+:root[data-theme="dark"]{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;
+  --linea:#23262e;--rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+:root[data-theme="light"]{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;--panel:#f7f6f2;
+  --linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--tinta);padding:0 1.25rem 6rem;
+  font:15px/1.7 ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.w{max-width:1120px;margin:0 auto}
+.n{max-width:68ch}
+h1,h2,h3,h4{font-weight:400;text-wrap:balance}
+a{color:var(--cyan)}
+img{image-rendering:pixelated;max-width:100%;height:auto;display:block}
+header.top{display:flex;flex-direction:column;align-items:center;gap:1.5rem;
+  padding:4rem 0 2rem;text-align:center}
+header.top img{width:min(100%,642px)}
+.claim{max-width:60ch;color:var(--suave);font-size:1.05rem}
+.claim b{color:var(--tinta);font-weight:400}
+.ficha{display:flex;flex-wrap:wrap;justify-content:center;gap:0 1.5rem;width:100%;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--suave);
+  border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);padding:.85rem 0}
+.ficha b{color:var(--rojo);font-weight:400}
+nav{display:flex;flex-wrap:wrap;gap:1.25rem;justify-content:center;padding:1.25rem 0;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+nav a{color:var(--suave);text-decoration:none;border-bottom:1px solid transparent}
+nav a:hover,nav a:focus{color:var(--tinta);border-bottom-color:var(--rojo)}
+nav.docs{border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);
+  margin-bottom:1rem}
+section{margin-top:4.5rem;scroll-margin-top:1rem}
+section>h2{font-size:1rem;letter-spacing:.1em;text-transform:uppercase;
+  border-left:3px solid var(--rojo);padding-left:.9rem;margin:0 0 1.5rem}
+.cifras{display:grid;gap:1px;background:var(--linea);border:1px solid var(--linea);
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.cifra{background:var(--panel);padding:1.1rem}
+.cifra b{display:block;font-size:1.7rem;color:var(--oro);font-weight:400;
+  font-variant-numeric:tabular-nums;line-height:1.2}
+.cifra span{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--suave)}
+.hall{border-top:1px solid var(--linea);padding-top:1.75rem;margin-top:2.5rem}
+.hall:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.hall h3{margin:0 0 .75rem;font-size:1.15rem;color:var(--rojo)}
+.hall h4{color:var(--oro);margin:1.5rem 0 .5rem;font-size:.95rem}
+.hall p{margin:0 0 1rem}
+pre.asm{background:var(--panel);border-left:2px solid var(--verde);margin:1.25rem 0;
+  padding:1rem 1.1rem;overflow-x:auto;font-size:13px;line-height:1.6;color:var(--tinta)}
+.par{display:grid;gap:1.25rem;grid-template-columns:1fr}
+@media(min-width:820px){.par{grid-template-columns:1fr 1fr}}
+.par figure{margin:0}
+table{border-collapse:collapse;width:100%;margin:1.25rem 0;font-size:13px;display:block;
+  overflow-x:auto}
+th,td{text-align:left;padding:.5rem .75rem;border-bottom:1px solid var(--linea)}
+th{color:var(--suave);font-weight:400;font-size:11px;letter-spacing:.07em;text-transform:uppercase}
+td.num{font-variant-numeric:tabular-nums;color:var(--oro)}
+.nivel{margin-top:2rem}
+.nivel h3{margin:0 0 .9rem;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase}
+.nivel em{color:var(--cyan);font-style:normal}
+.sep{color:var(--suave);margin:0 .6rem}
+.rejilla{display:grid;gap:.9rem;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.rejilla figure{margin:0;background:var(--panel);box-shadow:0 0 0 1px var(--linea)}
+.rejilla figcaption{display:flex;justify-content:space-between;padding:.45rem .65rem;
+  font-size:11px;color:var(--suave);border-top:1px solid var(--linea)}
+.dir{font-variant-numeric:tabular-nums;color:var(--verde)}
+footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--linea);
+  color:var(--suave);font-size:12px}
+
+/* Aviso de trabajo en curso: tiene que verse antes que las cifras, porque un
+   100% mal leido hace mas dano que no ponerlo. */
+.aviso{background:#3a2a10;border-left:3px solid var(--oro);margin:1.5rem auto;
+  padding:1rem 1.2rem;max-width:900px;border-radius:4px}
+.aviso p{margin:0;color:var(--tinta);font-size:15px;line-height:1.65}
+.galeria{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;margin:1.5rem 0}
+.galeria figure{margin:0}
+.galeria img{width:100%;height:auto;image-rendering:pixelated;
+  border:1px solid var(--linea);border-radius:3px}
+.galeria figcaption{color:var(--suave);font-size:13px;margin-top:.5rem}
+audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
+</style>
+<div class="w"><nav class="top"><a href="index.html">Portada</a><a href="EMPEZAR.html">Empezar</a><a href="EL-JUEGO.html">El juego</a><a href="LOS-NIVELES.html">Las 100 salas</a><a href="EL-CARTUCHO.html">El cartucho</a><a href="EL-CODIGO.html">El código</a><a href="HALLAZGOS.html" style=color:var(--tinta)>Hallazgos</a><a href="EN-EL-EMULADOR.html">En el emulador</a><a href="PREGUNTAS-ABIERTAS.html">Preguntas abiertas</a><a href="../FINDINGS.html" style="margin-left:auto;color:var(--oro)">English</a></nav>
+<h1 id="hallazgos">Hallazgos</h1>
+<h2 id="el-nombre-de-la-ronda-es-su-contrasena">El nombre de la ronda es su contraseña</h2>
+<p>En la pantalla del título se puede teclear. <code>0x53C8</code> lee el teclado con SNSMAT y va metiendo lo tecleado en <code>0xE4C0</code> —hasta dieciséis letras, con el índice en <code>(0xE074)</code>—, y al soltar llama a <code>0x5444</code>, que compara esos dieciséis bytes contra <b>cinco nombres</b>, de <code>0x546E</code> en adelante y <b>de diecinueve en diecinueve</b> bytes.</p>
+<p>Si alguno cuadra, <code>0x5421</code> usa cuál era como índice en la tabla de <code>0x543A</code>:</p>
+<table><tr><th>contraseña</th><th>nivel</th><th>ronda</th></tr><tr><td>MR SLOTH</td><td>6</td><td>2</td></tr><tr><td>GOON DOCKS</td><td>11</td><td>3</td></tr><tr><td>DOUBLOON</td><td>16</td><td>4</td></tr><tr><td>ONE EYED WILLY</td><td>21</td><td>5</td></tr><tr><td>GOONIES</td><td>1</td><td>1</td></tr></table>
+<p>Y el detalle: <b>esos mismos bytes son también el rótulo que se pinta en pantalla</b>. Cada uno de los cinco es un guión literal completo —dirección de VRAM, dieciséis casillas y el <code>0xFF</code> que cierra— y la comparación entra dos bytes más adelante, saltándose la dirección. No hay dos tablas: hay una.</p>
+<p>Por eso <code>0x53A7</code> te enseña la contraseña al pasar de ronda, debajo del rótulo <code>KEYWORD</code>: te está enseñando el nombre de la ronda que acabas de dejar.</p>
+<p>Los nombres de ronda 2 a 5 tienen sus punteros en <code>0x53C0</code>, con <code>(0xE06C)-2</code> de índice. La quinta, ONE EYED WILLY, es <b>la única sin <code>0xFF</code> de cierre</b>, y eso cuadra: es la ronda a la que se llega, no una que se anuncie.</p>
+<h2 id="sesenta-y-cuatro-mil-casillas-en-2-983-bytes">Sesenta y cuatro mil casillas en 2.983 bytes</h2>
+<p>Cien salas de 32x20, todas distintas, en menos de tres mil bytes: veintiuna casillas por byte. Está desmenuzado en <a href="EL-CODIGO.html">El código</a> —bloques de 8x4, el bit de espejar y las colas compartidas—, y el resultado se ve en <a href="LOS-NIVELES.html">Las 100 salas</a>.</p>
+<h2 id="las-veintisiete-condiciones-de-los-objetos-escondidos">Las veintisiete condiciones de los objetos escondidos</h2>
+<p>La tabla más larga del cartucho es la de <code>0x6DBD</code>: <b>veintisiete</b> entradas. Cada una es una condición que destapa uno de los objetos escondidos.</p>
+<p>Dar dos golpes seguidos al mismo sitio. Una patada a cada lado. Quedarse quieto <code>0x60</code> cuadros. Tener las dos barras por encima de <code>0x28</code>. Darle una patada a la bola de piedra, o a la llamarada.</p>
+<p>Casi todas se apoyan en <code>(0xE126)</code> y <code>(0xE127)</code>, que son <b>los dos últimos golpes</b> que ha dado el jugador y que <code>0x8005</code> va apuntando cuadro a cuadro.</p>
+<p>Y no sobra ninguna. Recorriendo las listas de los veinticinco niveles salen <b>veintisiete objetos escondidos con veintisiete índices distintos, del 0 al 26</b>: cada condición se usa exactamente una vez. Veintitrés niveles llevan uno y <b>dos llevan dos, el 5 y el 16</b>.</p>
+<p>Los veintisiete, eso sí, se ven exactamente igual: una sola casilla, la <code>0x91</code>, parpadeando. Lo dice <code>0x6E14</code>.</p>
+<h2 id="los-objetos-son-escudos-con-carga">Los objetos son escudos con carga</h2>
+<p>La lista de <code>0x7D9B</code> son ocho bytes, uno por peligro, y dice <b>qué objeto del inventario para cada uno</b> —o <code>0xFF</code> si no lo para ninguno—. Llevándolo, el golpe no resta energía: gasta <b>un uso</b> de <code>(0xE150+objeto)</code>, y cuando se acaban, <code>0x8B37</code> saca el objeto del inventario.</p>
+<p>Los siete peligros y su bit, que <code>0x7A9E</code> deja en <code>(ix+00Ah)</code> —de donde sale también el color del jugador—:</p>
+<table><tr><th>peligro</th><th>bit</th></tr><tr><td>chorro de agua</td><td><code>0x01</code></td></tr><tr><td>estalactita</td><td><code>0x02</code></td></tr><tr><td>gota</td><td><code>0x04</code></td></tr><tr><td>llamarada</td><td><code>0x08</code></td></tr><tr><td>columna que crece</td><td><code>0x10</code></td></tr><tr><td>fuga de la tubería</td><td><code>0x20</code></td></tr><tr><td>bola de piedra</td><td><code>0x40</code></td></tr></table>
+<p>La barra de energía es de dieciséis bits —<code>(0xE063)</code> la fracción y <code>(0xE064)</code> lo que se ve— y se pinta con resolución de <b>un octavo de casilla</b>.</p>
+<p>Son veintitrés objetos, y la tabla de <code>0x5576</code> dice en qué nivel está cada uno: veintitrés valores distintos entre 0 y 24, y <b>faltan justo el 5 y el 14</b>. Los niveles 6 y 15 son los dos únicos sin objeto.</p>
+<h2 id="la-demostracion-es-una-partida-grabada">La demostración es una partida grabada</h2>
+<p><code>0x51D5</code> no simula a nadie: <b>lee una cinta</b>. <code>0x472D</code> empieza leyendo los mandos y el teclado con <code>0x4742</code>, pero <code>0x5206</code> entra por <code>0x4730</code>, que es justo el byte de después, con <code>a</code> ya puesto desde una tabla. O sea que la rutina de mandos se ejecuta desde la mitad y devuelve lo que le han metido.</p>
+<p>Son dos tablas en paralelo, las dos indexadas por <code>(0xE00B)</code>: en <code>0x520E</code>, <b>34 estados de mando</b> y el <code>0xFF</code> que cierra; en <code>0x5231</code>, <b>cuántos cuadros dura cada uno</b>. Cuando <code>(0xE00C)</code> llega a la duración, se pasa al siguiente. El <code>0xFF</code> cierra la grabación y apaga <code>(0xE066)</code>.</p>
+<p>Esto es lo que hace posible cotejar la VRAM arrancando el cartucho <b>en frío</b>: la presentación, el título y la demostración salen solos, siempre iguales, sin partidas grabadas ni puntos de ruptura.</p>
+<h2 id="el-perseguidor-cuenta-casillas-para-elegir-cuerda">El perseguidor cuenta casillas para elegir cuerda</h2>
+<p>Cuando el perseguidor quiere cambiar de altura, <code>0x756D</code> y <code>0x7577</code> recorren su fila <b>casilla a casilla hacia los dos lados</b>, contando cuántas hay hasta la <code>0x41</code> —el pie de una cuerda— o la <code>0x53</code> —la cabeza—, y se va a por la más corta.</p>
+<p>Y el <b>bit 0 de <code>(ix+00Fh)</code></b> decide cuál de los dos lados se prueba primero, y se gasta rotándolo en cada consulta. Por eso dos perseguidores iguales en la misma fila no salen los dos hacia la misma cuerda.</p>
+<p>Las cuerdas verdes son las mismas para todos. Lo dice <code>0x66E4</code>: el jugador sube por la <code>0x41</code> pulsando arriba y baja por la <code>0x53</code> pulsando abajo.</p>
+<h2 id="el-agua-se-lleva-un-cuaderno-de-lo-que-tapa">El agua se lleva un cuaderno de lo que tapa</h2>
+<p>El chorro de agua baja por la sala pisando casillas. Para poder recogerse sin dejar agujeros, cuando encuentra una casilla ocupada <b>apunta en <code>0xE1D0</code> la fila y las tres casillas que había</b>, y al retirarse las devuelve. El mapa no se toca: el mapa es de solo lectura.</p>
+<p>La corriente, en cambio, no mueve nada. <code>0x854E</code> reescribe <b>tres patrones</b> —las casillas <code>0x6D</code>, <code>0xCF</code> y <code>0xF1</code>— en los tres bancos, alternando dos tandas de dieciséis bytes con <b>el bit 2 del contador de cuadros</b>. El agua parece correr y ni una casilla de la pantalla ha cambiado.</p>
+<p>Cada registro de esas tandas son cuatro bytes de patrón y dos de salto a la casilla siguiente. El salto de la tercera vuelta <b>se lee y ya no se usa</b>: por eso cada tanda ocupa dieciséis bytes y no dieciocho.</p>
+<h2 id="la-mitad-de-los-dibujos-se-fabrican-al-arrancar">La mitad de los dibujos se fabrican al arrancar</h2>
+<p>De los 42 patrones de sprite de 16x16 que trae el cartucho (<code>0x927F</code>), <b>22 no están dibujados</b>: <code>0x4CDF</code> los fabrica espejando a los otros. Y con las casillas lo mismo: 34 se hacen dándole la vuelta a los ocho bits de otras 34.</p>
+<p>Espejar un sprite de 16x16 <b>no es solo invertir los bits</b>: hay que cambiar de sitio sus dos columnas, porque un patrón de 16x16 son dos columnas de dieciséis bytes puestas una detrás de otra. El cartucho lo hace entrando con el destino apuntando a la segunda mitad (<code>0x1D50</code>, no <code>0x1D40</code>) y con el baile de <code>inc e / sub 020h</code> sobre el byte bajo de la dirección, en <code>0x46E6</code>.</p>
+<p>Hacerlo sin ese detalle da dibujos partidos por la mitad, y el cotejo contra la VRAM lo canta: con el arreglo, <b>0 bytes distintos de los 2.048</b> de patrones de sprite.</p>
+<p>Lo confirma también la tabla de <code>0x6996</code>: el dibujo espejado se pinta doce píxeles a la izquierda y el normal cuatro.</p>
+<h2 id="la-geometria-va-al-reves-y-el-rle-tambien">La geometría va al revés, y el RLE también</h2>
+<p>Los ocho bytes de <code>0x4720</code> ponen <b>el color debajo y los patrones encima</b>, que es lo contrario de lo que hacen casi todos. Está en <a href="EL-CARTUCHO.html">El cartucho</a>.</p>
+<p>Y el descompresor de <code>0x46A6</code> también va al contrario de lo que parece: <b>el bit 7 puesto es literal</b> y a cero es repetición. Lo decide a dónde vuelve el <code>djnz</code>.</p>
+<h2 id="la-pantalla-del-titulo-y-la-del-final-son-la-misma">La pantalla del título y la del final son la misma</h2>
+<p><code>0x558D</code> monta una sola escena, con nueve personajes andando, y de ella salen las dos: solo cambia por <code>(0xE06C)==6</code>, o sea después de pasarse el juego. El rótulo THE GOONIES se pinta <b>encima</b> de ese decorado y no se borra al entrar en él, porque entre escena y escena el cartucho solo limpia la tabla de nombres.</p>
+<h2 id="un-sprite-se-apaga-con-un-0xc0-en-la-fila">Un sprite se apaga con un 0xC0 en la fila</h2>
+<p>En <code>0x6576</code>, un sprite se quita poniéndole <code>0xC0</code> en el byte de la <b>fila</b>, que es el convenio del VDP. No en el del patrón — y <code>0xC0</code> también es un número de patrón perfectamente válido. Comprobar el byte equivocado se come sprites buenos: la postura 7 del jugador salía sin cuerpo.</p>
+<h2 id="el-rotulo-dice-1986">El rótulo dice 1986</h2>
+<p>No hace falta una ficha de fuera: el rótulo de la pantalla del título, dibujado desde la ROM, pone <b>© KONAMI 1986</b>, y debajo el aviso de marca de Warner Bros. de 1985. La película es de 1985; el cartucho, de 1986.</p>
+<h2 id="la-marca-oculta-de-la-casa">La marca oculta de la casa</h2>
+<p>Está contada en <a href="EL-CARTUCHO.html">El cartucho</a>. El hallazgo es de <b>Manuel Pazos</b>, y este cartucho cierra un carácter que estaba sin confirmar.</p>
+<footer><p><em>The Goonies</em> lo publico Konami para MSX en 1986; su numero de catalogo es RC-734 y son 32 KB. El juego se basa en la pelicula de Richard Donner (Warner Bros., 1985). Todos los derechos sobre el juego siguen siendo de sus titulares. Este trabajo es de preservacion, estudio y documentacion, y la imagen del cartucho no se distribuye.</p></footer></div>

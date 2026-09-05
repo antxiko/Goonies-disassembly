@@ -1,0 +1,135 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>El código — The Goonies (Konami, 1986)</title>
+<style>
+:root{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;--linea:#23262e;
+  --rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+@media (prefers-color-scheme:light){:root{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;
+  --panel:#f7f6f2;--linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}}
+:root[data-theme="dark"]{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;
+  --linea:#23262e;--rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+:root[data-theme="light"]{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;--panel:#f7f6f2;
+  --linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--tinta);padding:0 1.25rem 6rem;
+  font:15px/1.7 ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.w{max-width:1120px;margin:0 auto}
+.n{max-width:68ch}
+h1,h2,h3,h4{font-weight:400;text-wrap:balance}
+a{color:var(--cyan)}
+img{image-rendering:pixelated;max-width:100%;height:auto;display:block}
+header.top{display:flex;flex-direction:column;align-items:center;gap:1.5rem;
+  padding:4rem 0 2rem;text-align:center}
+header.top img{width:min(100%,642px)}
+.claim{max-width:60ch;color:var(--suave);font-size:1.05rem}
+.claim b{color:var(--tinta);font-weight:400}
+.ficha{display:flex;flex-wrap:wrap;justify-content:center;gap:0 1.5rem;width:100%;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--suave);
+  border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);padding:.85rem 0}
+.ficha b{color:var(--rojo);font-weight:400}
+nav{display:flex;flex-wrap:wrap;gap:1.25rem;justify-content:center;padding:1.25rem 0;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+nav a{color:var(--suave);text-decoration:none;border-bottom:1px solid transparent}
+nav a:hover,nav a:focus{color:var(--tinta);border-bottom-color:var(--rojo)}
+nav.docs{border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);
+  margin-bottom:1rem}
+section{margin-top:4.5rem;scroll-margin-top:1rem}
+section>h2{font-size:1rem;letter-spacing:.1em;text-transform:uppercase;
+  border-left:3px solid var(--rojo);padding-left:.9rem;margin:0 0 1.5rem}
+.cifras{display:grid;gap:1px;background:var(--linea);border:1px solid var(--linea);
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.cifra{background:var(--panel);padding:1.1rem}
+.cifra b{display:block;font-size:1.7rem;color:var(--oro);font-weight:400;
+  font-variant-numeric:tabular-nums;line-height:1.2}
+.cifra span{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--suave)}
+.hall{border-top:1px solid var(--linea);padding-top:1.75rem;margin-top:2.5rem}
+.hall:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.hall h3{margin:0 0 .75rem;font-size:1.15rem;color:var(--rojo)}
+.hall h4{color:var(--oro);margin:1.5rem 0 .5rem;font-size:.95rem}
+.hall p{margin:0 0 1rem}
+pre.asm{background:var(--panel);border-left:2px solid var(--verde);margin:1.25rem 0;
+  padding:1rem 1.1rem;overflow-x:auto;font-size:13px;line-height:1.6;color:var(--tinta)}
+.par{display:grid;gap:1.25rem;grid-template-columns:1fr}
+@media(min-width:820px){.par{grid-template-columns:1fr 1fr}}
+.par figure{margin:0}
+table{border-collapse:collapse;width:100%;margin:1.25rem 0;font-size:13px;display:block;
+  overflow-x:auto}
+th,td{text-align:left;padding:.5rem .75rem;border-bottom:1px solid var(--linea)}
+th{color:var(--suave);font-weight:400;font-size:11px;letter-spacing:.07em;text-transform:uppercase}
+td.num{font-variant-numeric:tabular-nums;color:var(--oro)}
+.nivel{margin-top:2rem}
+.nivel h3{margin:0 0 .9rem;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase}
+.nivel em{color:var(--cyan);font-style:normal}
+.sep{color:var(--suave);margin:0 .6rem}
+.rejilla{display:grid;gap:.9rem;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.rejilla figure{margin:0;background:var(--panel);box-shadow:0 0 0 1px var(--linea)}
+.rejilla figcaption{display:flex;justify-content:space-between;padding:.45rem .65rem;
+  font-size:11px;color:var(--suave);border-top:1px solid var(--linea)}
+.dir{font-variant-numeric:tabular-nums;color:var(--verde)}
+footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--linea);
+  color:var(--suave);font-size:12px}
+
+/* Aviso de trabajo en curso: tiene que verse antes que las cifras, porque un
+   100% mal leido hace mas dano que no ponerlo. */
+.aviso{background:#3a2a10;border-left:3px solid var(--oro);margin:1.5rem auto;
+  padding:1rem 1.2rem;max-width:900px;border-radius:4px}
+.aviso p{margin:0;color:var(--tinta);font-size:15px;line-height:1.65}
+.galeria{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;margin:1.5rem 0}
+.galeria figure{margin:0}
+.galeria img{width:100%;height:auto;image-rendering:pixelated;
+  border:1px solid var(--linea);border-radius:3px}
+.galeria figcaption{color:var(--suave);font-size:13px;margin-top:.5rem}
+audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
+</style>
+<div class="w"><nav class="top"><a href="index.html">Portada</a><a href="EMPEZAR.html">Empezar</a><a href="EL-JUEGO.html">El juego</a><a href="LOS-NIVELES.html">Las 100 salas</a><a href="EL-CARTUCHO.html">El cartucho</a><a href="EL-CODIGO.html" style=color:var(--tinta)>El código</a><a href="HALLAZGOS.html">Hallazgos</a><a href="EN-EL-EMULADOR.html">En el emulador</a><a href="PREGUNTAS-ABIERTAS.html">Preguntas abiertas</a><a href="../THE-CODE.html" style="margin-left:auto;color:var(--oro)">English</a></nav>
+<h1 id="el-codigo">El código</h1>
+<h2 id="el-bucle-principal">El bucle principal</h2>
+<p><code>0x40BF</code> cuenta el cuadro, mira la pausa y reparte por escena. <code>(0xE000)</code> es la escena y <code>(0xE001)</code> la subescena, y cada escena reparte sus subescenas con una cadena de <code>djnz</code>: el registro <code>b</code> llega con la subescena y va bajando hasta caer en el trozo que toca.</p>
+<p>Las nueve escenas están en la tabla de <code>0x40F6</code>:</p>
+<table><tr><th>escena</th><th>qué hace</th></tr><tr><td>0</td><td>la presentación: el cartel que baja y el rótulo</td></tr><tr><td>1</td><td>espera, no toca la VRAM</td></tr><tr><td>2</td><td>el título, los nueve andando y el juego</td></tr><tr><td>3</td><td>la cuenta atrás</td></tr><tr><td>4</td><td>empieza el nivel</td></tr><tr><td>5</td><td>el juego</td></tr><tr><td>6</td><td>se acabó una vida</td></tr><tr><td>7</td><td>fin de partida</td></tr><tr><td>8</td><td>ronda pasada</td></tr></table>
+<h2 id="el-despachador-por-tablas">El despachador por tablas</h2>
+<p>Veintiséis veces aparece esto:</p>
+<pre><code>call 04060h
+defw destino_0, destino_1, ...</code></pre>
+<p><code>0x4060</code> hace <code>pop hl</code> para recuperar su propia dirección de retorno —que es el principio de la tabla—, <code>add a,a</code>, y salta a la entrada número <code>a</code>. El <code>pop</code> también quita la vuelta, así que <b>el destino remata por su cuenta</b>.</p>
+<p>Cuántas entradas tiene cada tabla no se estima: lo cierran, por este orden, el <code>ld hl,&lt;nnnn&gt; / push hl</code> que fabrica la dirección de vuelta, el encaje de que ninguna entrada apunte dentro de la propia tabla, y en un caso un <code>call</code>. Las veintiséis están en <code>src/goonies.entries</code> con su aritmética.</p>
+<h2 id="los-tres-interpretes-de-dibujo">Los tres intérpretes de dibujo</h2>
+<p>El cartucho no guarda pantallas: guarda guiones, y tiene tres maneras de leerlos.</p>
+<p><b><code>0x4682</code>, guión literal.</b> <code>[dirVRAM][bytes...]</code>, con <code>0xFE</code> para cambiar de dirección y seguir y <code>0xFF</code> para cerrar. Escribe byte a byte con WRTVRM.</p>
+<p><b><code>0x4699</code>, el mismo guión pero borrando.</b> Es la misma rutina con <code>c = 0</code> en vez de <code>0xFF</code>, así que el <code>and c</code> de <code>0x4692</code> convierte cada byte en un cero. El mismo guión sirve para pintar y para borrar, sin guardar nada aparte.</p>
+<p><b><code>0x469D</code>, guión RLE</b>, por el puerto del VDP:</p>
+<pre><code>0x00        fin
+0x80        cambia de dirección y sigue
+0x01..0x7F  el byte siguiente, repetido n veces
+0x81..0xFF  n &amp; 0x7F bytes literales</code></pre>
+<p>Y <b>se lee al revés de lo que parece</b>. Quién separa los dos casos es a dónde vuelve el <code>djnz</code>: el de <code>0x46BA</code> vuelve al <code>ld a,(de) / inc de</code> —o sea <b>relee</b>, y por eso el bit 7 puesto es el literal—, y el de <code>0x46C4</code> vuelve solo al <code>out (c),a</code>, así que el bit 7 a cero es la repetición.</p>
+<p>Que la medida es buena lo demuestra el encaje: <b>cada guión acaba exactamente donde empieza el siguiente</b>, sin un byte de sobra. Los recorre <code>tools/formatos.py</code> y <code>tools/cobertura.py</code> comprueba el encaje.</p>
+<h2 id="como-caben-64-000-casillas-en-2-983-bytes">Cómo caben 64.000 casillas en 2.983 bytes</h2>
+<p>Son cien salas de 32x20 casillas: <b>64.000 casillas</b>. Y ocupan esto:</p>
+<table><tr><th></th><th>bytes</th></tr><tr><td>los 25 mapas, 80 bytes cada uno</td><td>2.000</td></tr><tr><td>las definiciones de los 108 bloques</td><td>717</td></tr><tr><td>la tabla de punteros a bloques</td><td>216</td></tr><tr><td>la tabla de punteros a mapas</td><td>50</td></tr><tr><td><b>total</b></td><td><b>2.983</b></td></tr></table>
+<p>Que son <b>veintiuna casillas por byte</b>. Tres capas lo hacen posible:</p>
+<p><b>Uno.</b> Un nivel son ochenta bytes: cuatro columnas por veinte filas de bloques de <b>8x4 casillas</b>. Eso da 32 columnas por 80 filas, que es lo mismo que decir las cuatro salas seguidas. Se montan en RAM en <code>0xE600</code>, <code>0xE880</code>, <code>0xEB00</code> y <code>0xED80</code> —640 bytes cada una— y <code>0x5F13</code> vuelca la que toca a la tabla de nombres a partir de la fila 2, que las dos de arriba son el marcador.</p>
+<p><b>Dos.</b> El <b>bit 7 del byte pide el bloque espejado</b>, y se usa <b>615 veces de las 2.000</b>. Espejar un bloque es gratis: se lee del revés.</p>
+<p><b>Tres.</b> Los 108 bloques <b>comparten cola</b>. Cuando dos acaban con las mismas filas, el puntero del segundo entra a mitad del primero y esos bytes valen para los dos. Contando cada byte una sola vez ocupan <b>717</b> en lugar de <b>841</b>. El bloque 9, por ejemplo, son dos bytes propios (<code>0x39 0x03</code>) y detrás se mete entero el bloque 10.</p>
+<p>Y encima, cada bloque va comprimido. Lo descomprime <code>0x5A05</code> sobre <code>0xE1F0</code> y para cuando el puntero llega a <code>0xE210</code>, o sea a las 32 casillas justas:</p>
+<pre><code>0x0n        n ceros
+0x1n        n veces 0x40
+0x2n &lt;b&gt;    n veces &lt;b&gt;
+0x3n &lt;b&gt;    la fábrica de parejas de 0x5A50
+otro        esa casilla, tal cual</code></pre>
+<p><b>Los 108 bloques se usan todos.</b> Ni uno sobra.</p>
+<h2 id="como-se-enlazan-las-cuatro-salas">Cómo se enlazan las cuatro salas</h2>
+<p>Dos tablas gemelas de <b>19 filas por 4 columnas</b>, en <code>0x52DB</code> y <code>0x5327</code>. <code>0x52CD</code> entra con <code>(0xE06A)*4 + la sala de ahora</code>: la fila la elige el <em>reparto de salas</em> del nivel y la columna la sala en la que estás.</p>
+<p>Las 19 filas no son una estimación. Los 25 bytes de <code>0x9D67</code> —uno por nivel, los que van a <code>(0xE06A)</code>— valen como mucho 18, así que hacen falta 19 filas y ni una más. Y 19×4 = 76 bytes es justo lo que hay de <code>0x52DB</code> a <code>0x5327</code>, y otro tanto de <code>0x5327</code> a <code>0x5373</code>.</p>
+<p>Cuál de las dos se mira lo decide por dónde te sales: en <code>0x5290</code>, si la columna baja de <code>0x15</code> se va a la primera; en <code>0x5296</code>, si llega a <code>0xC0</code>, a la segunda. Una es la salida por la izquierda y la otra por la derecha.</p>
+<h2 id="los-sprites">Los sprites</h2>
+<p><code>0x586A</code> monta <b>tres sprites de golpe</b> a partir de una entrada de nueve bytes: desplazamiento en y, desplazamiento en x y número de patrón, tres veces. La entrada la elige <code>(ix+005h)</code> multiplicado por nueve.</p>
+<p>Y hay una rotación para que no parpadeen siempre los mismos. Los atributos de sprite se copian a la VRAM empezando <b>cada cuadro por un sitio distinto</b> del búfer de <code>0xE0AC</code>. Son once posiciones, y cada entrada trae de dónde empieza y cuántos bytes van antes de dar la vuelta: <code>0xE0AC+8n</code> y <code>0x54-8n</code>, con n de 0 a</p>
+<ol><li>Los <code>0x54</code> bytes son 21 sprites.</li></ol>
+<p>Pero los once primeros sprites no entran en la rotación: van siempre en el mismo sitio, porque son <b>el marcador y el jugador</b>, que no pueden parpadear.</p>
+<h2 id="el-sonido">El sonido</h2>
+<p>El motor está en <code>0xB585..0xB80A</code> y toca por el PSG con WRTPSG. Se le pide una pieza con <code>ld a,&lt;n&gt; / call 0B590h</code>, y el <code>and 03fh</code> de <code>0xB59F</code> dice que el número cabe en seis bits. Antes de tocar mira la prioridad de lo que ya suena (<code>cp e / ret c</code>), así que <b>un efecto flojo no pisa a la música</b>.</p>
+<p>Cada voz es un puntero, y las voces de una pieza van <b>seguidas</b> en la tabla: <code>0x5BCB</code> hace <code>add a,a</code> y coge 2 o 3 entradas a partir de <code>0xB814 + n*2</code>. Por eso la tabla no se reparte en piezas: es una bolsa de 47 punteros. Las tres últimas valen <code>0xBFEE</code>, que es donde empieza el relleno: son voces vacías.</p>
+<p>Y ojo con dónde empieza esa tabla, que estuvo a punto de colarse. Parece que va de <code>0xB814</code> a <code>0xB874</code> con 48 entradas, y entonces la primera vale <code>0x393C</code>, que no es ningún sitio de la música. No es así: <b>la tabla de periodos tiene doce bytes, no diez</b> —es una octava cromática entera, y los doce salen a razón 1,059 unos de otros, que es la raíz doceava de dos—, así que llega hasta <code>0xB816</code> y los punteros son 47. Que la cuenta sea <code>0xB814 + n*2</code> solo quiere decir que <b>la primera pieza es la número 1</b>: no hay pieza 0.</p>
+<footer><p><em>The Goonies</em> lo publico Konami para MSX en 1986; su numero de catalogo es RC-734 y son 32 KB. El juego se basa en la pelicula de Richard Donner (Warner Bros., 1985). Todos los derechos sobre el juego siguen siendo de sus titulares. Este trabajo es de preservacion, estudio y documentacion, y la imagen del cartucho no se distribuye.</p></footer></div>

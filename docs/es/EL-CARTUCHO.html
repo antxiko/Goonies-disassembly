@@ -1,0 +1,121 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>El cartucho — The Goonies (Konami, 1986)</title>
+<style>
+:root{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;--linea:#23262e;
+  --rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+@media (prefers-color-scheme:light){:root{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;
+  --panel:#f7f6f2;--linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}}
+:root[data-theme="dark"]{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;
+  --linea:#23262e;--rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+:root[data-theme="light"]{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;--panel:#f7f6f2;
+  --linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--tinta);padding:0 1.25rem 6rem;
+  font:15px/1.7 ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.w{max-width:1120px;margin:0 auto}
+.n{max-width:68ch}
+h1,h2,h3,h4{font-weight:400;text-wrap:balance}
+a{color:var(--cyan)}
+img{image-rendering:pixelated;max-width:100%;height:auto;display:block}
+header.top{display:flex;flex-direction:column;align-items:center;gap:1.5rem;
+  padding:4rem 0 2rem;text-align:center}
+header.top img{width:min(100%,642px)}
+.claim{max-width:60ch;color:var(--suave);font-size:1.05rem}
+.claim b{color:var(--tinta);font-weight:400}
+.ficha{display:flex;flex-wrap:wrap;justify-content:center;gap:0 1.5rem;width:100%;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--suave);
+  border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);padding:.85rem 0}
+.ficha b{color:var(--rojo);font-weight:400}
+nav{display:flex;flex-wrap:wrap;gap:1.25rem;justify-content:center;padding:1.25rem 0;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+nav a{color:var(--suave);text-decoration:none;border-bottom:1px solid transparent}
+nav a:hover,nav a:focus{color:var(--tinta);border-bottom-color:var(--rojo)}
+nav.docs{border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);
+  margin-bottom:1rem}
+section{margin-top:4.5rem;scroll-margin-top:1rem}
+section>h2{font-size:1rem;letter-spacing:.1em;text-transform:uppercase;
+  border-left:3px solid var(--rojo);padding-left:.9rem;margin:0 0 1.5rem}
+.cifras{display:grid;gap:1px;background:var(--linea);border:1px solid var(--linea);
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.cifra{background:var(--panel);padding:1.1rem}
+.cifra b{display:block;font-size:1.7rem;color:var(--oro);font-weight:400;
+  font-variant-numeric:tabular-nums;line-height:1.2}
+.cifra span{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--suave)}
+.hall{border-top:1px solid var(--linea);padding-top:1.75rem;margin-top:2.5rem}
+.hall:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.hall h3{margin:0 0 .75rem;font-size:1.15rem;color:var(--rojo)}
+.hall h4{color:var(--oro);margin:1.5rem 0 .5rem;font-size:.95rem}
+.hall p{margin:0 0 1rem}
+pre.asm{background:var(--panel);border-left:2px solid var(--verde);margin:1.25rem 0;
+  padding:1rem 1.1rem;overflow-x:auto;font-size:13px;line-height:1.6;color:var(--tinta)}
+.par{display:grid;gap:1.25rem;grid-template-columns:1fr}
+@media(min-width:820px){.par{grid-template-columns:1fr 1fr}}
+.par figure{margin:0}
+table{border-collapse:collapse;width:100%;margin:1.25rem 0;font-size:13px;display:block;
+  overflow-x:auto}
+th,td{text-align:left;padding:.5rem .75rem;border-bottom:1px solid var(--linea)}
+th{color:var(--suave);font-weight:400;font-size:11px;letter-spacing:.07em;text-transform:uppercase}
+td.num{font-variant-numeric:tabular-nums;color:var(--oro)}
+.nivel{margin-top:2rem}
+.nivel h3{margin:0 0 .9rem;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase}
+.nivel em{color:var(--cyan);font-style:normal}
+.sep{color:var(--suave);margin:0 .6rem}
+.rejilla{display:grid;gap:.9rem;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.rejilla figure{margin:0;background:var(--panel);box-shadow:0 0 0 1px var(--linea)}
+.rejilla figcaption{display:flex;justify-content:space-between;padding:.45rem .65rem;
+  font-size:11px;color:var(--suave);border-top:1px solid var(--linea)}
+.dir{font-variant-numeric:tabular-nums;color:var(--verde)}
+footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--linea);
+  color:var(--suave);font-size:12px}
+
+/* Aviso de trabajo en curso: tiene que verse antes que las cifras, porque un
+   100% mal leido hace mas dano que no ponerlo. */
+.aviso{background:#3a2a10;border-left:3px solid var(--oro);margin:1.5rem auto;
+  padding:1rem 1.2rem;max-width:900px;border-radius:4px}
+.aviso p{margin:0;color:var(--tinta);font-size:15px;line-height:1.65}
+.galeria{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;margin:1.5rem 0}
+.galeria figure{margin:0}
+.galeria img{width:100%;height:auto;image-rendering:pixelated;
+  border:1px solid var(--linea);border-radius:3px}
+.galeria figcaption{color:var(--suave);font-size:13px;margin-top:.5rem}
+audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
+</style>
+<div class="w"><nav class="top"><a href="index.html">Portada</a><a href="EMPEZAR.html">Empezar</a><a href="EL-JUEGO.html">El juego</a><a href="LOS-NIVELES.html">Las 100 salas</a><a href="EL-CARTUCHO.html" style=color:var(--tinta)>El cartucho</a><a href="EL-CODIGO.html">El código</a><a href="HALLAZGOS.html">Hallazgos</a><a href="EN-EL-EMULADOR.html">En el emulador</a><a href="PREGUNTAS-ABIERTAS.html">Preguntas abiertas</a><a href="../THE-CARTRIDGE.html" style="margin-left:auto;color:var(--oro)">English</a></nav>
+<h1 id="el-cartucho">El cartucho</h1>
+<pre><code>fichero    goonies.rom
+tamano     32.768 bytes
+sha256     2ba602b1a17e4797da1588afe6e65640331c15746bf5959f4778b404be929dde
+catalogo   RC-734
+maquina    MSX1</code></pre>
+<h2 id="donde-vive">Dónde vive</h2>
+<p>Es un cartucho de 32 KB en las <b>páginas 1 y 2</b>, <code>0x4000..0xBFFF</code>. No hay paginación ni mapeador: los 32 KB están a la vez y el Z80 los ve enteros.</p>
+<h2 id="las-dos-cabeceras">Las dos cabeceras</h2>
+<p>La primera es la de siempre: en <code>0x4000</code> van la firma <code>&quot;AB&quot;</code> y la dirección de INIT, que aquí es <code>0x406A</code>. STATEMENT, DEVICE y TEXT están a cero, y los seis bytes reservados también.</p>
+<p>La segunda, en <code>0x4010</code>, no es del MSX: es la del <b>Konami Game Master</b>, el cartucho de trucos de la casa que se enchufa en la otra ranura. Empieza por <code>&quot;CD&quot;</code>, y detrás van <code>07 34</code> — el <code>0x07</code> de los RC-7xx y el <code>0x34</code> de RC-734—, y luego once bytes con las variables que el Game Master quiere tocar.</p>
+<p>Este cartucho <b>no la lee nunca</b>: <code>tools/quien_lee.py</code> da cero referencias a <code>0x4010..0x401E</code>. Está ahí para que la lea el cartucho de al lado.</p>
+<p>Solo cuatro cartuchos de Konami la llevan: Konami&#x27;s Soccer (RC-732), éste, Nemesis (RC-742) y F-1 Spirit (RC-752).</p>
+<h2 id="la-marca-oculta">La marca oculta</h2>
+<p>Al final del cartucho, detrás del relleno <code>0xFF</code>, están el título en katakana escrito <b>del revés</b> y el número de catálogo:</p>
+<pre><code>グーニーズ   34   0xAA</code></pre>
+<p>Se lee con el código de la casa: índice = byte − <code>0x80</code>, y los índices 0 a 44 son el <em>gojūon</em> corrido. El hallazgo es de <b>Manuel Pazos</b>, que lo destapó en 2021; sin él nadie sabría que hay que mirar ahí.</p>
+<p>Este cartucho, además, deja atado un carácter que estaba sin confirmar: el <code>0xBA</code>, índice 58, es el alargador ー. グーニーズ solo cuadra así.</p>
+<h2 id="los-registros-del-vdp">Los registros del VDP</h2>
+<p><code>0x470F</code> vuelca ocho bytes en los registros 0 a 7, uno por uno:</p>
+<table><tr><th>reg</th><th>valor</th><th>qué dice</th></tr><tr><td>R0</td><td><code>0x02</code></td><td>modo 2 (SCREEN 2)</td></tr><tr><td>R1</td><td><code>0xE2</code></td><td>16 KB, pantalla encendida, interrupción activa, sprites de 16x16</td></tr><tr><td>R2</td><td><code>0x0E</code></td><td>nombres en <code>0x3800</code></td></tr><tr><td>R3</td><td><code>0x7F</code></td><td>colores: base <code>0x0000</code>, máscara <code>0x1FFF</code></td></tr><tr><td>R4</td><td><code>0x07</code></td><td>patrones: base <code>0x2000</code>, máscara <code>0x1FFF</code></td></tr><tr><td>R5</td><td><code>0x76</code></td><td>atributos de sprite en <code>0x3B00</code></td></tr><tr><td>R6</td><td><code>0x03</code></td><td>patrones de sprite en <code>0x1800</code></td></tr><tr><td>R7</td><td><code>0xE4</code></td><td>borde azul oscuro</td></tr></table>
+<p><b>Cuidado con R3 y R4</b>: en el modo 2 no son una dirección, son base y máscara. Leerlos como dirección da colores a franjas con las formas bien, que es el síntoma clásico.</p>
+<p>La geometría que sale de ahí va <b>al revés de lo habitual</b>:</p>
+<pre><code>color              0x0000..0x17FF   tres bancos de 0x800
+patrones de sprite 0x1800..0x1FFF   64 patrones
+patrones           0x2000..0x37FF   tres bancos de 0x800
+nombres            0x3800..0x3AFF   768 casillas
+atributos de spr   0x3B00..0x3B7F   32 sprites</code></pre>
+<p>La tabla de colores va <b>debajo</b> de la de patrones. Un <code>ld hl,00008h</code> en este cartucho no apunta a patrones: apunta al color.</p>
+<h2 id="el-reparto-de-los-32-768-bytes">El reparto de los 32.768 bytes</h2>
+<table><tr><th></th><th>bytes</th><th>%</th></tr><tr><td>código trazado</td><td>17.422</td><td>53,17</td></tr><tr><td>datos identificados</td><td>15.346</td><td>46,83</td></tr><tr><td><b>sin explicar</b></td><td><b>0</b></td><td><b>0,00</b></td></tr><tr><td><b>total</b></td><td><b>32.768</b></td><td><b>100,00</b></td></tr></table>
+<p>Lo cuenta <code>tools/presupuesto.py</code>, y <code>make sanity</code> lo comprueba en cada compilación.</p>
+<h2 id="el-armazon-de-konami">El armazón de Konami</h2>
+<p>El despachador que reparte por tablas —<code>pop hl / add a,a / call ... / ld e,(hl) / inc hl / ld d,(hl) / ex de,hl / jp (hl)</code>— es el mismo en once cartuchos de la casa. Buscando su cola (<code>5e 23 56 eb e9</code>) por las 47 ROM que hay a mano aparece <b>una sola vez</b> en cada uno: Sky Jaguar (RC-721), Yie Ar Kung-Fu (las dos compilaciones), Hyper Rally (RC-718), Road Fighter (RC-730), Konami&#x27;s Ping Pong (RC-731), Konami&#x27;s Soccer y Football (RC-732), Hyper Sports 3 (RC-733), éste (RC-734), Nemesis (RC-742) y F-1 Spirit (RC-752).</p>
+<p>En este cartucho se usa <b>veintiséis veces</b>, y las veintiséis tablas van pegadas justo detrás de su <code>call</code>.</p>
+<footer><p><em>The Goonies</em> lo publico Konami para MSX en 1986; su numero de catalogo es RC-734 y son 32 KB. El juego se basa en la pelicula de Richard Donner (Warner Bros., 1985). Todos los derechos sobre el juego siguen siendo de sus titulares. Este trabajo es de preservacion, estudio y documentacion, y la imagen del cartucho no se distribuye.</p></footer></div>

@@ -1,0 +1,479 @@
+# Las 100 salas
+
+Aqui estan **las cien salas** del cartucho, una a una. Veinticinco niveles de
+cuatro salas cada uno, y **ninguna se repite**: comparadas casilla a casilla
+las cien, salen cien distintas. Todas dibujadas desde los bytes de la ROM, ni
+una captura.
+
+Cada sala son 32x20 casillas que salen de ochenta bytes apuntando a bloques de
+8x4, se descomprimen, y encima se planta —en el sitio exacto en el que el
+cartucho la planta— cada cosa de las dos listas del nivel: las jaulas, las
+puertas, los peligros, los bichos y el objeto escondido.
+
+Las **64.000 casillas** que salen de aqui caben en **2.983 bytes** del
+cartucho. Como, esta contado en [El codigo](EL-CODIGO.html).
+
+Debajo de cada sala va lo que lleva encima, contado recorriendo las listas con
+las mismas reglas que usa el Z80. Los rotulos estan escritos con la fuente del
+propio cartucho.
+
+## Ronda 1 — niveles 1 a 5
+
+### Nivel 1
+
+![Nivel 1 sala 1](../imagenes/sala-01-1.png)
+
+*Nivel 1, sala 1. Lleva: 2 estalactita, 2 gotera, 1 trasto, 1 jaula, 1 objeto, 1 puerta, 1 calavera.*
+
+![Nivel 1 sala 2](../imagenes/sala-01-2.png)
+
+*Nivel 1, sala 2. Lleva: 2 calavera, 1 estalactita, 1 trasto, 1 agua, 1 gotera.*
+
+![Nivel 1 sala 3](../imagenes/sala-01-3.png)
+
+*Nivel 1, sala 3. Lleva: 3 estalactita, 3 calavera, 2 gotera, 1 perseguidor, 1 trasto, 1 jaula, 1 bola de piedra.*
+
+![Nivel 1 sala 4](../imagenes/sala-01-4.png)
+
+*Nivel 1, sala 4. Lleva: 3 calavera, 2 estalactita, 2 puerta al nivel, 1 trasto, 1 jaula, 1 gotera.*
+
+### Nivel 2
+
+![Nivel 2 sala 1](../imagenes/sala-02-1.png)
+
+*Nivel 2, sala 1. Lleva: 1 perseguidor, 1 puerta al nivel, 1 jaula, 1 objeto.*
+
+![Nivel 2 sala 2](../imagenes/sala-02-2.png)
+
+*Nivel 2, sala 2. Lleva: 2 estalactita, 2 calavera, 1 trasto, 1 jaula.*
+
+![Nivel 2 sala 3](../imagenes/sala-02-3.png)
+
+*Nivel 2, sala 3. Lleva: 3 calavera, 1 trasto, 1 jaula, 1 gotera.*
+
+![Nivel 2 sala 4](../imagenes/sala-02-4.png)
+
+*Nivel 2, sala 4. Lleva: 2 calavera, 1 puerta al nivel, 1 trasto, 1 gotera.*
+
+### Nivel 3
+
+![Nivel 3 sala 1](../imagenes/sala-03-1.png)
+
+*Nivel 3, sala 1. Lleva: 6 chorro del tubo, 1 estalactita, 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 jaula, 1 gotera.*
+
+![Nivel 3 sala 2](../imagenes/sala-03-2.png)
+
+*Nivel 3, sala 2. Lleva: 3 chorro del tubo, 2 estalactita, 1 jaula, 1 gotera, 1 calavera.*
+
+![Nivel 3 sala 3](../imagenes/sala-03-3.png)
+
+*Nivel 3, sala 3. Lleva: 4 chorro del tubo, 2 estalactita, 2 trasto, 2 calavera, 1 puerta al nivel, 1 agua.*
+
+![Nivel 3 sala 4](../imagenes/sala-03-4.png)
+
+*Nivel 3, sala 4. Lleva: 3 chorro del tubo, 3 gotera, 1 puerta al nivel, 1 trasto, 1 objeto, 1 agua, 1 calavera.*
+
+### Nivel 4
+
+![Nivel 4 sala 1](../imagenes/sala-04-1.png)
+
+*Nivel 4, sala 1. Lleva: 2 trasto, 2 gotera, 2 calavera, 1 estalactita, 1 perseguidor, 1 puerta al nivel, 1 bola de piedra.*
+
+![Nivel 4 sala 2](../imagenes/sala-04-2.png)
+
+*Nivel 4, sala 2. Lleva: 2 estalactita, 2 gotera, 2 calavera, 1 jaula, 1 bola de piedra.*
+
+![Nivel 4 sala 3](../imagenes/sala-04-3.png)
+
+*Nivel 4, sala 3. Lleva: 3 trasto, 3 gotera, 2 calavera, 1 estalactita, 1 puerta al nivel.*
+
+![Nivel 4 sala 4](../imagenes/sala-04-4.png)
+
+*Nivel 4, sala 4. Lleva: 2 jaula, 2 calavera, 1 estalactita, 1 perseguidor, 1 objeto, 1 gotera, 1 murcielago.*
+
+### Nivel 5
+
+![Nivel 5 sala 1](../imagenes/sala-05-1.png)
+
+*Nivel 5, sala 1. Lleva: 2 agua, 1 puerta al nivel, 1 trasto, 1 objeto, 1 gotera, 1 calavera.*
+
+![Nivel 5 sala 2](../imagenes/sala-05-2.png)
+
+*Nivel 5, sala 2. Lleva: 2 estalactita, 1 trasto, 1 jaula, 1 objeto, 1 agua, 1 gotera, 1 murcielago.*
+
+![Nivel 5 sala 3](../imagenes/sala-05-3.png)
+
+*Nivel 5, sala 3. Lleva: 6 estalactita, 2 gotera, 1 puerta al nivel, 1 bola de piedra, 1 calavera.*
+
+![Nivel 5 sala 4](../imagenes/sala-05-4.png)
+
+*Nivel 5, sala 4. Lleva: 4 gotera, 2 trasto, 2 calavera, 1 perseguidor, 1 puerta al nivel, 1 jaula, 1 puerta.*
+
+## Ronda 2 — niveles 6 a 10
+
+### Nivel 6
+
+![Nivel 6 sala 1](../imagenes/sala-06-1.png)
+
+*Nivel 6, sala 1. Lleva: 6 columna que crece, 3 gotera, 2 bola de piedra, 1 perseguidor, 1 puerta al nivel, 1 jaula, 1 puerta, 1 calavera.*
+
+![Nivel 6 sala 2](../imagenes/sala-06-2.png)
+
+*Nivel 6, sala 2. Lleva: 2 perseguidor, 2 calavera, 1 trasto, 1 jaula, 1 murcielago.*
+
+![Nivel 6 sala 3](../imagenes/sala-06-3.png)
+
+*Nivel 6, sala 3. Lleva: 2 trasto, 2 gotera, 1 perseguidor, 1 puerta al nivel, 1 jaula, 1 objeto, 1 calavera.*
+
+![Nivel 6 sala 4](../imagenes/sala-06-4.png)
+
+*Nivel 6, sala 4. Lleva: 6 columna que crece, 3 calavera, 2 estalactita, 2 gotera, 1 puerta al nivel, 1 trasto, 1 murcielago.*
+
+### Nivel 7
+
+![Nivel 7 sala 1](../imagenes/sala-07-1.png)
+
+*Nivel 7, sala 1. Lleva: 4 estalactita, 4 gotera, 2 bola de piedra, 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 jaula, 1 objeto.*
+
+![Nivel 7 sala 2](../imagenes/sala-07-2.png)
+
+*Nivel 7, sala 2. Lleva: 3 estalactita, 3 gotera, 2 bola de piedra, 1 perseguidor, 1 trasto, 1 jaula, 1 calavera.*
+
+![Nivel 7 sala 3](../imagenes/sala-07-3.png)
+
+*Nivel 7, sala 3. Lleva: 3 estalactita, 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 agua, 1 bola de piedra, 1 calavera.*
+
+![Nivel 7 sala 4](../imagenes/sala-07-4.png)
+
+*Nivel 7, sala 4. Lleva: 1 estalactita, 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 jaula, 1 agua, 1 gotera.*
+
+### Nivel 8
+
+![Nivel 8 sala 1](../imagenes/sala-08-1.png)
+
+*Nivel 8, sala 1. Lleva: 6 columna que crece, 3 estalactita, 2 gotera, 2 calavera, 1 perseguidor, 1 trasto, 1 jaula.*
+
+![Nivel 8 sala 2](../imagenes/sala-08-2.png)
+
+*Nivel 8, sala 2. Lleva: 6 columna que crece, 4 gotera, 1 estalactita, 1 perseguidor, 1 trasto, 1 objeto, 1 calavera, 1 murcielago.*
+
+![Nivel 8 sala 3](../imagenes/sala-08-3.png)
+
+*Nivel 8, sala 3. Lleva: 2 estalactita, 2 gotera, 2 calavera, 1 perseguidor, 1 puerta al nivel, 1 jaula.*
+
+![Nivel 8 sala 4](../imagenes/sala-08-4.png)
+
+*Nivel 8, sala 4. Lleva: 2 trasto, 2 bola de piedra, 1 perseguidor, 1 puerta al nivel, 1 jaula.*
+
+### Nivel 9
+
+![Nivel 9 sala 1](../imagenes/sala-09-1.png)
+
+*Nivel 9, sala 1. Lleva: 7 chorro del tubo, 2 gotera, 1 estalactita, 1 perseguidor, 1 trasto, 1 jaula, 1 puerta, 1 calavera.*
+
+![Nivel 9 sala 2](../imagenes/sala-09-2.png)
+
+*Nivel 9, sala 2. Lleva: 7 chorro del tubo, 1 estalactita, 1 puerta al nivel, 1 gotera, 1 calavera.*
+
+![Nivel 9 sala 3](../imagenes/sala-09-3.png)
+
+*Nivel 9, sala 3. Lleva: 5 chorro del tubo, 2 trasto, 2 calavera, 1 perseguidor, 1 puerta al nivel, 1 objeto.*
+
+![Nivel 9 sala 4](../imagenes/sala-09-4.png)
+
+*Nivel 9, sala 4. Lleva: 7 chorro del tubo, 2 perseguidor, 1 estalactita, 1 trasto, 1 jaula, 1 gotera, 1 calavera.*
+
+### Nivel 10
+
+![Nivel 10 sala 1](../imagenes/sala-10-1.png)
+
+*Nivel 10, sala 1. Lleva: 2 gotera, 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 bola de piedra.*
+
+![Nivel 10 sala 2](../imagenes/sala-10-2.png)
+
+*Nivel 10, sala 2. Lleva: 2 agua, 1 trasto, 1 gotera.*
+
+![Nivel 10 sala 3](../imagenes/sala-10-3.png)
+
+*Nivel 10, sala 3. Lleva: 2 agua, 1 estalactita, 1 jaula, 1 gotera, 1 murcielago.*
+
+![Nivel 10 sala 4](../imagenes/sala-10-4.png)
+
+*Nivel 10, sala 4. Lleva: 1 estalactita, 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 objeto, 1 bola de piedra, 1 gotera, 1 murcielago.*
+
+## Ronda 3 — niveles 11 a 15
+
+### Nivel 11
+
+![Nivel 11 sala 1](../imagenes/sala-11-1.png)
+
+*Nivel 11, sala 1. Lleva: 2 estalactita, 1 perseguidor, 1 puerta al nivel, 1 jaula.*
+
+![Nivel 11 sala 2](../imagenes/sala-11-2.png)
+
+*Nivel 11, sala 2. Lleva: 2 perseguidor, 2 bola de piedra, 1 trasto, 1 puerta, 1 gotera, 1 calavera, 1 murcielago.*
+
+![Nivel 11 sala 3](../imagenes/sala-11-3.png)
+
+*Nivel 11, sala 3. Lleva: 2 calavera, 1 trasto, 1 gotera, 1 murcielago.*
+
+![Nivel 11 sala 4](../imagenes/sala-11-4.png)
+
+*Nivel 11, sala 4. Lleva: 6 columna que crece, 3 calavera, 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 objeto, 1 bola de piedra, 1 gotera, 1 murcielago.*
+
+### Nivel 12
+
+![Nivel 12 sala 1](../imagenes/sala-12-1.png)
+
+*Nivel 12, sala 1. Lleva: 4 estalactita, 2 trasto, 2 calavera, 1 perseguidor, 1 puerta al nivel, 1 bola de piedra, 1 gotera.*
+
+![Nivel 12 sala 2](../imagenes/sala-12-2.png)
+
+*Nivel 12, sala 2. Lleva: 1 trasto, 1 gotera.*
+
+![Nivel 12 sala 3](../imagenes/sala-12-3.png)
+
+*Nivel 12, sala 3. Lleva: 6 columna que crece, 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 jaula, 1 objeto, 1 gotera, 1 calavera.*
+
+![Nivel 12 sala 4](../imagenes/sala-12-4.png)
+
+*Nivel 12, sala 4. Lleva: 4 calavera, 3 estalactita, 1 perseguidor, 1 puerta al nivel, 1 jaula.*
+
+### Nivel 13
+
+![Nivel 13 sala 1](../imagenes/sala-13-1.png)
+
+*Nivel 13, sala 1. Lleva: 3 estalactita, 2 gotera, 2 calavera, 1 puerta al nivel, 1 trasto, 1 bicho de patas.*
+
+![Nivel 13 sala 2](../imagenes/sala-13-2.png)
+
+*Nivel 13, sala 2. Lleva: 2 calavera, 1 estalactita, 1 perseguidor, 1 trasto, 1 jaula, 1 gotera, 1 murcielago.*
+
+![Nivel 13 sala 3](../imagenes/sala-13-3.png)
+
+*Nivel 13, sala 3. Lleva: 3 estalactita, 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 jaula, 1 agua, 1 gotera, 1 calavera.*
+
+![Nivel 13 sala 4](../imagenes/sala-13-4.png)
+
+*Nivel 13, sala 4. Lleva: 2 estalactita, 2 gotera, 2 calavera, 1 trasto, 1 jaula, 1 objeto, 1 agua.*
+
+### Nivel 14
+
+![Nivel 14 sala 1](../imagenes/sala-14-1.png)
+
+*Nivel 14, sala 1. Lleva: 2 chorro del tubo, 1 estalactita, 1 puerta al nivel, 1 llamarada.*
+
+![Nivel 14 sala 2](../imagenes/sala-14-2.png)
+
+*Nivel 14, sala 2. Lleva: 4 chorro del tubo, 1 estalactita, 1 perseguidor, 1 trasto, 1 jaula, 1 calavera, 1 murcielago.*
+
+![Nivel 14 sala 3](../imagenes/sala-14-3.png)
+
+*Nivel 14, sala 3. Lleva: 5 chorro del tubo, 2 estalactita, 2 trasto, 2 llamarada, 2 calavera, 1 perseguidor, 1 jaula, 1 puerta, 1 gotera.*
+
+![Nivel 14 sala 4](../imagenes/sala-14-4.png)
+
+*Nivel 14, sala 4. Lleva: 4 chorro del tubo, 3 estalactita, 2 perseguidor, 1 puerta al nivel, 1 trasto, 1 jaula, 1 objeto, 1 calavera, 1 murcielago.*
+
+### Nivel 15
+
+![Nivel 15 sala 1](../imagenes/sala-15-1.png)
+
+*Nivel 15, sala 1. Lleva: 4 estalactita, 1 perseguidor, 1 puerta al nivel, 1 objeto, 1 gotera.*
+
+![Nivel 15 sala 2](../imagenes/sala-15-2.png)
+
+*Nivel 15, sala 2. Lleva: 3 estalactita, 2 gotera, 1 perseguidor, 1 trasto.*
+
+![Nivel 15 sala 3](../imagenes/sala-15-3.png)
+
+*Nivel 15, sala 3. Lleva: 2 bola de piedra, 1 estalactita, 1 puerta al nivel, 1 trasto, 1 jaula, 1 gotera.*
+
+![Nivel 15 sala 4](../imagenes/sala-15-4.png)
+
+*Nivel 15, sala 4. Lleva: 2 gotera, 1 perseguidor, 1 puerta al nivel, 1 jaula, 1 murcielago.*
+
+## Ronda 4 — niveles 16 a 20
+
+### Nivel 16
+
+![Nivel 16 sala 1](../imagenes/sala-16-1.png)
+
+*Nivel 16, sala 1. Lleva: 1 estalactita, 1 puerta al nivel, 1 trasto, 1 jaula, 1 objeto, 1 agua, 1 bola de piedra, 1 calavera.*
+
+![Nivel 16 sala 2](../imagenes/sala-16-2.png)
+
+*Nivel 16, sala 2. Lleva: 2 estalactita, 2 perseguidor, 2 gotera, 1 trasto, 1 puerta, 1 murcielago.*
+
+![Nivel 16 sala 3](../imagenes/sala-16-3.png)
+
+*Nivel 16, sala 3. Lleva: 2 jaula, 2 gotera, 1 perseguidor, 1 puerta al nivel, 1 calavera.*
+
+![Nivel 16 sala 4](../imagenes/sala-16-4.png)
+
+*Nivel 16, sala 4. Lleva: 2 agua, 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 objeto.*
+
+### Nivel 17
+
+![Nivel 17 sala 1](../imagenes/sala-17-1.png)
+
+*Nivel 17, sala 1. Lleva: 8 chorro del tubo, 1 perseguidor, 1 puerta al nivel, 1 calavera.*
+
+![Nivel 17 sala 2](../imagenes/sala-17-2.png)
+
+*Nivel 17, sala 2. Lleva: 1 estalactita, 1 trasto, 1 jaula, 1 bola de piedra, 1 llamarada, 1 gotera, 1 calavera.*
+
+![Nivel 17 sala 3](../imagenes/sala-17-3.png)
+
+*Nivel 17, sala 3. Lleva: 6 columna que crece, 3 calavera, 2 trasto, 2 gotera, 1 estalactita, 1 perseguidor, 1 puerta al nivel, 1 jaula, 1 objeto, 1 chorro del tubo, 1 murcielago.*
+
+![Nivel 17 sala 4](../imagenes/sala-17-4.png)
+
+*Nivel 17, sala 4. Lleva: 2 gotera, 2 calavera, 1 estalactita, 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 llamarada, 1 chorro del tubo.*
+
+### Nivel 18
+
+![Nivel 18 sala 1](../imagenes/sala-18-1.png)
+
+*Nivel 18, sala 1. Lleva: 2 trasto, 2 llamarada, 2 gotera, 1 estalactita, 1 perseguidor, 1 puerta al nivel, 1 calavera.*
+
+![Nivel 18 sala 2](../imagenes/sala-18-2.png)
+
+*Nivel 18, sala 2. Lleva: 2 llamarada, 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 bola de piedra, 1 gotera, 1 murcielago.*
+
+![Nivel 18 sala 3](../imagenes/sala-18-3.png)
+
+*Nivel 18, sala 3. Lleva: 1 perseguidor, 1 objeto, 1 puerta, 1 llamarada, 1 gotera, 1 calavera.*
+
+![Nivel 18 sala 4](../imagenes/sala-18-4.png)
+
+*Nivel 18, sala 4. Lleva: 3 llamarada, 2 jaula, 1 perseguidor, 1 trasto, 1 gotera, 1 calavera, 1 bicho de patas.*
+
+### Nivel 19
+
+![Nivel 19 sala 1](../imagenes/sala-19-1.png)
+
+*Nivel 19, sala 1. Lleva: 2 puerta al nivel, 1 estalactita, 1 perseguidor, 1 trasto.*
+
+![Nivel 19 sala 2](../imagenes/sala-19-2.png)
+
+*Nivel 19, sala 2. Lleva: 1 perseguidor.*
+
+![Nivel 19 sala 3](../imagenes/sala-19-3.png)
+
+*Nivel 19, sala 3. Lleva: 2 perseguidor, 1 estalactita, 1 trasto, 1 jaula, 1 objeto, 1 murcielago.*
+
+![Nivel 19 sala 4](../imagenes/sala-19-4.png)
+
+*Nivel 19, sala 4. Lleva: 2 trasto, 2 agua, 1 estalactita, 1 puerta al nivel, 1 jaula, 1 gotera, 1 murcielago.*
+
+### Nivel 20
+
+![Nivel 20 sala 1](../imagenes/sala-20-1.png)
+
+*Nivel 20, sala 1. Lleva: 2 calavera, 1 estalactita, 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 llamarada, 1 gotera.*
+
+![Nivel 20 sala 2](../imagenes/sala-20-2.png)
+
+*Nivel 20, sala 2. Lleva: 2 perseguidor, 2 trasto, 1 agua, 1 calavera.*
+
+![Nivel 20 sala 3](../imagenes/sala-20-3.png)
+
+*Nivel 20, sala 3. Lleva: 3 jaula, 1 estalactita, 1 puerta al nivel, 1 objeto, 1 llamarada, 1 murcielago, 1 bicho de patas.*
+
+![Nivel 20 sala 4](../imagenes/sala-20-4.png)
+
+*Nivel 20, sala 4. Lleva: 1 estalactita, 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 bola de piedra.*
+
+## Ronda 5 — niveles 21 a 25
+
+### Nivel 21
+
+![Nivel 21 sala 1](../imagenes/sala-21-1.png)
+
+*Nivel 21, sala 1. Lleva: 2 gotera, 1 estalactita, 1 perseguidor, 1 jaula, 1 puerta, 1 calavera.*
+
+![Nivel 21 sala 2](../imagenes/sala-21-2.png)
+
+*Nivel 21, sala 2. Lleva: 1 estalactita, 1 puerta al nivel, 1 jaula, 1 agua, 1 calavera.*
+
+![Nivel 21 sala 3](../imagenes/sala-21-3.png)
+
+*Nivel 21, sala 3. Lleva: 4 trasto, 2 perseguidor, 1 puerta al nivel, 1 objeto.*
+
+![Nivel 21 sala 4](../imagenes/sala-21-4.png)
+
+*Nivel 21, sala 4. Lleva: 3 gotera, 2 estalactita, 1 perseguidor, 1 jaula, 1 calavera.*
+
+### Nivel 22
+
+![Nivel 22 sala 1](../imagenes/sala-22-1.png)
+
+*Nivel 22, sala 1. Lleva: 2 estalactita, 2 calavera, 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 jaula, 1 llamarada, 1 gotera.*
+
+![Nivel 22 sala 2](../imagenes/sala-22-2.png)
+
+*Nivel 22, sala 2. Lleva: 2 estalactita, 2 llamarada, 2 calavera, 1 perseguidor, 1 trasto, 1 objeto, 1 bola de piedra, 1 gotera, 1 murcielago.*
+
+![Nivel 22 sala 3](../imagenes/sala-22-3.png)
+
+*Nivel 22, sala 3. Lleva: 2 estalactita, 2 llamarada, 2 gotera, 2 calavera, 1 puerta al nivel, 1 trasto, 1 murcielago.*
+
+![Nivel 22 sala 4](../imagenes/sala-22-4.png)
+
+*Nivel 22, sala 4. Lleva: 3 estalactita, 2 perseguidor, 1 puerta al nivel, 1 jaula, 1 bola de piedra, 1 llamarada, 1 gotera, 1 calavera, 1 murcielago.*
+
+### Nivel 23
+
+![Nivel 23 sala 1](../imagenes/sala-23-1.png)
+
+*Nivel 23, sala 1. Lleva: 2 estalactita, 2 gotera, 1 perseguidor, 1 puerta al nivel, 1 jaula.*
+
+![Nivel 23 sala 2](../imagenes/sala-23-2.png)
+
+*Nivel 23, sala 2. Lleva: 3 calavera, 2 gotera, 1 estalactita, 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 jaula, 1 murcielago.*
+
+![Nivel 23 sala 3](../imagenes/sala-23-3.png)
+
+*Nivel 23, sala 3. Lleva: 2 trasto, 2 bola de piedra, 1 perseguidor, 1 puerta, 1 gotera, 1 calavera, 1 murcielago.*
+
+![Nivel 23 sala 4](../imagenes/sala-23-4.png)
+
+*Nivel 23, sala 4. Lleva: 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 jaula, 1 objeto, 1 agua, 1 bicho de patas.*
+
+### Nivel 24
+
+![Nivel 24 sala 1](../imagenes/sala-24-1.png)
+
+*Nivel 24, sala 1. Lleva: 4 chorro del tubo, 2 estalactita, 1 jaula, 1 gotera, 1 calavera.*
+
+![Nivel 24 sala 2](../imagenes/sala-24-2.png)
+
+*Nivel 24, sala 2. Lleva: 3 chorro del tubo, 2 estalactita, 2 gotera, 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 jaula, 1 objeto, 1 calavera.*
+
+![Nivel 24 sala 3](../imagenes/sala-24-3.png)
+
+*Nivel 24, sala 3. Lleva: 6 columna que crece, 6 chorro del tubo, 2 trasto, 2 calavera, 1 estalactita, 1 perseguidor, 1 puerta al nivel, 1 gotera.*
+
+![Nivel 24 sala 4](../imagenes/sala-24-4.png)
+
+*Nivel 24, sala 4. Lleva: 2 chorro del tubo, 2 gotera, 2 calavera, 1 puerta al nivel, 1 jaula.*
+
+### Nivel 25
+
+![Nivel 25 sala 1](../imagenes/sala-25-1.png)
+
+*Nivel 25, sala 1. Lleva: 8 columna que crece, 3 estalactita, 2 trasto, 2 bola de piedra, 1 perseguidor, 1 calavera, 1 murcielago.*
+
+![Nivel 25 sala 2](../imagenes/sala-25-2.png)
+
+*Nivel 25, sala 2. Lleva: 2 gotera, 1 estalactita, 1 puerta al nivel, 1 jaula, 1 bola de piedra, 1 calavera, 1 bicho de patas.*
+
+![Nivel 25 sala 3](../imagenes/sala-25-3.png)
+
+*Nivel 25, sala 3. Lleva: 12 columna que crece, 3 estalactita, 2 gotera, 2 calavera, 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 jaula, 1 bicho de patas.*
+
+![Nivel 25 sala 4](../imagenes/sala-25-4.png)
+
+*Nivel 25, sala 4. Lleva: 12 columna que crece, 2 gotera, 2 calavera, 1 estalactita, 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 jaula, 1 objeto.*
+

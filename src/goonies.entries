@@ -1,0 +1,115 @@
+# Puntos de entrada que el trazado NO puede deducir solo.
+#
+# Cada uno lleva escrito POR QUE hace falta. Una entrada sin justificar es una
+# direccion metida a mano para que la cobertura cuadre, y eso es exactamente
+# lo que no se puede hacer sin dejar constancia.
+
+# El arranque: la cabecera del cartucho da INIT en 0x406A.
+0x406A   # INIT, la direccion que trae la cabecera del cartucho
+
+# ======================================================================
+# EL GANCHO DE LA INTERRUPCION
+# ======================================================================
+# INIT no arranca ningun bucle de juego por su cuenta: acaba en un `jr` a si
+# mismo en 0x40B5. Todo el cuadro cuelga del gancho que deja puesto antes, en
+# H.KEYI (0xFD9A):
+#
+#     0x408A  3e c3        ld a,0c3h
+#     0x408C  32 9a fd     ld (0fd9ah),a
+#     0x408F  21 28 40     ld hl,04028h
+#     0x4092  22 9b fd     ld (0fd9bh),hl
+#
+# El cerrojo de reentrada de (0xE005) lo confirma: el propio gancho mira
+# `bit 0,(hl)` sobre 0xE005 en 0x4032 y se salta el cuadro entero si ya estaba
+# dentro.
+0x4028   # H.KEYI: lo engancha INIT en 0x408F (`ld hl,04028h / ld (0fd9bh),hl`)
+
+# ======================================================================
+# LAS TABLAS PEGADAS DETRAS DEL `call`
+# ======================================================================
+# El despachador de 0x4060 es el mismo que usan los demas cartuchos de esta
+# familia de Konami. Rastreando la cola `5e 23 56 eb e9` por las 47 ROM de
+# DES_ASM/ROMS aparece, y siempre una sola vez, en: Sky Jaguar (RC-721),
+# Yie Ar Kung-Fu (las dos compilaciones), Hyper Rally (RC-718), Road Fighter
+# (RC-730), Ping Pong (RC-731), Soccer y Football (RC-732), Hyper Sports 3
+# (RC-733), este, Nemesis (RC-742) y F-1 Spirit (RC-752). Road Fighter y Ping
+# Pong lo escriben con los dos primeros bytes al reves -`add a,a / pop hl` en
+# vez de `pop hl / add a,a`-, y es lo unico que cambia.
+#
+# Mopi Ranger (RC-728) NO lo lleva, aunque sea de la misma tanda.
+#
+# Aqui esta, entero:
+#
+#     0x4060  e1           pop hl
+#     0x4061  87           add a,a
+#     0x4062  cd 56 40     call 04056h      ; hl += a, con acarreo al alto
+#     0x4065  5e           ld e,(hl)
+#     0x4066  23           inc hl
+#     0x4067  56           ld d,(hl)
+#     0x4068  eb           ex de,hl
+#     0x4069  e9           jp (hl)
+#
+# El `pop hl` recupera su propia direccion de retorno, que es donde empieza la
+# tabla, porque la tabla va PEGADA detras del `call`. El trazado no puede
+# deducirlas siguiendo saltos, asi que van declaradas aqui.
+#
+# Los `call 0x4060` del cartucho son VEINTISEIS, y las veintiseis son llamadas
+# de verdad: ni un `cd 60 40` cae dentro de un bloque de datos por casualidad.
+#
+# Cuantas entradas tiene cada tabla NO se estima. Lo cierra, por este orden:
+#
+#   1. la direccion de retorno que el propio codigo se fabrica antes de llamar
+#      -`ld hl,<nnnn> / push hl`-, porque ese <nnnn> es justo el byte que sigue
+#      a la tabla. Cierra cuatro de las veintiseis, y es la prueba que manda;
+#   2. si no hay push, el encaje: toda entrada cae en 0x4000..0xBFFF y NINGUNA
+#      apunta dentro de la propia tabla. La entrada mas baja marca el final.
+#      Cierra veintiuna;
+#   3. la de 0x7567 no la cierra ninguna de las dos, y la cierra un `call`:
+#      0x7544 hace `cd 6d 75`, o sea `call 0756dh`, y 0x756D es exactamente
+#      0x7567 + 3*2. Ademas repite los mismos tres destinos que la tabla de
+#      0x751D (0x7523, 0x7539, 0x754E), en otro orden.
+#
+# Lo saca tools/encaja_tablas.py, que imprime estas mismas lineas.
+!tabla 0x40f6   9   # sigue en 0x4108, la entrada mas baja ES el final
+!tabla 0x5067   4   # sigue en 0x506F, la entrada mas baja ES el final
+!tabla 0x5659   7   # sigue en 0x5667, el `ld hl,05667h / push hl` de 0x5652 lo cierra
+!tabla 0x569b   5   # sigue en 0x56A5, el `ld hl,056a5h / push hl` de 0x5694 lo cierra
+!tabla 0x61e6   6   # sigue en 0x61F2, la entrada mas baja ES el final
+!tabla 0x67c4  10   # sigue en 0x67D8, la entrada mas baja ES el final
+!tabla 0x6a02  12   # sigue en 0x6A1A, la entrada mas baja ES el final
+!tabla 0x6d82   3   # sigue en 0x6D88, la entrada mas baja ES el final
+!tabla 0x6dbd  27   # sigue en 0x6DF3, el `ld hl,06df3h / push hl` de 0x6DB5 lo cierra
+!tabla 0x6e2c   5   # sigue en 0x6E36, la entrada mas baja ES el final
+!tabla 0x7323  13   # sigue en 0x733D, la entrada mas baja ES el final
+!tabla 0x750f   4   # sigue en 0x7517, la entrada mas baja ES el final
+!tabla 0x751d   3   # sigue en 0x7523, la entrada mas baja ES el final
+!tabla 0x7567   3   # sigue en 0x756D, y a 0x756D lo llaman: `call 0756dh` en 0x7544
+!tabla 0x794c   4   # sigue en 0x7954, la entrada mas baja ES el final
+!tabla 0x824c   4   # sigue en 0x8254, la entrada mas baja ES el final
+!tabla 0x8385   2   # sigue en 0x8389, la entrada mas baja ES el final
+!tabla 0x8455   4   # sigue en 0x845D, la entrada mas baja ES el final
+!tabla 0x85da   4   # sigue en 0x85E2, la entrada mas baja ES el final
+!tabla 0x872f   2   # sigue en 0x8733, la entrada mas baja ES el final
+!tabla 0x881c   4   # sigue en 0x8824, la entrada mas baja ES el final
+!tabla 0x88f4   4   # sigue en 0x88FC, la entrada mas baja ES el final
+!tabla 0x8a05   4   # sigue en 0x8A0D, la entrada mas baja ES el final
+!tabla 0x8b95   4   # sigue en 0x8B9D, la entrada mas baja ES el final
+!tabla 0x8c66   3   # sigue en 0x8C6C, la entrada mas baja ES el final
+!tabla 0x8f89   6   # sigue en 0x8F95, la entrada mas baja ES el final
+
+# ======================================================================
+# LAS DIRECCIONES DE RETORNO EMPUJADAS A MANO
+# ======================================================================
+# El truco es el de siempre: `ld hl,<direccion> / push hl` antes de caer en el
+# despachador -o en un `jp` cualquiera-, para que el `ret` de la escena no
+# vuelva a quien llamo sino a esa direccion. El trazado no puede seguir un
+# retorno fabricado.
+#
+# Son CINCO, y salen de barrer la ROM buscando `21 lo hi` seguido de
+# un `E5` en los seis bytes siguientes, con el destino todavia sin trazar.
+# Ninguna cae a mitad de instruccion de nada ya trazado.
+0x43E7   # lo empuja 0x40EA, y solo si (0xE000) < 3: el remate del cuadro
+0x5667   # lo empuja 0x5652; es justo el byte de detras de la tabla de 0x5659
+0x5685   # lo empuja 0x5676
+0x56A5   # lo empuja 0x5694; es justo el byte de detras de la tabla de 0x569B
+0x6DF3   # lo empuja 0x6DB5; es justo el byte de detras de la tabla de 0x6DBD

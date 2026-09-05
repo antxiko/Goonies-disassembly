@@ -1,0 +1,117 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The game — The Goonies (Konami, 1986)</title>
+<style>
+:root{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;--linea:#23262e;
+  --rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+@media (prefers-color-scheme:light){:root{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;
+  --panel:#f7f6f2;--linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}}
+:root[data-theme="dark"]{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;
+  --linea:#23262e;--rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+:root[data-theme="light"]{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;--panel:#f7f6f2;
+  --linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--tinta);padding:0 1.25rem 6rem;
+  font:15px/1.7 ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.w{max-width:1120px;margin:0 auto}
+.n{max-width:68ch}
+h1,h2,h3,h4{font-weight:400;text-wrap:balance}
+a{color:var(--cyan)}
+img{image-rendering:pixelated;max-width:100%;height:auto;display:block}
+header.top{display:flex;flex-direction:column;align-items:center;gap:1.5rem;
+  padding:4rem 0 2rem;text-align:center}
+header.top img{width:min(100%,642px)}
+.claim{max-width:60ch;color:var(--suave);font-size:1.05rem}
+.claim b{color:var(--tinta);font-weight:400}
+.ficha{display:flex;flex-wrap:wrap;justify-content:center;gap:0 1.5rem;width:100%;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--suave);
+  border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);padding:.85rem 0}
+.ficha b{color:var(--rojo);font-weight:400}
+nav{display:flex;flex-wrap:wrap;gap:1.25rem;justify-content:center;padding:1.25rem 0;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+nav a{color:var(--suave);text-decoration:none;border-bottom:1px solid transparent}
+nav a:hover,nav a:focus{color:var(--tinta);border-bottom-color:var(--rojo)}
+nav.docs{border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);
+  margin-bottom:1rem}
+section{margin-top:4.5rem;scroll-margin-top:1rem}
+section>h2{font-size:1rem;letter-spacing:.1em;text-transform:uppercase;
+  border-left:3px solid var(--rojo);padding-left:.9rem;margin:0 0 1.5rem}
+.cifras{display:grid;gap:1px;background:var(--linea);border:1px solid var(--linea);
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.cifra{background:var(--panel);padding:1.1rem}
+.cifra b{display:block;font-size:1.7rem;color:var(--oro);font-weight:400;
+  font-variant-numeric:tabular-nums;line-height:1.2}
+.cifra span{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--suave)}
+.hall{border-top:1px solid var(--linea);padding-top:1.75rem;margin-top:2.5rem}
+.hall:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.hall h3{margin:0 0 .75rem;font-size:1.15rem;color:var(--rojo)}
+.hall h4{color:var(--oro);margin:1.5rem 0 .5rem;font-size:.95rem}
+.hall p{margin:0 0 1rem}
+pre.asm{background:var(--panel);border-left:2px solid var(--verde);margin:1.25rem 0;
+  padding:1rem 1.1rem;overflow-x:auto;font-size:13px;line-height:1.6;color:var(--tinta)}
+.par{display:grid;gap:1.25rem;grid-template-columns:1fr}
+@media(min-width:820px){.par{grid-template-columns:1fr 1fr}}
+.par figure{margin:0}
+table{border-collapse:collapse;width:100%;margin:1.25rem 0;font-size:13px;display:block;
+  overflow-x:auto}
+th,td{text-align:left;padding:.5rem .75rem;border-bottom:1px solid var(--linea)}
+th{color:var(--suave);font-weight:400;font-size:11px;letter-spacing:.07em;text-transform:uppercase}
+td.num{font-variant-numeric:tabular-nums;color:var(--oro)}
+.nivel{margin-top:2rem}
+.nivel h3{margin:0 0 .9rem;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase}
+.nivel em{color:var(--cyan);font-style:normal}
+.sep{color:var(--suave);margin:0 .6rem}
+.rejilla{display:grid;gap:.9rem;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.rejilla figure{margin:0;background:var(--panel);box-shadow:0 0 0 1px var(--linea)}
+.rejilla figcaption{display:flex;justify-content:space-between;padding:.45rem .65rem;
+  font-size:11px;color:var(--suave);border-top:1px solid var(--linea)}
+.dir{font-variant-numeric:tabular-nums;color:var(--verde)}
+footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--linea);
+  color:var(--suave);font-size:12px}
+
+/* Aviso de trabajo en curso: tiene que verse antes que las cifras, porque un
+   100% mal leido hace mas dano que no ponerlo. */
+.aviso{background:#3a2a10;border-left:3px solid var(--oro);margin:1.5rem auto;
+  padding:1rem 1.2rem;max-width:900px;border-radius:4px}
+.aviso p{margin:0;color:var(--tinta);font-size:15px;line-height:1.65}
+.galeria{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;margin:1.5rem 0}
+.galeria figure{margin:0}
+.galeria img{width:100%;height:auto;image-rendering:pixelated;
+  border:1px solid var(--linea);border-radius:3px}
+.galeria figcaption{color:var(--suave);font-size:13px;margin-top:.5rem}
+audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
+</style>
+<div class="w"><nav class="top"><a href="index.html">Home</a><a href="GETTING-STARTED.html">Start</a><a href="THE-GAME.html" style=color:var(--tinta)>The game</a><a href="THE-LEVELS.html">The 100 rooms</a><a href="THE-CARTRIDGE.html">The cartridge</a><a href="THE-CODE.html">The code</a><a href="FINDINGS.html">Findings</a><a href="IN-THE-EMULATOR.html">In the emulator</a><a href="OPEN-QUESTIONS.html">Open questions</a><a href="es/EL-JUEGO.html" style="margin-left:auto;color:var(--oro)">Castellano</a></nav>
+<h1 id="the-game">The game</h1>
+<p><img src="imagenes/rotulo.png" alt="The title screen"></p>
+<p><em>The title screen, drawn from the ROM. The caption reads <b>© KONAMI 1986</b>, with the 1985 Warner Bros. trademark notice below.</em></p>
+<p>Mikey goes down into the Astoria caves to rescue the other seven Goonies and find One-Eyed Willy&#x27;s treasure. There are <b>twenty-five levels across five rounds of five</b>, and each level is <b>four rooms</b> of 32x20 tiles.</p>
+<h2 id="what-you-do-in-a-level">What you do in a level</h2>
+<p>Get your friends out of their cages. Each one freed bumps the counter at <code>(0xE130)</code>, and <b>with seven the skull door opens</b> — the one that lets you through to the next level. The key is <code>(0xE121)</code>.</p>
+<p>You move between rooms by walking off the sides. The link is not geometric: it is <b>two twin tables of 19 rows by 4 columns</b> (<code>0x52DB</code> and <code>0x5327</code>), and which one gets consulted depends on which side you leave by — the left one if the column drops below <code>0x15</code>, the right one if it reaches <code>0xC0</code>. The row is picked by the level&#x27;s <em>room layout</em>, one of the 25 bytes at <code>0x9D67</code>.</p>
+<h2 id="the-player">The player</h2>
+<p><img src="imagenes/jugador.png" alt="The sixteen poses"></p>
+<p>Six states — walk, jump, ladder, fall, kick and mid-air kick — and sixteen poses. Each pose is <b>three overlapping 16x16 sprites</b>, assembled by <code>0x586A</code> from a nine-byte entry: y offset, x offset and pattern number, three times over.</p>
+<p>Speed carries a fraction: <code>0x0110</code> normally — one and one sixteenth pixels per frame — and <code>0x0180</code> with item 0, which is one and a half.</p>
+<h2 id="the-green-ropes">The green ropes</h2>
+<p>You climb and descend them, and they are not decoration: <b>tile <code>0x41</code> is the foot of a rope</b> and you go up by pressing up; <b>tile <code>0x53</code> is the head</b>, the one hanging from a platform, and you go down by pressing down (<code>0x66E4</code>). The creatures use exactly the same ones.</p>
+<h2 id="the-hazards">The hazards</h2>
+<p><img src="imagenes/puertas-y-jaulas.png" alt="Doors and cages"></p>
+<p><em>The skull door — shut and open — the door to the next level, and the four cages: shut, open, with the friend inside and with the item inside.</em></p>
+<p>Each level brings two lists. The <b>level list</b> sits right behind the eighty bytes of the map and spreads things across the four rooms; the <b>four room lists</b> hang off a per-level table. Both are read the same way (<code>0x8D64</code> and <code>0x8E73</code>): a byte <code>0xF0+type</code> opens a run, its records follow, and <code>0xFF</code> closes.</p>
+<table><tr><th>type</th><th>LEVEL list</th><th>ROOM list</th></tr><tr><td>0</td><td>rising column</td><td>water jet</td></tr><tr><td>1</td><td>stalactite</td><td>boulder</td></tr><tr><td>2</td><td><b>the chaser</b></td><td>flame</td></tr><tr><td>3</td><td>the door to the next level</td><td>pipe leak</td></tr><tr><td>4</td><td>blinking pickup</td><td>the spot that drips</td></tr><tr><td>5</td><td>cage</td><td>skull</td></tr><tr><td>6</td><td>hidden item</td><td>bat</td></tr><tr><td>7</td><td>the skull door</td><td>the many-legged creature</td></tr></table>
+<p><code>0x7A9E</code> runs through the seven damaging hazards and leaves the bit in <code>(ix+00Ah)</code>, which is also where the player&#x27;s colour comes from: water jet <code>0x01</code>, stalactite <code>0x02</code>, drip <code>0x04</code>, flame <code>0x08</code>, column <code>0x10</code>, leak <code>0x20</code> and boulder <code>0x40</code>.</p>
+<p><img src="imagenes/bichos.png" alt="The creatures"></p>
+<p><em>The single-square sprite patterns, in the six colours the game uses. The colour is not in the drawing: it lives in the attribute.</em></p>
+<h2 id="the-inventory">The inventory</h2>
+<p><img src="imagenes/objetos.png" alt="The twenty-three items"></p>
+<p><em>The twenty-three items, with the level each appears in underneath.</em></p>
+<p>Twenty-three items, and the bottom row shows up to twelve 2x2 icons. They live in three places: <code>0xE176</code> one bit per item, <code>0xE180</code> which slot each occupies in the row, and the table at <code>0x6F68</code> its icon.</p>
+<p>And they are not trophies: <b>they are shields with charges</b>. The list at <code>0x7D9B</code> says which item stops which hazard; carrying it, the hit spends a charge of <code>(0xE150+item)</code> instead of taking energy, and when the charges run out the item is lost.</p>
+<p>The table at <code>0x5576</code> says which level each is in: twenty-three distinct values between 0 and 24, and <b>5 and 14 are exactly the ones missing</b>. Levels 6 and 15 are the only two with no item.</p>
+<h2 id="the-password">The password</h2>
+<p>At the end of each round, <code>0x53A7</code> shows you, under the <code>KEYWORD</code> caption, the name of the round you have just cleared. That name <em>is</em> the password, because they are <b>the same bytes</b>: MR SLOTH, GOON DOCKS, DOUBLOON, ONE EYED WILLY and GOONIES. The whole story is in <a href="FINDINGS.html">Findings</a>.</p>
+<h2 id="all-one-hundred-rooms">All one hundred rooms</h2>
+<p>They are drawn one by one in <a href="THE-LEVELS.html">The 25 levels</a>.</p>
+<footer><p><em>The Goonies</em> was published by Konami for the MSX in 1986; its catalogue number is RC-734 and it is 32 KB. The game is based on the Richard Donner film (Warner Bros., 1985). All rights in the game remain with their holders. This is preservation, study and documentation work, and the cartridge image is not distributed.</p></footer></div>

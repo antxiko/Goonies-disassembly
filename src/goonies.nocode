@@ -1,0 +1,21 @@
+# Zonas que NO son codigo aunque el trazado pueda entrar en ellas.
+#
+# Se van anadiendo segun el trazado las descubre: tablas de words en linea
+# detras de un call, guiones de dibujo, bloques graficos.
+
+# La cabecera del cartucho: "AB" y las cuatro direcciones de la ROM (INIT,
+# STATEMENT, DEVICE, TEXT), mas los seis bytes reservados. No es codigo.
+0x4000 0x4010
+
+# La SEGUNDA cabecera, la del Konami Game Master: "CD" 07 34, o sea el 0x07 de
+# los RC-7xx y el 0x34 de RC-734. Detras van once bytes mas, que apuntan a
+# variables del juego en RAM. No lo lee este cartucho: lo lee el de la ranura
+# de al lado. Aqui acaba en 0x401E, porque en 0x401F ya vuelve a haber codigo.
+0x4010 0x401F
+
+# La marca oculta de Konami, al final del cartucho. Siete bytes de titulo en
+# orden inverso, su longitud, el 0x34 del RC-734 y el 0xAA que cierra:
+#   b7 8c ba 95 ba b7 87   07 34 aa
+# leidos al reves salen KU " - NI - SU ", o sea グーニーズ. No lo lee nadie:
+# es la firma de la casa.
+0xBFF6 0xC000
