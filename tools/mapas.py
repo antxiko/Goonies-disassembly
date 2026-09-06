@@ -21,32 +21,69 @@ En la lista del NIVEL el primer byte de cada registro lleva la sala en los bits
 7 y 6 y el sitio -la fila- en los seis de abajo (0x8DE9). En las listas de SALA
 no hace falta: la sala ya se sabe.
 
+LAS DOS FILAS DEL MARCADOR. Ninguna de esas filas se cuenta desde el techo de
+la SALA: se cuentan desde el techo de la PANTALLA, y las dos primeras filas son
+el marcador. Lo dice el `ld hl,00002h` de 0x59BC -"h = columna 0, l = fila 2"-,
+lo dicen las cuatro bases de 0x45FF (0xE5C0 y no 0xE600: 0x40 bytes, o sea dos
+filas, de sesgo) y lo dice 0x5F13, que vuelca la sala a 0x3840 y no a 0x3800.
+Asi que la fila que guarda cada ficha es la de la PANTALLA, y la de la sala es
+esa menos dos: es la resta que hace FILA_DEL_MARCADOR.
+
+Y LOS SPRITES. Un atributo de sprite del TMS9918 se dibuja UNA linea mas abajo
+de lo que dice su byte de fila, asi que la fila del sprite dentro de la sala es
+(atributo + 1 - 16): el +1 del VDP y las dos filas del marcador. Cada bicho
+calcula su atributo a su manera, y esa cuenta esta al lado de cada uno.
+
 LO QUE SE DIBUJA, y de que instruccion sale su posicion:
 
-  nivel  0  la columna que crece   fila 0x8760, columna 0x8763, alto (ix+004h)
+  nivel  0  la columna que crece   0x8733 arranca en (ix+002h) y 0x8773 va
+                                   BAJANDO: la punta primero y la base al cabo
+                                   de (ix+004h) casillas (0x8747, 0x8760 y
+                                   0x8763)
   nivel  1  la estalactita         0x8879 y 0x887C
   nivel  2  el perseguidor         0x8E19: el nibble alto del segundo byte por
                                    dieciseis mas 0x0D es la fila, y el bajo por
-                                   dieciseis la columna
-  nivel  3  la puerta al siguiente 0x5017 y 0x5023; la misma ficha es la
-            puerta que saca del nivel (0x832D) y la entrada por la que se
-            aparece en el nuevo
+                                   dieciseis la columna. El sprite lo monta
+                                   0x65AF: dieciseis pixeles arriba y ocho a la
+                                   izquierda
+  nivel  3  la puerta al siguiente 0x5F48 recorre las TRES fichas de 0xE2BD y
+                                   0x5F69 pinta en cada una el arco de la
+                                   calavera blanca de 0x5F78, 4x3, en
+                                   (ix+002h) y (ix+003h). En la ficha van
+                                   ademas el nivel al que lleva (ix+004h) y la
+                                   entrada por la que se aparece (ix+005h),
+                                   que es lo que lee 0x8349
   nivel  4  el trasto que parpadea 0x60EC
-  nivel  5  la jaula               0x6038 y 0x603B
+  nivel  5  la jaula               0x6038 y 0x603B, y ademas la columnita de
+                                   0x605C: (ix+004h) casillas 0x92 en la
+                                   columna de al lado, empezando tres filas mas
+                                   abajo menos esas mismas casillas
   nivel  6  el objeto escondido    0x6E53, y es una sola casilla: la 0x91
-  nivel  7  la puerta              0x5F6F y 0x5F72
+  nivel  7  la puerta              0x5F84: con (ix+004h) a cero se pinta el
+                                   arco vacio de 0x5FCF, y si no, el de la
+                                   calavera y las tibias de 0x5FC3. La posicion,
+                                   en 0x5F6F y 0x5F72
   sala   0  el chorro de agua      0x85EA (la fila de arranque) y 0x86BB
   sala   1  la bola de piedra      0x84F6 y 0x84F9
   sala   2  la llamarada           0x895F y 0x8966
-  sala   3  el chorro del tubo     0x8A8B y 0x8A6A
+  sala   3  el chorro del tubo     0x8A8B y 0x8A6A; el lado sale del BIT 7 del
+                                   segundo byte, que es lo que 0x8EF1 baja a
+                                   (ix+003h) con dos `rla` y un `and 001h`
   sala   5  la calavera            0x8F0A: el nibble alto por dieciseis es la
-                                   fila y el bajo por dieciseis la columna
+                                   fila y el bajo por dieciseis la columna. Su
+                                   sprite no pasa por el montador de fichas:
+                                   0x6973 le pone la fila doce pixeles mas
+                                   arriba y 0x697A la columna mas lo que pida
+                                   la postura (0x6996: -4 con el dibujo derecho
+                                   0xA0, -12 con su espejo)
   sala   6  el murcielago          0x6A1A: los dos bytes van ya en pixeles, y
-                                   0x6C59 le pone el patron 0x24 y el color 5
+                                   0x6C59 le pone el patron 0x24 y el color 5,
+                                   seis pixeles mas arriba y ocho a la
+                                   izquierda
 
   sala   4  el sitio del que gotea 0x8E91 mete la ficha en 0xE3BD y 0x8ACC la
                                    gasta: la fila es el primer byte, la columna
-                                   los siete bits bajos del segundo -el 6 dice
+                                   los siete bits bajos del segundo -el 7 dice
                                    hacia donde-, y el tercero cada cuantos
                                    cuadros suelta. El lanzador no tiene dibujo
                                    propio: lo que se ve es la gota, con el
@@ -62,6 +99,10 @@ LO QUE SE DIBUJA, y de que instruccion sale su posicion:
 
 Se dibuja TODO: los ocho tipos de la lista del nivel y los ocho de la de sala.
 
+TODO ESTO ESTA COTEJADO contra la VRAM del emulador, no deducido a ojo: se deja
+correr el cartucho, se vuelca la tabla de nombres y se le resta el mapa de la
+sala, y lo que queda son justo estas fichas en estas filas.
+
 Uso: mapas.py <rom> [carpeta]
 """
 import os
@@ -73,6 +114,12 @@ import graficos as G                                       # noqa: E402
 import vram as V                                           # noqa: E402
 
 ORG = 0x4000
+
+# Las dos filas de arriba de la pantalla son el marcador y la sala empieza en la
+# tercera: el `ld hl,00002h` de 0x59BC. Todas las filas que guardan las fichas
+# son de PANTALLA, asi que para dibujarlas sobre la sala hay que restar estas
+# dos. En pixeles son dieciseis, que es lo que se le resta a los sprites.
+FILA_DEL_MARCADOR = 2
 
 # Cuantos bytes ocupa cada registro en la lista, contados sobre las rutinas que
 # la leen: 0x8DCF (tipos 0, 1, 5 y 6), 0x8DA1 (3 y 7), 0x8DFF (4) y 0x8E19 (2).
@@ -166,97 +213,146 @@ def puntero(rom, tabla, i):
     return palabra(rom, tabla + 2 * i)
 
 
+def casillas(sala, fila, col, dibujo, nombre):
+    """Una ficha de casillas, con la fila pasada de PANTALLA a SALA."""
+    return (sala, fila - FILA_DEL_MARCADOR, col, "casillas", dibujo, nombre)
+
+
+def sprite(sala, y, x, pat, color, nombre):
+    """Un sprite, dado su ATRIBUTO: el byte de fila y el de columna.
+
+    El TMS9918 dibuja el sprite una linea por debajo de lo que dice su byte de
+    fila, y encima hay que quitar las dos filas del marcador: de ahi el
+    (y + 1 - 16). La columna del atributo ya es la de la pantalla.
+    """
+    return (sala, (y + 1 - 8 * FILA_DEL_MARCADOR) / 8.0, x / 8.0,
+            "sprite", (pat, color), nombre)
+
+
 def cosas_del_nivel(rom, nivel):
     """Todo lo que hay que pintar encima de las salas, ya colocado."""
     out = []
     for t, r in lista_del_nivel(rom, nivel):
         sala, sitio = r[0] >> 6, r[0] & 0x3F
-        if t == 0:                                    # 0x8747: tres dibujos
+        if t == 0:
+            # 0x8733 arranca en (ix+002h) y 0x8773 hace `inc (ix+007h)`: la
+            # columna crece HACIA ABAJO. 0x8747 elige el dibujo: la punta en la
+            # primera casilla, la base en la ultima y el tramo de en medio en
+            # las demas.
             alto = r[2]
             for k in range(alto):
                 cual = 0 if k == 0 else (2 if k == alto - 1 else 1)
-                out.append((sala, sitio - k, r[1], "casillas",
-                            bloque_con_tamano(rom, puntero(rom, 0x8787, cual)),
-                            NOMBRES_NIVEL[t]))
+                out.append(casillas(
+                    sala, sitio + k, r[1],
+                    bloque_con_tamano(rom, puntero(rom, 0x8787, cual)),
+                    NOMBRES_NIVEL[t]))
         elif t == 1:
-            out.append((sala, sitio, r[1], "casillas",
-                        bloque_con_tamano(rom, puntero(rom, 0x8891, 0)),
-                        NOMBRES_NIVEL[t]))
+            out.append(casillas(
+                sala, sitio, r[1],
+                bloque_con_tamano(rom, puntero(rom, 0x8891, 0)),
+                NOMBRES_NIVEL[t]))
         elif t == 2:
             # 0x8E19: el primer byte lleva la sala y la clase, y el segundo la
             # fila en el nibble alto -por dieciseis, mas 0x0D- y la columna en
             # el bajo. El dibujo y el color salen de 0x78D0 y 0x64B9: las
             # clases 0 a 4 usan la tabla de 0x78F5 y un color por clase, y de
-            # la 5 en adelante la de 0x790B, en blanco.
+            # la 5 en adelante la de 0x790B, en blanco. El sprite lo monta
+            # 0x65A9: la fila menos dieciseis y la columna menos ocho.
             clase = r[0] & 0x3F
             pat = 0x80 if (clase & 0x0F) < 5 else 0x94
             col = rom[0x6546 - ORG + ((clase & 0x0F) + 1 if
                                       (clase & 0x0F) < 5 else 0)]
-            out.append((sala, ((r[1] & 0xF0) | 0x0D) / 8.0,
-                        ((r[1] & 0x0F) << 4) / 8.0, "sprite", (pat, col),
-                        NOMBRES_NIVEL[t]))
+            out.append(sprite(sala, ((r[1] & 0xF0) | 0x0D) - 16,
+                              ((r[1] & 0x0F) << 4) - 8, pat, col,
+                              NOMBRES_NIVEL[t]))
         elif t == 3:
-            out.append((sala, sitio, r[1], "jugador", 2, NOMBRES_NIVEL[t]))
+            # 0x5F69: la puerta que lleva al nivel siguiente se pinta con el
+            # arco de la calavera blanca de 0x5F78, 4x3.
+            out.append(casillas(sala, sitio, r[1], bloque(rom, 0x5F78, 4, 3),
+                                NOMBRES_NIVEL[t]))
         elif t == 4:
-            out.append((sala, sitio, r[1], "casillas", [[0x86]],
-                        NOMBRES_NIVEL[t]))
+            out.append(casillas(sala, sitio, r[1], [[0x86]],
+                                NOMBRES_NIVEL[t]))
         elif t == 5:
-            out.append((sala, sitio, r[1], "casillas",
-                        bloque(rom, puntero(rom, 0x606C, 0), 4, 3),
-                        NOMBRES_NIVEL[t]))
+            # 0x6040 pinta la jaula, 4x3, y 0x6048 le anade al lado una
+            # columnita: (ix+004h) casillas de la tabla de 0x60A4 -con la jaula
+            # todavia cerrada, las 0x92- en la columna de la izquierda,
+            # acabando en la tercera fila de la jaula. Nunca son mas de dos, o
+            # sea que las dos cosas caben en un mismo 4x4.
+            cuantas = r[2] & 0x0F
+            jaula = bloque(rom, puntero(rom, 0x606C, 0), 4, 3)
+            dibujo = [[0] + fila for fila in jaula]
+            for f in range(3 - cuantas, 3):
+                dibujo[f][0] = rom[0x60A8 - ORG + f - (3 - cuantas)]
+            out.append(casillas(sala, sitio, r[1] - 1, dibujo,
+                                NOMBRES_NIVEL[t]))
         elif t == 6:
             # 0x6E14: el objeto escondido es UNA casilla, la 0x91, y parpadea
-            out.append((sala, sitio, r[1], "casillas", [[0x91]],
-                        NOMBRES_NIVEL[t]))
+            out.append(casillas(sala, sitio, r[1], [[0x91]],
+                                NOMBRES_NIVEL[t]))
         elif t == 7:
-            out.append((sala, sitio, r[1], "casillas",
-                        bloque(rom, 0x5FC3, 4, 3), NOMBRES_NIVEL[t]))
+            # 0x5F94: con (ix+004h) a cero -o con siete amigos ya recogidos- la
+            # puerta se pinta vacia, y si no, con la calavera y las tibias.
+            cual = 0x5FC3 if (r[2] & 0x3F) else 0x5FCF
+            out.append(casillas(sala, sitio, r[1], bloque(rom, cual, 4, 3),
+                                NOMBRES_NIVEL[t]))
     for sala, lista in enumerate(listas_de_sala(rom, nivel)):
         for t, r in lista:
             if t == 0:
-                out.append((sala, r[0], r[1], "casillas",
-                            bloque_con_tamano(rom, puntero(rom, 0x86D6, 0)),
-                            NOMBRES_SALA[t]))
+                out.append(casillas(
+                    sala, r[0], r[1],
+                    bloque_con_tamano(rom, puntero(rom, 0x86D6, 0)),
+                    NOMBRES_SALA[t]))
             elif t == 1:
-                out.append((sala, r[0], r[1], "casillas",
-                            bloque(rom, 0x8508, 5, 2), NOMBRES_SALA[t]))
+                out.append(casillas(sala, r[0], r[1],
+                                    bloque(rom, 0x8508, 5, 2),
+                                    NOMBRES_SALA[t]))
             elif t == 2:
                 alto = rom[puntero(rom, 0x896C, 2) - ORG]
-                out.append((sala, r[0] - alto, r[1], "casillas",
-                            bloque_con_tamano(rom, puntero(rom, 0x896C, 2)),
-                            NOMBRES_SALA[t]))
+                out.append(casillas(
+                    sala, r[0] - alto, r[1],
+                    bloque_con_tamano(rom, puntero(rom, 0x896C, 2)),
+                    NOMBRES_SALA[t]))
             elif t == 3:
-                # 0x8A6A: la columna es (ix+002h)+1, y con (ix+003h) -el bit 6
-                # del segundo byte- puesto se va tres casillas a la izquierda y
-                # el dibujo pasa a ser el del chorro hacia el otro lado.
-                lado = (r[1] >> 6) & 1
+                # 0x8A6A: la columna es (ix+002h)+1, y con (ix+003h) -el bit 7
+                # del segundo byte, que es el que 0x8EF1 se lleva aparte-
+                # puesto se va tres casillas a la izquierda y el dibujo pasa a
+                # ser el del chorro hacia el otro lado.
+                lado = (r[1] >> 7) & 1
                 col = (r[1] & 0x7F) + 1 - (3 if lado else 0)
-                out.append((sala, r[0], col, "casillas",
-                            bloque(rom, 0x8AA5 + 4 * lado, 2, 2),
-                            NOMBRES_SALA[t]))
+                out.append(casillas(sala, r[0], col,
+                                    bloque(rom, 0x8AA5 + 4 * lado, 2, 2),
+                                    NOMBRES_SALA[t]))
             elif t == 4:
                 # 0x8ACC: el lanzador no tiene dibujo, lo que se ve es la gota
-                # que suelta. El bit 6 del segundo byte dice hacia donde va y
+                # que suelta. El bit 7 del segundo byte dice hacia donde va y
                 # no mueve el sitio, asi que la columna son los otros siete.
-                out.append((sala, r[0], r[1] & 0x7F, "casillas",
-                            bloque_con_tamano(rom, puntero(rom, 0x8C15, 0)),
-                            NOMBRES_SALA[t]))
-            elif t == 5:                              # este va en pixeles
-                out.append((sala, ((r[1] & 0xF0) | 0x0D) / 8.0,
-                            ((r[1] & 0x0F) << 4) / 8.0, "sprite", (0xA0, 15),
-                            NOMBRES_SALA[t]))
+                out.append(casillas(
+                    sala, r[0], r[1] & 0x7F,
+                    bloque_con_tamano(rom, puntero(rom, 0x8C15, 0)),
+                    NOMBRES_SALA[t]))
+            elif t == 5:
+                # 0x6973 y 0x697A: doce pixeles por encima de la fila y la
+                # columna mas lo que pida la postura. La postura la eligen el
+                # bit 3 del contador de cuadros y el lado (ix+00Ah), que
+                # arranca a cero: la primera pareja de 0x6996, o sea el patron
+                # 0xF8 -el espejo del 0xA0- doce pixeles a la izquierda.
+                out.append(sprite(sala, ((r[1] & 0xF0) | 0x0D) - 12,
+                                  ((r[1] & 0x0F) << 4) - 12, 0xF8, 15,
+                                  NOMBRES_SALA[t]))
             elif t == 6:
                 # 0x6A1A: los dos bytes van ya en pixeles, y 0x6C59 le pone el
-                # patron 0x24 -las alas abiertas- y el color 5
-                out.append((sala, (r[0] - 6) / 8.0, (r[1] - 8) / 8.0,
-                            "sprite", (0x24, 5), NOMBRES_SALA[t]))
+                # patron 0x24 -las alas abiertas- y el color 5, seis pixeles
+                # mas arriba y ocho a la izquierda
+                out.append(sprite(sala, r[0] - 6, r[1] - 8, 0x24, 5,
+                                  NOMBRES_SALA[t]))
             elif t == 7:
                 # 0x91A1: los dos bytes van en pixeles y el sprite se planta
                 # ocho mas arriba y ocho a la izquierda. El patron 0x9C es el
                 # bicho de patas mirando a un lado -0xF4 es su espejo- y el
                 # color, blanco (0x8FDD)
-                out.append((sala, (r[0] - 8) / 8.0, (r[1] - 8) / 8.0,
-                            "sprite", (0x9C, 15), NOMBRES_SALA[t]))
+                out.append(sprite(sala, r[0] - 8, r[1] - 8, 0x9C, 15,
+                                  NOMBRES_SALA[t]))
     return out
 
 
@@ -289,7 +385,10 @@ def mapa_del_nivel(rom, nivel, hueco=12):
         for y, fila in enumerate(dib):
             px[base[s] + y] = list(fila)
     for sala, fila, col, clase, dato, _ in cosas_del_nivel(rom, nivel):
-        y0, x0 = base[sala] + int(fila * 8), int(col * 8)
+        # fila y col vienen YA en casillas de la sala: cosas_del_nivel les ha
+        # quitado las dos filas del marcador, y a los sprites, ademas, la linea
+        # que el VDP les suma. Aqui no se corrige nada mas.
+        y0, x0 = base[sala] + int(round(fila * 8)), int(round(col * 8))
         # nada de una sala puede pintarse en la banda de la de al lado
         tope, suelo = base[sala], base[sala] + 20 * 8
 
@@ -300,7 +399,9 @@ def mapa_del_nivel(rom, nivel, hueco=12):
                 for c, tile in enumerate(linea):
                     if tile == 0:
                         continue
-                    banco = (int(fila) + f + 2) // 8
+                    # el banco de patrones lo fija el TERCIO de PANTALLA, y la
+                    # sala empieza en la fila 2 de la pantalla
+                    banco = (int(fila) + f + FILA_DEL_MARCADOR) // 8
                     if not 0 <= banco <= 2:
                         continue
                     trozo = G.casilla(v, tile, banco)
@@ -309,21 +410,13 @@ def mapa_del_nivel(rom, nivel, hueco=12):
                             fy, fx = y0 + f * 8 + y, x0 + c * 8 + x
                             if cabe(fy, fx):
                                 px[fy][fx] = trozo[y][x]
-        elif clase == "jugador":
-            fig = F.figura_del_jugador(v, rom, dato)
-            for y in range(32):
-                for x in range(32):
-                    if fig[y][x] != (0, 0, 0):
-                        fy, fx = y0 - 24 + y, x0 - 12 + x
-                        if cabe(fy, fx):
-                            px[fy][fx] = fig[y][x]
         elif clase == "sprite":
             recorte = [[(0, 0, 0)] * 16 for _ in range(16)]
             F.pinta_sprite(recorte, v, dato[0], dato[1], 0, 0)
             for y in range(16):
                 for x in range(16):
                     if recorte[y][x] != (0, 0, 0):
-                        fy, fx = y0 - 12 + y, x0 - 4 + x
+                        fy, fx = y0 + y, x0 + x
                         if cabe(fy, fx):
                             px[fy][fx] = recorte[y][x]
     return px

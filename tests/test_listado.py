@@ -750,3 +750,166 @@ class TestListasDeLosNiveles(unittest.TestCase):
                     self.assertLessEqual(cuantos, tope,
                                          "nivel %d sala %d: %d %s"
                                          % (nivel, sala + 1, cuantos, que))
+
+
+def instrucciones_del_asm():
+    """Que instruccion hay en cada direccion, leyendola del propio listado.
+
+    Cada linea de codigo lleva su direccion en el primer comentario, asi que se
+    puede preguntar "que hay en 0x5F69" sin tener el cartucho delante. Es la
+    forma de anclar en el CODIGO las cuentas que hacen las herramientas de
+    dibujo, en vez de repetirlas en el test -que no vigilaria nada-.
+    """
+    fuera = {}
+    for ln in lineas_del_asm():
+        m = re.match(r"^\t(.*?)\t*;([0-9a-f]{4})(?:\s|$)", ln)
+        if m and not m.group(1).startswith(("defb", "defw")):
+            fuera[int(m.group(2), 16)] = m.group(1).strip()
+    return fuera
+
+
+CODIGO = instrucciones_del_asm()
+
+
+class TestLoQueSeDibujaEncimaDeLaSala(unittest.TestCase):
+    """De donde salen las posiciones con las que tools/mapas.py pinta.
+
+    Todo lo que el juego planta encima de una sala -las puertas, las jaulas,
+    los trastos, los bichos- se coloca con la fila de la PANTALLA, no con la de
+    la sala: las dos primeras filas son el marcador. Y los sprites, ademas,
+    salen una linea por debajo de su atributo. Aqui se comprueba, sobre el
+    codigo y sobre los datos, cada una de esas cuentas: son las que se
+    equivocaron una vez y dejaron todo dos filas mas abajo.
+    """
+
+    def instr(self, dire):
+        self.assertIn(dire, CODIGO, "0x%04X no sale como codigo" % dire)
+        return CODIGO[dire]
+
+    def test_las_bases_de_las_salas_llevan_dos_filas_de_sesgo(self):
+        """0x45FF contra 0x5F40: 0x40 bytes, o sea DOS filas de 32 casillas.
+
+        Es la resta que hace que la fila 2 de la pantalla sea la 0 de la sala.
+        """
+        sesgadas = trozo(0x45FF, 8)
+        limpias = trozo(0x5F40, 8)
+        for i in range(4):
+            a = sesgadas[2 * i] | (sesgadas[2 * i + 1] << 8)
+            b = limpias[2 * i] | (limpias[2 * i + 1] << 8)
+            self.assertEqual(b - a, 0x40, "la sala %d" % (i + 1))
+        # y el constructor del mapa arranca en esa fila 2
+        self.assertEqual(self.instr(0x59BC), "ld hl,00002h")
+        # mientras que la cuenta contra la pantalla parte de la tabla de nombres
+        self.assertEqual(self.instr(0x45E6), "ld de,03800h")
+
+    def test_la_puerta_al_nivel_es_el_arco_de_la_calavera(self):
+        """0x5F69 carga 0x5F78 -la calavera blanca- y pinta un 4x3."""
+        self.assertEqual(self.instr(0x5F69), "ld de,05f78h")
+        self.assertEqual(self.instr(0x5F6C), "ld bc,00403h")
+        self.assertEqual(self.instr(0x5F6F), "ld l,(ix+002h)")
+        self.assertEqual(self.instr(0x5F72), "ld h,(ix+003h)")
+        # doce casillas, que son las cuatro filas de tres
+        self.assertEqual(len(trozo(0x5F78, 12)), 12)
+
+    def test_la_puerta_del_nivel_elige_entre_dos_arcos(self):
+        """0x5F94: con (ix+004h) a cero el arco vacio, y si no el de la calavera."""
+        self.assertEqual(self.instr(0x5F94), "ld a,(ix+004h)")
+        self.assertEqual(self.instr(0x5F9A), "ld de,05fc3h")
+        self.assertEqual(self.instr(0x5FA4), "ld de,05fcfh")
+        # y los dos arcos son distintos: si fueran iguales, elegir no importaria
+        self.assertNotEqual(trozo(0x5FC3, 12), trozo(0x5FCF, 12))
+
+    def test_la_columna_crece_hacia_abajo(self):
+        """0x8737 arranca en (ix+002h) y 0x8773 INCREMENTA: la punta va arriba."""
+        self.assertEqual(self.instr(0x8737), "ld a,(ix+002h)")
+        self.assertEqual(self.instr(0x873A), "ld (ix+007h),a")
+        self.assertEqual(self.instr(0x8773), "inc (ix+007h)")
+        self.assertEqual(self.instr(0x8760), "ld l,(ix+007h)")
+
+    def test_el_lado_del_chorro_y_de_la_gotera_es_el_bit_7(self):
+        """0x8EED se queda con siete bits y 0x8EF1 saca el de mas peso."""
+        self.assertEqual(self.instr(0x8EED), "and 07fh")
+        self.assertEqual(self.instr(0x8EF1), "ld a,(hl)")
+        self.assertEqual(self.instr(0x8EF2), "rla")
+        self.assertEqual(self.instr(0x8EF3), "rla")
+        self.assertEqual(self.instr(0x8EF4), "and 001h")
+
+    def test_los_desplazamientos_de_cada_sprite(self):
+        """Cada bicho monta su atributo con un desplazamiento propio."""
+        for dire, texto, quien in (
+                (0x65A9, "ld a,0f0h", "el bicho de un solo sprite, la fila"),
+                (0x65AF, "ld a,0f8h", "el mismo, la columna"),
+                (0x6976, "add a,0f4h", "la calavera, la fila"),
+                (0x6C5F, "sub 006h", "el murcielago, la fila"),
+                (0x6C66, "sub 008h", "el murcielago, la columna"),
+                (0x91A2, "add a,0f8h", "el bicho de patas, la fila"),
+                (0x91A8, "add a,0f8h", "el bicho de patas, la columna")):
+            self.assertEqual(self.instr(dire), texto, quien)
+        # y la calavera, ademas, corre la columna segun la postura
+        self.assertEqual(trozo(0x6996, 8), [0xF4, 0xF8, 0xFC, 0xA0,
+                                            0xF4, 0xFE, 0xFC, 0xA4])
+
+
+class TestMapasDibujaDondeElCartuchoPinta(unittest.TestCase):
+    """Lo que tools/mapas.py coloca, contra lo MEDIDO en el emulador.
+
+    Estas cifras no estan deducidas: salen de dejar correr el cartucho en
+    openMSX, volcar la tabla de nombres y la de atributos de sprite y restarle
+    el mapa de la sala. Lo que queda son estas fichas en estas filas y con
+    estas casillas, y aqui se congelan para que no se vuelvan a torcer.
+    """
+
+    ROM = os.path.join(RAIZ, "goonies.rom")
+
+    # (nivel, sala, nombre, fila, columna, las casillas de su primera fila)
+    CASILLAS = (
+        (1, 0, "puerta", 6, 12, (0xA6, 0xAC, 0xB0)),        # el arco VACIO
+        (1, 0, "jaula", 12, 22, (0x00, 0xD5, 0x76, 0xF7)),  # con su columnita
+        (1, 0, "estalactita", 5, 15, (0x55, 0x56)),
+        (1, 0, "trasto", 14, 11, (0x86,)),
+        (1, 3, "puerta al nivel", 2, 13, (0xD2, 0x82, 0xF4)),
+        (1, 3, "puerta al nivel", 2, 24, (0xD2, 0x82, 0xF4)),
+        (25, 0, "columna que crece", 0, 7, (0xC1, 0xE3)),
+        (25, 0, "columna que crece", 7, 7, (0xC2, 0xE4)),
+    )
+    # (nivel, sala, nombre, fila, columna) en casillas, con decimales
+    SPRITES = (
+        (1, 3, "calavera", 4.25, 16.50),
+        (1, 3, "calavera", 10.25, 18.50),
+        (1, 3, "calavera", 14.25, 10.50),
+        (4, 0, "calavera", 12.25, 16.50),
+        (4, 0, "calavera", 14.25, 0.50),
+        (4, 0, "perseguidor", 7.75, 19.00),
+        (4, 3, "murcielago", 9.875, 3.50),
+    )
+
+    @classmethod
+    def setUpClass(cls):
+        if not os.path.exists(cls.ROM):
+            raise unittest.SkipTest("hace falta goonies.rom")
+        import mapas
+        cls.M = mapas
+        cls.rom = open(cls.ROM, "rb").read()
+
+    def cosas(self, nivel):
+        return self.M.cosas_del_nivel(self.rom, nivel)
+
+    def test_las_casillas_caen_donde_las_pinta_el_cartucho(self):
+        for nivel, sala, nombre, fila, col, primera in self.CASILLAS:
+            cuadra = [x for x in self.cosas(nivel)
+                      if x[0] == sala and x[5] == nombre
+                      and x[1] == fila and x[2] == col]
+            self.assertTrue(cuadra, "%s del nivel %d sala %d: nada en la fila"
+                                    " %s columna %s" % (nombre, nivel, sala + 1,
+                                                        fila, col))
+            self.assertEqual(tuple(cuadra[0][4][0][:len(primera)]), primera,
+                             "%s del nivel %d" % (nombre, nivel))
+
+    def test_los_sprites_caen_donde_los_pone_el_vdp(self):
+        for nivel, sala, nombre, fila, col in self.SPRITES:
+            cuadra = [x for x in self.cosas(nivel)
+                      if x[0] == sala and x[5] == nombre
+                      and abs(x[1] - fila) < 1e-9 and abs(x[2] - col) < 1e-9]
+            self.assertTrue(cuadra, "%s del nivel %d sala %d: nada en la fila"
+                                    " %s columna %s" % (nombre, nivel, sala + 1,
+                                                        fila, col))

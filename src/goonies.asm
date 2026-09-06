@@ -4101,12 +4101,15 @@ DATA_jaula_con_el_frasco:
 	defb 065h,040h,067h	; 60a1
 
 ; ----------------------------------------------------------------------
-; DATOS fila_de_debajo_de_la_jaula: ocho bytes en dos mitades: las cuatro
-;   primeras a cero y las cuatro siguientes la casilla 0x92. 0x6056 entra con
-;   4-c, asi que la jaula se remata por abajo de un modo u otro segun en que
-;   columna caiga
+; DATOS columnita_de_al_lado_de_la_jaula: ocho bytes en dos mitades: las
+;   cuatro primeras a cero y las cuatro siguientes la casilla 0x92. 0x605C
+;   pinta con ellos una columnita en la casilla de la IZQUIERDA de la jaula,
+;   tantas casillas como diga (ix+004h) y acabando en la tercera fila del
+;   arco. 0x6056 entra con cuatro menos los dos bits bajos del estado, asi que
+;   cuanto mas alto es el estado mas ceros -que borran- vienen por delante de
+;   las 0x92
 ;   0x60a4..0x60ac  (8 bytes)
-DATA_fila_de_debajo_de_la_jaula:
+DATA_columnita_de_al_lado_de_la_jaula:
 	defb 000h,000h,000h,000h,092h,092h,092h,092h	; 60a4  ........
 
 ; ======================================================================
@@ -9987,7 +9990,7 @@ crece_la_columna:
 L_875C:
 	ld a,b			;875c
 	call puntero_numero_a		;875d
-	ld l,(ix+007h)		;8760   ; la fila, que sube
+	ld l,(ix+007h)		;8760   ; la fila, que va BAJANDO: 0x8733 arranca en (ix+002h) y 0x8773 la incrementa, o sea que la punta queda arriba y la base, al cabo de (ix+004h) casillas, abajo
 	ld h,(ix+003h)		;8763   ; y la columna, que no cambia
 	push hl			;8766
 	push de			;8767

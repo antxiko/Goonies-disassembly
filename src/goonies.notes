@@ -821,7 +821,7 @@ D 0x608c 0x6098 jaula_con_el_goonie  el arco con el amigo preso dentro
 F 0x608c 3
 D 0x6098 0x60a4 jaula_con_el_frasco  el arco con el frasco
 F 0x6098 3
-D 0x60a4 0x60ac fila_de_debajo_de_la_jaula  ocho bytes en dos mitades: las cuatro primeras a cero y las cuatro siguientes la casilla 0x92. 0x6056 entra con 4-c, asi que la jaula se remata por abajo de un modo u otro segun en que columna caiga
+D 0x60a4 0x60ac columnita_de_al_lado_de_la_jaula  ocho bytes en dos mitades: las cuatro primeras a cero y las cuatro siguientes la casilla 0x92. 0x605C pinta con ellos una columnita en la casilla de la IZQUIERDA de la jaula, tantas casillas como diga (ix+004h) y acabando en la tercera fila del arco. 0x6056 entra con cuatro menos los dos bits bajos del estado, asi que cuanto mas alto es el estado mas ceros -que borran- vienen por delante de las 0x92
 F 0x60a4 8
 D 0x635c 0x6365 nueve_casillas  0x6329 entra con (ix+00dh) y compara con 0xAF
 F 0x635c 9
@@ -2399,7 +2399,7 @@ C 0x874c por donde va
 C 0x874f si es la primera casilla, la punta
 C 0x8756 si es la ultima, la ancha
 C 0x875b y entre medias, la de en medio
-C 0x8760 la fila, que sube
+C 0x8760 la fila, que va BAJANDO: 0x8733 arranca en (ix+002h) y 0x8773 la incrementa, o sea que la punta queda arriba y la base, al cabo de (ix+004h) casillas, abajo
 C 0x8763 y la columna, que no cambia
 C 0x8768 se pinta en la pantalla
 C 0x8770 y ADEMAS se planta en la sala: la columna pasa a ser suelo de verdad, no solo dibujo
