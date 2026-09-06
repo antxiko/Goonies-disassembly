@@ -8,6 +8,7 @@ Soporta lo que usamos de Markdown: encabezados, parrafos, listas, tablas,
 bloques de codigo, citas, enlaces, imagenes, negrita, cursiva, codigo en linea
 y separadores.
 """
+import hashlib
 import html
 import os
 import re
@@ -16,6 +17,35 @@ import unicodedata
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from estilo_web import ESTILO  # noqa: E402
+
+
+# La carpeta desde la que se resuelven las rutas relativas de las imagenes. La
+# fija main() antes de convertir nada, y solo la usa version_de().
+BASE = "."
+
+
+def version_de(src):
+    """Le pega ?v=<ocho hex del contenido> a una imagen del propio sitio.
+
+    Sin esto, republicar una imagen CON EL MISMO NOMBRE no le llega a quien ya
+    la tenia vista: el navegador sirve la que guardo y no vuelve a pedirla, y
+    la pagina sigue enseñando el dibujo viejo aunque el servidor tenga el nuevo.
+    Paso de verdad con las cien salas: las 109 imagenes del servidor eran ya las
+    corregidas -comprobadas una a una por sha256- y en el movil seguian saliendo
+    las de antes.
+
+    La marca sale del CONTENIDO, no de la fecha ni de un numero que haya que
+    acordarse de subir: mientras la imagen no cambie, la URL no cambia y la
+    cache sigue valiendo. Una imagen que no exista se deja tal cual, que ya la
+    caza check_enlaces.py.
+    """
+    if src.startswith(("http", "data:", "#")) or "?" in src:
+        return src
+    fich = os.path.normpath(os.path.join(BASE, src))
+    if not os.path.isfile(fich):
+        return src
+    with open(fich, "rb") as f:
+        return "%s?v=%s" % (src, hashlib.sha1(f.read()).hexdigest()[:8])
 
 
 # Un menu por idioma. La web se publica en ingles en la raiz de docs/ y en
@@ -79,7 +109,9 @@ def enlinea(t):
         return "\x00%d\x01" % (len(codigos) - 1)
 
     s = html.escape(re.sub(r"`([^`]+)`", aparta, t))
-    s = re.sub(r"!\[([^\]]*)\]\(([^)]+)\)", r'<img src="\2" alt="\1">', s)
+    s = re.sub(r"!\[([^\]]*)\]\(([^)]+)\)", lambda m:
+               '<img src="%s" alt="%s">' % (version_de(m.group(2)), m.group(1)),
+               s)
     s = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", lambda m:
                f'<a href="{ruta(m.group(2))}">{m.group(1)}</a>', s)
     s = re.sub(r"\*\*([^*]+)\*\*", r"<b>\1</b>", s)
@@ -90,8 +122,8 @@ def enlinea(t):
 # La web se sirve desde docs/, asi que lo que este fuera de esa carpeta no
 # existe para el navegador: esos enlaces se mandan al repositorio. Se puede
 # cambiar sin tocar el codigo con la variable de entorno.
-REPO = os.environ.get("HYPERRALLY_REPO",
-                      "https://github.com/antxiko/HyperRally-disassembly")
+REPO = os.environ.get("GOONIES_REPO",
+                      "https://github.com/antxiko/Goonies-disassembly")
 
 
 def ruta(href):
@@ -222,6 +254,10 @@ def convierte(texto, titulo, actual, idioma="en"):
 
 
 def main(docdir, idioma="en"):
+    # Las imagenes se citan relativas al documento, asi que la marca de version
+    # hay que buscarla desde la carpeta en la que vive.
+    global BASE
+    BASE = docdir
     # Solo se convierten las paginas del menu. En docs/ viven ademas los
     # documentos de trabajo con las medidas en crudo, que no son parte de la
     # web y se quedan como estan.

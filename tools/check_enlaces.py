@@ -25,8 +25,11 @@ def main(raiz_web):
                 if destino.startswith(("http", "#", "data:", "mailto:")):
                     continue
                 total += 1
+                # Las imagenes llevan ?v=<hash> para que el navegador no sirva
+                # de su cache la version anterior (md2html.version_de). El
+                # fichero es el de delante del interrogante.
                 objetivo = os.path.normpath(
-                    os.path.join(raiz, destino.split("#")[0]))
+                    os.path.join(raiz, destino.split("#")[0].split("?")[0]))
                 if not os.path.exists(objetivo):
                     rotos.append((p, destino))
     for p, d in rotos:

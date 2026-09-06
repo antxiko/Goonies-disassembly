@@ -84,28 +84,28 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 </style>
 <div class="w"><nav class="top"><a href="index.html">Home</a><a href="GETTING-STARTED.html">Start</a><a href="THE-GAME.html" style=color:var(--tinta)>The game</a><a href="THE-LEVELS.html">The 100 rooms</a><a href="THE-CARTRIDGE.html">The cartridge</a><a href="THE-CODE.html">The code</a><a href="FINDINGS.html">Findings</a><a href="IN-THE-EMULATOR.html">In the emulator</a><a href="OPEN-QUESTIONS.html">Open questions</a><a href="es/EL-JUEGO.html" style="margin-left:auto;color:var(--oro)">Castellano</a></nav>
 <h1 id="the-game">The game</h1>
-<p><img src="imagenes/rotulo.png" alt="The title screen"></p>
+<p><img src="imagenes/rotulo.png?v=f6ce4fad" alt="The title screen"></p>
 <p><em>The title screen, drawn from the ROM. The caption reads <b>© KONAMI 1986</b>, with the 1985 Warner Bros. trademark notice below.</em></p>
 <p>Mikey goes down into the Astoria caves to rescue the other seven Goonies and find One-Eyed Willy&#x27;s treasure. There are <b>twenty-five levels across five rounds of five</b>, and each level is <b>four rooms</b> of 32x20 tiles.</p>
 <h2 id="what-you-do-in-a-level">What you do in a level</h2>
 <p>Get your friends out of their cages. Each one freed bumps the counter at <code>(0xE130)</code>, and <b>with seven the skull door opens</b> — the one that lets you through to the next level. The key is <code>(0xE121)</code>.</p>
 <p>You move between rooms by walking off the sides. The link is not geometric: it is <b>two twin tables of 19 rows by 4 columns</b> (<code>0x52DB</code> and <code>0x5327</code>), and which one gets consulted depends on which side you leave by — the left one if the column drops below <code>0x15</code>, the right one if it reaches <code>0xC0</code>. The row is picked by the level&#x27;s <em>room layout</em>, one of the 25 bytes at <code>0x9D67</code>.</p>
 <h2 id="the-player">The player</h2>
-<p><img src="imagenes/jugador.png" alt="The sixteen poses"></p>
+<p><img src="imagenes/jugador.png?v=fac8a24c" alt="The sixteen poses"></p>
 <p>Six states — walk, jump, ladder, fall, kick and mid-air kick — and sixteen poses. Each pose is <b>three overlapping 16x16 sprites</b>, assembled by <code>0x586A</code> from a nine-byte entry: y offset, x offset and pattern number, three times over.</p>
 <p>Speed carries a fraction: <code>0x0110</code> normally — one and one sixteenth pixels per frame — and <code>0x0180</code> with item 0, which is one and a half.</p>
 <h2 id="the-green-ropes">The green ropes</h2>
 <p>You climb and descend them, and they are not decoration: <b>tile <code>0x41</code> is the foot of a rope</b> and you go up by pressing up; <b>tile <code>0x53</code> is the head</b>, the one hanging from a platform, and you go down by pressing down (<code>0x66E4</code>). The creatures use exactly the same ones.</p>
 <h2 id="the-hazards">The hazards</h2>
-<p><img src="imagenes/puertas-y-jaulas.png" alt="Doors and cages"></p>
+<p><img src="imagenes/puertas-y-jaulas.png?v=bfee4b76" alt="Doors and cages"></p>
 <p><em>The skull door — shut and open — the door to the next level, and the four cages: shut, open, with the friend inside and with the item inside.</em></p>
 <p>Each level brings two lists. The <b>level list</b> sits right behind the eighty bytes of the map and spreads things across the four rooms; the <b>four room lists</b> hang off a per-level table. Both are read the same way (<code>0x8D64</code> and <code>0x8E73</code>): a byte <code>0xF0+type</code> opens a run, its records follow, and <code>0xFF</code> closes.</p>
 <table><tr><th>type</th><th>LEVEL list</th><th>ROOM list</th></tr><tr><td>0</td><td>rising column</td><td>water jet</td></tr><tr><td>1</td><td>stalactite</td><td>boulder</td></tr><tr><td>2</td><td><b>the chaser</b></td><td>flame</td></tr><tr><td>3</td><td>the door to the next level</td><td>pipe leak</td></tr><tr><td>4</td><td>blinking pickup</td><td>the spot that drips</td></tr><tr><td>5</td><td>cage</td><td>skull</td></tr><tr><td>6</td><td>hidden item</td><td>bat</td></tr><tr><td>7</td><td>the skull door</td><td>the many-legged creature</td></tr></table>
 <p><code>0x7A9E</code> runs through the seven damaging hazards and leaves the bit in <code>(ix+00Ah)</code>, which is also where the player&#x27;s colour comes from: water jet <code>0x01</code>, stalactite <code>0x02</code>, drip <code>0x04</code>, flame <code>0x08</code>, column <code>0x10</code>, leak <code>0x20</code> and boulder <code>0x40</code>.</p>
-<p><img src="imagenes/bichos.png" alt="The creatures"></p>
+<p><img src="imagenes/bichos.png?v=5481e63f" alt="The creatures"></p>
 <p><em>The single-square sprite patterns, in the six colours the game uses. The colour is not in the drawing: it lives in the attribute.</em></p>
 <h2 id="the-inventory">The inventory</h2>
-<p><img src="imagenes/objetos.png" alt="The twenty-three items"></p>
+<p><img src="imagenes/objetos.png?v=b1c9ed9c" alt="The twenty-three items"></p>
 <p><em>The twenty-three items, with the level each appears in underneath.</em></p>
 <p>Twenty-three items, and the bottom row shows up to twelve 2x2 icons. They live in three places: <code>0xE176</code> one bit per item, <code>0xE180</code> which slot each occupies in the row, and the table at <code>0x6F68</code> its icon.</p>
 <p>And they are not trophies: <b>they are shields with charges</b>. The list at <code>0x7D9B</code> says which item stops which hazard; carrying it, the hit spends a charge of <code>(0xE150+item)</code> instead of taking energy, and when the charges run out the item is lost.</p>

@@ -913,3 +913,53 @@ class TestMapasDibujaDondeElCartuchoPinta(unittest.TestCase):
             self.assertTrue(cuadra, "%s del nivel %d sala %d: nada en la fila"
                                     " %s columna %s" % (nombre, nivel, sala + 1,
                                                         fila, col))
+
+
+class TestLaCacheNoPuedeServirUnaImagenVieja(unittest.TestCase):
+    """Cada imagen de la web va con la marca de su propio contenido.
+
+    Se corrigieron las cien salas, se publicaron, y en el movil seguian saliendo
+    las de antes: las 109 imagenes del servidor eran ya las buenas -comprobadas
+    una a una por sha256- pero el navegador no volvia a pedirlas, porque el
+    nombre del fichero no habia cambiado. Con `?v=<hash del contenido>` la URL
+    cambia justo cuando cambia el dibujo, asi que la cache deja de valer sola.
+
+    Sin esto no hay aviso de ninguna clase: la web se genera bien, los enlaces
+    comprueban y quien nunca la haya visto la ve correcta. Solo la ve mal el que
+    ya estaba mirando.
+    """
+
+    def imagenes_del_html(self):
+        """(fichero html, src tal cual, ruta del png) de cada <img> local."""
+        for raiz, _, ficheros in os.walk(DOCS):
+            for fn in sorted(ficheros):
+                if not fn.endswith(".html"):
+                    continue
+                p = os.path.join(raiz, fn)
+                texto = open(p, encoding="utf-8").read()
+                for m in re.finditer(r'<img src="([^"]+)"', texto):
+                    src = m.group(1)
+                    if src.startswith(("http", "data:")):
+                        continue
+                    yield p, src, os.path.normpath(
+                        os.path.join(raiz, src.split("?")[0]))
+
+    def test_toda_imagen_lleva_la_marca_de_su_contenido(self):
+        import hashlib
+        vistas = 0
+        for p, src, fich in self.imagenes_del_html():
+            vistas += 1
+            self.assertIn("?v=", src,
+                          "%s saca %s sin marca de version: quien la tenga "
+                          "en cache seguira viendo la vieja"
+                          % (os.path.basename(p), src))
+            self.assertTrue(os.path.isfile(fich), "%s no existe" % fich)
+            with open(fich, "rb") as f:
+                esperado = hashlib.sha1(f.read()).hexdigest()[:8]
+            self.assertEqual(src.split("?v=")[1], esperado,
+                             "%s: la marca de %s no es la de su contenido, o "
+                             "sea que la web se genero antes de la imagen"
+                             % (os.path.basename(p), src))
+        # y que de verdad haya mirado algo: si el barrido no encuentra
+        # imagenes, las dos comprobaciones de arriba pasan sin vigilar nada
+        self.assertGreater(vistas, 100, "solo %d imagenes barridas" % vistas)
