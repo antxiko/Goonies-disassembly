@@ -1806,16 +1806,26 @@ C 0xb5fa el 0x00 quiere decir para siempre
 C 0xb601 y si no, se vuelve a la direccion que trae el guion
 C 0xb60d dos bytes de la orden
 C 0xb610 la cuenta se reinicia
-B 0xb61b ENCENDER O APAGAR UNA VOZ EN EL MEZCLADOR
-L 0xb61b mezclador
+B 0xb61b EL MEZCLADOR. OJO: las tres rotaciones dan 0x08, 0x10 y 0x20, o sea
+B 0xb61b los bits del RUIDO, no los del tono. La copia del registro 7 (0xE048)
+B 0xb61b arranca a cero con el borrado de 0x4098 y esta es la UNICA rutina del
+B 0xb61b cartucho que escribe el registro 7, asi que los tonos de las voces A
+B 0xb61b y C quedan abiertos de principio a fin: para callar una voz se le baja
+B 0xb61b el volumen, no se cierra aqui.
+B 0xb61b Y el sentido de D es el contrario del que parece: el `dec d` manda al
+B 0xb61b `or e` con D=1, y el registro 7 del PSG va al reves, asi que con D=1
+B 0xb61b el bit se PONE y el ruido se APAGA.
+B 0xb61b La voz B es la excepcion: 0xB630 le cierra el tono salvo cuando su
+B 0xb61b ruido esta cerrado, o sea que suena a ruido O a tono, nunca a los dos.
+L 0xb61b enciende_o_apaga_el_ruido
 C 0xb61b la copia del registro 7
 C 0xb61f c es 1, 3 o 5: la voz
-C 0xb625 tres rotaciones dejan el bit de esa voz en su sitio del registro 7
-C 0xb628 con d a cero se apaga
-C 0xb62b y se quita el bit
-C 0xb62f con d a uno se enciende
-C 0xb630 el bit 1 es la voz B del ruido, que se deja siempre puesta
-C 0xb632 salvo si el bit 4 lo pide
+C 0xb625 tres rotaciones dejan 0x08, 0x10 o 0x20, los bits de RUIDO
+C 0xb628 con D a uno...
+C 0xb62b el bit se quita y el ruido suena
+C 0xb62f ...el bit se pone y el ruido calla
+C 0xb630 el bit 1 es el TONO de la voz B, que se cierra siempre
+C 0xb632 salvo cuando su ruido -el bit 4- esta cerrado, y entonces se abre
 L 0xb638 escribe_el_mezclador
 C 0xb63c el registro 7 del PSG es el mezclador
 B 0xb641 EL SONIDO DE CADA CUADRO
@@ -1856,7 +1866,7 @@ C 0xb71a mas el ataque
 B 0xb723 CALLAR LA VOZ
 L 0xb723 calla_la_voz
 C 0xb726 lo ultimo que sono, apuntado
-C 0xb729 se apaga en el mezclador
+C 0xb729 con D=1: se cierra el ruido de esa voz
 C 0xb72f y la voz queda libre
 C 0xb736 volumen cero
 C 0xb739 solo la tercera voz

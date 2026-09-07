@@ -13732,9 +13732,19 @@ L_B616:
 	jr mira_si_hay_pieza_nueva		;b619
 
 ; ----------------------------------------------------------------------
-; ENCENDER O APAGAR UNA VOZ EN EL MEZCLADOR
+; EL MEZCLADOR. OJO: las tres rotaciones dan 0x08, 0x10 y 0x20, o sea
+; los bits del RUIDO, no los del tono. La copia del registro 7 (0xE048)
+; arranca a cero con el borrado de 0x4098 y esta es la UNICA rutina del
+; cartucho que escribe el registro 7, asi que los tonos de las voces A
+; y C quedan abiertos de principio a fin: para callar una voz se le baja
+; el volumen, no se cierra aqui.
+; Y el sentido de D es el contrario del que parece: el `dec d` manda al
+; `or e` con D=1, y el registro 7 del PSG va al reves, asi que con D=1
+; el bit se PONE y el ruido se APAGA.
+; La voz B es la excepcion: 0xB630 le cierra el tono salvo cuando su
+; ruido esta cerrado, o sea que suena a ruido O a tono, nunca a los dos.
 ; ----------------------------------------------------------------------
-mezclador:
+enciende_o_apaga_el_ruido:
 	ld a,(0e048h)		;b61b   ; la copia del registro 7
 	ld e,a			;b61e
 	ld a,c			;b61f   ; c es 1, 3 o 5: la voz
@@ -13742,19 +13752,19 @@ mezclador:
 	jr z,L_B625		;b622
 	dec a			;b624
 L_B625:
-	rlca			;b625   ; tres rotaciones dejan el bit de esa voz en su sitio del registro 7
+	rlca			;b625   ; tres rotaciones dejan 0x08, 0x10 o 0x20, los bits de RUIDO
 	rlca			;b626
 	rlca			;b627
-	dec d			;b628   ; con d a cero se apaga
+	dec d			;b628   ; con D a uno...
 	jr z,L_B62F		;b629
-	cpl			;b62b   ; y se quita el bit
+	cpl			;b62b   ; el bit se quita y el ruido suena
 	and e			;b62c
 	jr L_B630		;b62d
 L_B62F:
-	or e			;b62f   ; con d a uno se enciende
+	or e			;b62f   ; ...el bit se pone y el ruido calla
 L_B630:
-	set 1,a		;b630   ; el bit 1 es la voz B del ruido, que se deja siempre puesta
-	bit 4,a		;b632   ; salvo si el bit 4 lo pide
+	set 1,a		;b630   ; el bit 1 es el TONO de la voz B, que se cierra siempre
+	bit 4,a		;b632   ; salvo cuando su ruido -el bit 4- esta cerrado, y entonces se abre
 	jr z,escribe_el_mezclador		;b634
 	res 1,a		;b636
 escribe_el_mezclador:
@@ -13800,7 +13810,7 @@ voz_callada:
 apaga_la_voz_del_mezclador:
 	bit 6,a		;b676
 	ld d,001h		;b678   ; la voz que toca
-	call z,mezclador		;b67a
+	call z,enciende_o_apaga_el_ruido		;b67a
 mira_si_hay_pieza_nueva:
 	ld a,(0e07fh)		;b67d   ; la pieza pedida
 	or a			;b680
@@ -13866,7 +13876,7 @@ L_B6E3:
 	ld a,006h		;b6e3   ; el registro 6 es el periodo del ruido
 	call 00093h		;b6e5   ; BIOS WRTPSG - Writes data to PSG-register
 	ld d,000h		;b6e8
-	call mezclador		;b6ea
+	call enciende_o_apaga_el_ruido		;b6ea
 	inc hl			;b6ed
 mira_si_es_la_tercera:
 	bit 6,(ix+002h)		;b6ee   ; el bit 6 de la voz
@@ -13912,8 +13922,8 @@ L_B713:
 calla_la_voz:
 	ld a,(ix+002h)		;b723
 	ld (0e049h),a		;b726   ; lo ultimo que sono, apuntado
-	ld d,001h		;b729   ; se apaga en el mezclador
-	call mezclador		;b72b
+	ld d,001h		;b729   ; con D=1: se cierra el ruido de esa voz
+	call enciende_o_apaga_el_ruido		;b72b
 	xor a			;b72e
 	ld (ix+002h),a		;b72f   ; y la voz queda libre
 	ld (ix+00bh),a		;b732
