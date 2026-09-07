@@ -26,8 +26,11 @@ touch.
 This cartridge **never reads it**: `tools/quien_lee.py` gives zero references to
 `0x4010..0x401E`. It is there for the cartridge next door to read.
 
-Only four Konami cartridges carry it: Konami's Soccer (RC-732), this one,
-Nemesis (RC-742) and F-1 Spirit (RC-752).
+Seven of the Konami ROMs here carry it, five of them disassembled in this
+series: Konami's Soccer and Football (RC-732), this one, Konami's Boxing
+(RC-736), Yie Ar Kung-Fu II (RC-737), Knightmare (RC-739), Nemesis (RC-742) and
+F-1 Spirit (RC-752). The marker in front goes by **year**, not by catalogue
+number: `AB` on the 1985 ones and `CD` from 1986 on.
 
 ## The hidden mark
 

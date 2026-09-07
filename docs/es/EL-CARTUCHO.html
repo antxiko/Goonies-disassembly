@@ -95,7 +95,7 @@ maquina    MSX1</code></pre>
 <p>La primera es la de siempre: en <code>0x4000</code> van la firma <code>&quot;AB&quot;</code> y la dirección de INIT, que aquí es <code>0x406A</code>. STATEMENT, DEVICE y TEXT están a cero, y los seis bytes reservados también.</p>
 <p>La segunda, en <code>0x4010</code>, no es del MSX: es la del <b>Konami Game Master</b>, el cartucho de trucos de la casa que se enchufa en la otra ranura. Empieza por <code>&quot;CD&quot;</code>, y detrás van <code>07 34</code> — el <code>0x07</code> de los RC-7xx y el <code>0x34</code> de RC-734—, y luego once bytes con las variables que el Game Master quiere tocar.</p>
 <p>Este cartucho <b>no la lee nunca</b>: <code>tools/quien_lee.py</code> da cero referencias a <code>0x4010..0x401E</code>. Está ahí para que la lea el cartucho de al lado.</p>
-<p>Solo cuatro cartuchos de Konami la llevan: Konami&#x27;s Soccer (RC-732), éste, Nemesis (RC-742) y F-1 Spirit (RC-752).</p>
+<p>Siete de las ROM de Konami que hay aquí la llevan, cinco de ellas desensambladas en esta serie: Konami&#x27;s Soccer y Football (RC-732), éste, Konami&#x27;s Boxing (RC-736), Yie Ar Kung-Fu II (RC-737), Knightmare (RC-739), Nemesis (RC-742) y F-1 Spirit (RC-752). El marcador de delante va por <b>año</b> y no por número de catálogo: <code>AB</code> en los de 1985 y <code>CD</code> de 1986 en adelante.</p>
 <h2 id="la-marca-oculta">La marca oculta</h2>
 <p>Al final del cartucho, detrás del relleno <code>0xFF</code>, están el título en katakana escrito <b>del revés</b> y el número de catálogo:</p>
 <pre><code>グーニーズ   34   0xAA</code></pre>

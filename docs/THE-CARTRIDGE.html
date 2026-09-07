@@ -95,7 +95,7 @@ machine    MSX1</code></pre>
 <p>The first is the usual one: at <code>0x4000</code> sit the <code>&quot;AB&quot;</code> signature and the address of INIT, which here is <code>0x406A</code>. STATEMENT, DEVICE and TEXT are zero, and so are the six reserved bytes.</p>
 <p>The second, at <code>0x4010</code>, is not an MSX thing: it is the <b>Konami Game Master</b> header, for the house&#x27;s cheat cartridge that plugs into the other slot. It starts with <code>&quot;CD&quot;</code>, then <code>07 34</code> — the <code>0x07</code> of the RC-7xx range and the <code>0x34</code> of RC-734 — and then eleven bytes with the variables the Game Master wants to touch.</p>
 <p>This cartridge <b>never reads it</b>: <code>tools/quien_lee.py</code> gives zero references to <code>0x4010..0x401E</code>. It is there for the cartridge next door to read.</p>
-<p>Only four Konami cartridges carry it: Konami&#x27;s Soccer (RC-732), this one, Nemesis (RC-742) and F-1 Spirit (RC-752).</p>
+<p>Seven of the Konami ROMs here carry it, five of them disassembled in this series: Konami&#x27;s Soccer and Football (RC-732), this one, Konami&#x27;s Boxing (RC-736), Yie Ar Kung-Fu II (RC-737), Knightmare (RC-739), Nemesis (RC-742) and F-1 Spirit (RC-752). The marker in front goes by <b>year</b>, not by catalogue number: <code>AB</code> on the 1985 ones and <code>CD</code> from 1986 on.</p>
 <h2 id="the-hidden-mark">The hidden mark</h2>
 <p>At the end of the cartridge, behind the <code>0xFF</code> padding, sit the title in katakana written <b>backwards</b> and the catalogue number:</p>
 <pre><code>グーニーズ   34   0xAA</code></pre>

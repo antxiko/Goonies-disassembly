@@ -60,7 +60,7 @@ D 0x54a5 0x54b8 palabra_clave_one_eyed_willy  igual, en 0x3949: la ronda 5
 F 0x54a5 19
 D 0x54b8 0x54ca palabra_clave_goonies  la quinta, y la unica que NO lleva el 0xFF de cierre: nunca se pinta, solo se compara. Los dos bytes de delante estan ahi para que el paso de 19 cuadre; 0x54CA ya es codigo
 F 0x54b8 19
- b7, y con el
+# La marca oculta: los bytes acaban en b7, y con el
 # codigo de la casa -indice = byte - 0x80- salen KU, dakuten, alargador, NI,
 # alargador, SU, dakuten: グーニーズ, o sea Goonies.
 #
