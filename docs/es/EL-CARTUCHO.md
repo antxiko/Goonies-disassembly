@@ -25,11 +25,12 @@ y luego once bytes con las variables que el Game Master quiere tocar.
 Este cartucho **no la lee nunca**: `tools/quien_lee.py` da cero referencias a
 `0x4010..0x401E`. Está ahí para que la lea el cartucho de al lado.
 
-Siete de las ROM de Konami que hay aquí la llevan, cinco de ellas
-desensambladas en esta serie: Konami's Soccer y Football (RC-732), éste,
+Ocho de los juegos de Konami que hay aquí la llevan, y los ocho están
+desensamblados en esta serie: Konami's Soccer y Football (RC-732), éste,
 Konami's Boxing (RC-736), Yie Ar Kung-Fu II (RC-737), Knightmare (RC-739),
-Nemesis (RC-742) y F-1 Spirit (RC-752). El marcador de delante va por **año** y
-no por número de catálogo: `AB` en los de 1985 y `CD` de 1986 en adelante.
+Twin Bee (RC-740), Nemesis (RC-742) y F-1 Spirit (RC-752). El marcador de
+delante va por **año** y no por número de catálogo: `AB` en los de 1985 y
+`CD` de 1986 en adelante.
 
 ## La marca oculta
 
