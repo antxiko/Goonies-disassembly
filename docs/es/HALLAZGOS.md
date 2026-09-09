@@ -2,6 +2,13 @@
 
 ## Las cuatro salas de un nivel no van en columna: van en un plano
 
+*Esto lo encontro **[theNestruo](https://github.com/theNestruo)**, en el
+[issue #1](https://github.com/antxiko/Goonies-disassembly/issues/1). Aqui las
+cien salas se publicaban una a una, sin plano, y el fue quien dijo que en el
+juego van agrupadas por nivel y con formas distintas -y puso de ejemplo los
+niveles 1, 2, 3, 8 y 11-. Todos y cada uno le dan la razon. Lo de abajo es solo
+buscar en los bytes lo que el ya sabia.*
+
 `empieza_el_nivel` (`0x4F82`) saca de `0x9D67` un byte por nivel y lo deja en
 `(0xE06A)`. Ese byte elige una de las **diecinueve** filas de `0x52DB`, cuatro
 bytes, uno por sala.
@@ -37,6 +44,10 @@ Los veinticinco mapas de [Las 100 salas](LOS-NIVELES.html) estan rehechos con
 este reparto.
 
 ## Las 64 puertas de calavera emparejan sin una sola excepcion
+
+*Tambien de **[theNestruo](https://github.com/theNestruo)**, en el mismo issue:
+pidio un minimapa por ronda con las puertas unidas. No habia forma de dibujarlo
+sin saber que puerta va con cual, y buscarlo es lo que destapo esto.*
 
 Cada puerta de calavera son tres bytes, y del tercero `0x8DA8` saca **dos
 cosas**: los seis bits bajos son el nivel al que lleva y los **dos altos la

@@ -17,6 +17,7 @@ herramientas de tools/, y no copiadas de ningun otro proyecto.
 HALLAZGOS = {
     "es": [
         ("Las cuatro salas de un nivel no van en columna: van en un plano",
+         "<p><i>Esto lo encontro <b><a href=\"https://github.com/theNestruo\">theNestruo</a></b>, en el <a href=\"https://github.com/antxiko/Goonies-disassembly/issues/1\">issue #1</a>: las cien salas se publicaban una a una, sin plano, y el dijo que en el juego van agrupadas por nivel y con formas distintas. Lo de abajo es solo buscar en los bytes lo que el ya sabia.</i></p>"
          "<p><code>empieza_el_nivel</code> (<code>0x4F82</code>) saca de "
          "<code>0x9D67</code> un byte por nivel y lo deja en "
          "<code>(0xE06A)</code>. Ese byte elige una de las <b>diecinueve</b> "
@@ -42,6 +43,7 @@ HALLAZGOS = {
          "estan rehechos con este reparto.</p>"),
 
         ("Las 64 puertas de calavera emparejan sin una sola excepcion",
+         "<p><i>Tambien de <b><a href=\"https://github.com/theNestruo\">theNestruo</a></b>, en el mismo issue: pidio un minimapa por ronda con las puertas unidas, y buscar que puerta va con cual es lo que destapo esto.</i></p>"
          "<p>Cada puerta de calavera son tres bytes, y del tercero "
          "<code>0x8DA8</code> saca <b>dos cosas</b>: los seis bits bajos son "
          "el nivel al que lleva y los <b>dos altos la ENTRADA</b>, que es el "
@@ -196,6 +198,7 @@ HALLAZGOS = {
     ],
     "en": [
         ("The four rooms of a level are not a column: they are a plan",
+         "<p><i>Found by <b><a href=\"https://github.com/theNestruo\">theNestruo</a></b>, in <a href=\"https://github.com/antxiko/Goonies-disassembly/issues/1\">issue #1</a>: this page used to publish the hundred rooms one by one, with no plan, and he was the one who said they are grouped per level in different shapes. What follows is only the job of finding in the bytes what he already knew.</i></p>"
          "<p><code>empieza_el_nivel</code> (<code>0x4F82</code>) takes one "
          "byte per level from <code>0x9D67</code> and leaves it in "
          "<code>(0xE06A)</code>. That byte picks one of <b>nineteen</b> rows "
@@ -221,6 +224,7 @@ HALLAZGOS = {
          "rooms</a> are redrawn with it.</p>"),
 
         ("All 64 skull doors pair up without a single exception",
+         "<p><i>Also <b><a href=\"https://github.com/theNestruo\">theNestruo</a></b>, in the same issue: he asked for a minimap per round with the doors joined up, and going after which door goes with which is what turned this up.</i></p>"
          "<p>Each skull door is three bytes, and out of the third "
          "<code>0x8DA8</code> takes <b>two things</b>: the low six bits are "
          "the level it leads to and the <b>top two the ENTRANCE</b>, which is "

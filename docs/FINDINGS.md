@@ -2,6 +2,14 @@
 
 ## The four rooms of a level are not a column: they are a plan
 
+*Found by **[theNestruo](https://github.com/theNestruo)**, in
+[issue #1](https://github.com/antxiko/Goonies-disassembly/issues/1). This page
+used to publish the hundred rooms one by one, with no plan, and he was the one
+who said that in the game they are grouped per level and in different shapes -
+citing levels 1, 2, 3, 8 and 11 as examples. Every one of them proves him
+right. What follows is only the job of finding in the bytes what he already
+knew.*
+
 `empieza_el_nivel` (`0x4F82`) takes one byte per level from `0x9D67` and leaves
 it in `(0xE06A)`. That byte picks one of **nineteen** rows at `0x52DB`, four
 bytes, one per room.
@@ -36,6 +44,11 @@ water at the bottom runs through.
 All twenty-five maps in [The 100 rooms](THE-LEVELS.html) are redrawn with it.
 
 ## All 64 skull doors pair up without a single exception
+
+*Also **[theNestruo](https://github.com/theNestruo)**, in the same issue: he
+asked for a minimap per round with the doors joined by lines. There was no way
+to draw one without knowing which door goes with which, and going after that is
+what turned this up.*
 
 Each skull door is three bytes, and out of the third `0x8DA8` takes **two
 things**: the low six bits are the level it leads to and the **top two the
