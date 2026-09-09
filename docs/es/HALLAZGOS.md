@@ -1,5 +1,57 @@
 # Hallazgos
 
+## Las cuatro salas de un nivel no van en columna: van en un plano
+
+`empieza_el_nivel` (`0x4F82`) saca de `0x9D67` un byte por nivel y lo deja en
+`(0xE06A)`. Ese byte elige una de las **diecinueve** filas de `0x52DB`, cuatro
+bytes, uno por sala.
+
+De cada byte, el **nibble bajo** es la sala a la que se pasa saliendo por la
+izquierda (`0xF`: no hay), y el **alto es LA POSICION** de esa sala en el
+plano. Que es la posicion no es una suposicion: lo dice el perseguidor.
+`0x74C0` compara ese nibble con `0xC0` -los dos bits altos- para decidir si
+tiene que moverse en horizontal, y `0x74C4` con `0x30` -los dos bajos- para la
+vertical. O sea que el nibble es **columna por cuatro mas fila**.
+
+Y encaja con todo lo demas: `0x5327` da la sala de la derecha, y las de arriba
+y abajo son la de ahora menos y mas uno -el `dec b` de `0x529A` y los dos
+`inc b` de `0x52A2`-.
+
+Los veinticinco repartos, contados sobre esos bytes:
+
+| forma | niveles |
+| --- | --- |
+| una columna de cuatro | 1, 10, 15 |
+| una fila de cuatro | 2, 19 |
+| 2x2 | 3, 9, 13, 17, 24, 25 |
+| tres columnas por dos filas | 4, 6, 8, 11, 14, 21 |
+| dos columnas por tres filas | 5, 7, 12, 16, 18, 20, 22, 23 |
+
+La prueba de que el reparto es el bueno esta en el dibujo: montadas asi, **las
+plataformas y las escaleras siguen de una sala a la de al lado**, y el agua del
+fondo se continua.
+
+![El nivel 8](../imagenes/mapa-nivel-08.png)
+
+Los veinticinco mapas de [Las 100 salas](LOS-NIVELES.html) estan rehechos con
+este reparto.
+
+## Las 64 puertas de calavera emparejan sin una sola excepcion
+
+Cada puerta de calavera son tres bytes, y del tercero `0x8DA8` saca **dos
+cosas**: los seis bits bajos son el nivel al que lleva y los **dos altos la
+ENTRADA**, que es el numero de puerta por la que se aparece alli.
+
+Eso convierte las puertas en parejas comprobables: si la puerta *j* del nivel A
+dice (B, *k*), la puerta *k* del nivel B tiene que decir (A, *j*). **Las 64 del
+cartucho lo cumplen**, sin una excepcion, y ademas **ninguna sale de su ronda**:
+los 25 niveles son cinco grupos de cinco, cerrados.
+
+![La ronda 1](../imagenes/ronda-1.png)
+
+Cada raya de ese minimapa une dos puertas que se emparejan de verdad. Hay uno
+por ronda en [Las 100 salas](LOS-NIVELES.html).
+
 ## El nombre de la ronda es su contraseña
 
 En la pantalla del título se puede teclear. `0x53C8` lee el teclado con SNSMAT

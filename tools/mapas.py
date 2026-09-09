@@ -422,6 +422,166 @@ def mapa_del_nivel(rom, nivel, hueco=12):
     return px
 
 
+# ----------------------------------------------------------------------
+# EL REPARTO DE SALAS: DONDE VA CADA UNA DE LAS CUATRO
+# ----------------------------------------------------------------------
+# Las cuatro salas de un nivel no van en columna: van en un plano, y no el
+# mismo en todos los niveles. `empieza_el_nivel` (0x4F82) saca de 0x9D67 un
+# byte por nivel y lo deja en (0xE06A); ese byte elige una de las DIECINUEVE
+# filas de 0x52DB, cuatro bytes, uno por sala.
+#
+# De cada byte, el NIBBLE BAJO es la sala a la que se pasa saliendo por la
+# izquierda (0xF: no hay), y el ALTO es LA POSICION de esa sala en el plano.
+# Que es la posicion lo dice el perseguidor: 0x74C0 compara ese nibble con
+# 0xC0 -los dos bits altos- para decidir si tiene que moverse en horizontal,
+# y 0x74C4 con 0x30 -los dos bajos- para la vertical. O sea que el nibble es
+# columna*4 + fila.
+#
+# Y encaja con lo demas: 0x5327 da la sala de la derecha, y las de arriba y
+# abajo son la de ahora menos y mas uno (el `dec b` de 0x529A y los dos `inc
+# b` de 0x52A2).
+REPARTO_POR_NIVEL = 0x9D67            # un byte por nivel: cual de los 19
+SALAS_POR_LA_IZQUIERDA = 0x52DB       # 19 filas de cuatro
+SALAS_POR_LA_DERECHA = 0x5327
+
+
+def reparto_del_nivel(rom, nivel):
+    """La posicion (columna, fila) de cada una de las cuatro salas."""
+    r = rom[REPARTO_POR_NIVEL - ORG + nivel - 1]
+    return [((rom[SALAS_POR_LA_IZQUIERDA - ORG + 4 * r + s] >> 6),
+             (rom[SALAS_POR_LA_IZQUIERDA - ORG + 4 * r + s] >> 4) & 3)
+            for s in range(4)]
+
+
+def puertas_del_nivel(rom, nivel):
+    """Las puertas de calavera: (sala, fila, columna, nivel, entrada).
+
+    El tercer byte del registro lo parte 0x8DA8: los seis bits bajos son el
+    nivel al que lleva y los dos altos la ENTRADA, que es el numero de puerta
+    por la que se aparece alli. Emparejan las 64 sin una sola excepcion.
+    """
+    out = []
+    for t, r in lista_del_nivel(rom, nivel):
+        if t == 3:
+            out.append((r[0] >> 6, (r[0] & 0x3F) - FILA_DEL_MARCADOR, r[1],
+                        r[2] & 0x3F, r[2] >> 6))
+    return out
+
+
+def plano_del_nivel(rom, nivel, hueco=12):
+    """Las cuatro salas puestas donde el cartucho las pone, no en columna."""
+    tira = mapa_del_nivel(rom, nivel, hueco)
+    pos = reparto_del_nivel(rom, nivel)
+    alto, ancho = 20 * 8 + hueco, 32 * 8
+    cols = max(x for x, _ in pos) + 1
+    filas = max(y for _, y in pos) + 1
+    px = [[(0, 0, 0)] * (cols * ancho) for _ in range(filas * alto)]
+    for s, (x, y) in enumerate(pos):
+        for f, fila in enumerate(tira[s * alto:(s + 1) * alto]):
+            px[y * alto + f][x * ancho:(x + 1) * ancho] = list(fila)
+    return px
+
+
+def encoge(px, n=4):
+    """Reduce a la enesima parte promediando bloques de nxn."""
+    alto, ancho = len(px) // n, len(px[0]) // n
+    fuera = [[(0, 0, 0)] * ancho for _ in range(alto)]
+    for f in range(alto):
+        for c in range(ancho):
+            r = g = b = 0
+            for y in range(n):
+                for x in range(n):
+                    p = px[f * n + y][c * n + x]
+                    r, g, b = r + p[0], g + p[1], b + p[2]
+            k = n * n
+            fuera[f][c] = (r // k, g // k, b // k)
+    return fuera
+
+
+def raya(px, a, b, color, grosor=1):
+    """Una recta de a a b, con el algoritmo de Bresenham."""
+    (y0, x0), (y1, x1) = a, b
+    dy, dx = abs(y1 - y0), abs(x1 - x0)
+    sy, sx = (1 if y1 > y0 else -1), (1 if x1 > x0 else -1)
+    err = dx - dy
+    while True:
+        for f in range(-grosor, grosor + 1):
+            for c in range(-grosor, grosor + 1):
+                if 0 <= y0 + f < len(px) and 0 <= x0 + c < len(px[0]):
+                    px[y0 + f][x0 + c] = color
+        if y0 == y1 and x0 == x1:
+            return
+        e = 2 * err
+        if e > -dy:
+            err -= dy
+            x0 += sx
+        if e < dx:
+            err += dx
+            y0 += sy
+
+
+def minimapa_de_la_ronda(rom, ronda, escala=4, radio=230, margen=14):
+    """Los cinco niveles de una ronda, con sus puertas de calavera unidas.
+
+    Cada nivel es su propio plano encogido; los cinco se reparten en un
+    pentagono y cada raya une DOS puertas que se emparejan de verdad: la
+    puerta j del nivel A dice (B, k) y la puerta k del nivel B dice (A, j).
+    Las 64 puertas del cartucho emparejan asi, sin una sola excepcion, y
+    ninguna sale de su ronda.
+    """
+    import math
+    tipo = fuente(rom)
+    primero = 5 * ronda - 4
+    niveles = list(range(primero, primero + 5))
+    planos = {n: encoge(plano_del_nivel(rom, n, hueco=0), escala)
+              for n in niveles}
+    puertas = {n: puertas_del_nivel(rom, n) for n in niveles}
+
+    # el pentagono, con la punta arriba, y la esquina de cada nivel
+    esquina = {}
+    for i, n in enumerate(niveles):
+        ang = -math.pi / 2 + 2 * math.pi * i / 5
+        esquina[n] = (int(-radio * math.cos(ang) - len(planos[n]) / 2),
+                      int(radio * math.sin(ang) - len(planos[n][0]) / 2))
+    # y el lienzo justo, contando el rotulo que va diez pixeles por encima
+    y0 = min(e[0] for e in esquina.values()) - 10 - margen
+    x0 = min(e[1] for e in esquina.values()) - margen
+    H = max(esquina[n][0] + len(planos[n]) for n in niveles) - y0 + margen
+    W = max(esquina[n][1] + len(planos[n][0]) for n in niveles) - x0 + margen
+    esquina = {n: (e[0] - y0, e[1] - x0) for n, e in esquina.items()}
+    px = [[(0, 0, 0)] * W for _ in range(H)]
+
+    def sitio(n, puerta):
+        """El pixel del lienzo donde cae esa puerta: su sala, y dentro su sitio."""
+        sala, fila, col, _, _ = puerta
+        x, y = reparto_del_nivel(rom, n)[sala]
+        ey, ex = esquina[n]
+        return (ey + (y * 20 * 8 + fila * 8 + 8) // escala,
+                ex + (x * 32 * 8 + col * 8 + 12) // escala)
+
+    for n in niveles:
+        ey, ex = esquina[n]
+        for f, fila in enumerate(planos[n]):
+            px[ey + f][ex:ex + len(fila)] = list(fila)
+        rotula(px, tipo, "NIVEL %d" % n, ey - 10, ex, (255, 255, 255))
+    # las rayas ENCIMA de los planos y de un solo pixel: si fueran debajo se
+    # perderian al entrar en el nivel y pareceria que no llegan a la puerta
+    for n in niveles:
+        for p in puertas[n]:
+            if p[3] <= n:                        # cada pareja, una sola vez
+                continue
+            raya(px, sitio(n, p), sitio(p[3], puertas[p[3]][p[4]]),
+                 (255, 120, 0), 0)
+    for n in niveles:
+        for p in puertas[n]:
+            fy, fx = sitio(n, p)
+            for f in range(-2, 3):
+                for c in range(-2, 3):
+                    if 0 <= fy + f < H and 0 <= fx + c < W:
+                        px[fy + f][fx + c] = (255, 220, 0)
+    return px
+
+
 def los_objetos(rom, nivel=1):
     """Los veintitres iconos del inventario, cada uno con SU nivel debajo.
 
@@ -458,7 +618,10 @@ def main():
     print("  objetos.png: los 23 iconos del inventario")
     for n in range(1, 26):
         entero = mapa_del_nivel(rom, n)
-        G.png(os.path.join(carpeta, "mapa-nivel-%02d.png" % n), entero)
+        # el mapa del nivel va con las salas DONDE EL CARTUCHO LAS PONE, que
+        # es el reparto de 0x52DB, no una encima de otra
+        G.png(os.path.join(carpeta, "mapa-nivel-%02d.png" % n),
+              plano_del_nivel(rom, n))
         # y LAS CUATRO SALAS por separado: son cien en todo el cartucho y
         # ninguna se repite, asi que cada una merece su imagen
         alto = 20 * 8 + 12
@@ -468,9 +631,13 @@ def main():
         cuenta = {}
         for _, _, _, _, _, nombre in cosas_del_nivel(rom, n):
             cuenta[nombre] = cuenta.get(nombre, 0) + 1
-        print("  nivel %2d: %s" % (n, ", ".join(
-            "%s x%d" % (k, v) for k, v in sorted(cuenta.items()))))
-    print("  100 salas sueltas, ademas de los 25 mapas de nivel")
+        print("  nivel %2d: %s  reparto %s" % (n, ", ".join(
+            "%s x%d" % (k, v) for k, v in sorted(cuenta.items())),
+            reparto_del_nivel(rom, n)))
+    for r in range(1, 6):
+        G.png(os.path.join(carpeta, "ronda-%d.png" % r),
+              minimapa_de_la_ronda(rom, r))
+    print("  100 salas sueltas, 25 mapas de nivel y 5 minimapas de ronda")
 
 
 if __name__ == "__main__":

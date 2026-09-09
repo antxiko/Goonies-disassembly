@@ -771,6 +771,92 @@ def instrucciones_del_asm():
 CODIGO = instrucciones_del_asm()
 
 
+class TestElRepartoDeSalas(unittest.TestCase):
+    """Donde va cada sala, y a que nivel lleva cada puerta de calavera.
+
+    Las dos cosas se leen de los bytes que el cartucho lee -0x9D67, 0x52DB y
+    el tercer byte de cada registro de tipo 3- y las dos se comprueban por
+    coherencia, no por su aspecto: el reparto tiene que dar cuatro sitios
+    distintos, y las puertas tienen que emparejarse en los dos sentidos.
+    """
+
+    REPARTO_POR_NIVEL = 0x9D67
+    SALAS_POR_LA_IZQUIERDA = 0x52DB
+
+    def reparto(self, nivel):
+        r = trozo(self.REPARTO_POR_NIVEL + nivel - 1, 1)[0]
+        b = trozo(self.SALAS_POR_LA_IZQUIERDA + 4 * r, 4)
+        return [(x >> 6, (x >> 4) & 3) for x in b]
+
+    ROM = os.path.join(RAIZ, "goonies.rom")
+
+    @classmethod
+    def setUpClass(cls):
+        if not os.path.exists(cls.ROM):
+            raise unittest.SkipTest("hace falta goonies.rom")
+        import mapas
+        cls.M = mapas
+        cls.rom = open(cls.ROM, "rb").read()
+
+    def puertas(self, nivel):
+        return self.M.puertas_del_nivel(self.rom, nivel)
+
+    def test_las_cuatro_salas_caen_en_cuatro_sitios_distintos(self):
+        """Si dos salas cayeran en la misma casilla, el plano seria imposible."""
+        for nivel in range(1, 26):
+            pos = self.reparto(nivel)
+            self.assertEqual(len(set(pos)), 4,
+                             "el nivel %d repite sitio: %s" % (nivel, pos))
+
+    def test_el_plano_no_deja_huecos_por_los_bordes(self):
+        """Las columnas y las filas usadas van seguidas desde la cero."""
+        for nivel in range(1, 26):
+            pos = self.reparto(nivel)
+            for eje in (0, 1):
+                usadas = sorted(set(p[eje] for p in pos))
+                self.assertEqual(usadas, list(range(len(usadas))),
+                                 "el nivel %d salta un eje: %s" % (nivel, pos))
+
+    def test_las_salas_de_al_lado_son_las_que_dice_la_tabla(self):
+        """El nibble bajo dice la sala de la izquierda: tiene que estar AL LADO."""
+        for nivel in range(1, 26):
+            r = trozo(self.REPARTO_POR_NIVEL + nivel - 1, 1)[0]
+            b = trozo(self.SALAS_POR_LA_IZQUIERDA + 4 * r, 4)
+            pos = self.reparto(nivel)
+            for s in range(4):
+                izq = b[s] & 0x0F
+                if izq == 0x0F:
+                    continue
+                self.assertLess(izq, 4)
+                self.assertEqual((pos[izq][0] + 1, pos[izq][1]), pos[s],
+                                 "nivel %d: la sala %d dice que a su izquierda "
+                                 "esta la %d, y no esta al lado" % (nivel, s, izq))
+
+    def test_las_sesenta_y_cuatro_puertas_emparejan(self):
+        """La puerta j de A dice (B, k), y la puerta k de B tiene que decir (A, j)."""
+        todas = 0
+        for nivel in range(1, 26):
+            for j, (_, _, _, destino, entrada) in enumerate(self.puertas(nivel)):
+                todas += 1
+                self.assertTrue(1 <= destino <= 25)
+                vuelta = self.puertas(destino)
+                self.assertLess(entrada, len(vuelta))
+                self.assertEqual((vuelta[entrada][3], vuelta[entrada][4]),
+                                 (nivel, j),
+                                 "la puerta %d del nivel %d no empareja"
+                                 % (j, nivel))
+        self.assertEqual(todas, 64)
+
+    def test_ninguna_puerta_sale_de_su_ronda(self):
+        """Los 25 niveles son cinco grupos de cinco, cerrados."""
+        for nivel in range(1, 26):
+            ronda = (nivel - 1) // 5
+            for _, _, _, destino, _ in self.puertas(nivel):
+                self.assertEqual((destino - 1) // 5, ronda,
+                                 "el nivel %d sale de su ronda: va al %d"
+                                 % (nivel, destino))
+
+
 class TestLoQueSeDibujaEncimaDeLaSala(unittest.TestCase):
     """De donde salen las posiciones con las que tools/mapas.py pinta.
 

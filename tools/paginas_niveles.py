@@ -47,6 +47,13 @@ Debajo de cada sala va lo que lleva encima, contado recorriendo las listas con
 las mismas reglas que usa el Z80. Los rotulos estan escritos con la fuente del
 propio cartucho.
 
+Y no van sueltas. Delante de cada nivel va **el plano entero**, con las cuatro
+salas puestas donde el cartucho las pone: el reparto que le da `0x52DB`, que no
+es el mismo en todos -hay columnas, filas, 2x2 y catorce formas raras-. Montadas
+asi, las plataformas y las escaleras siguen de una sala a la de al lado.
+Delante de cada ronda va ademas **el minimapa de sus cinco niveles**, con las
+puertas de calavera unidas.
+
 """,
     "en": """# The 100 rooms
 
@@ -66,6 +73,13 @@ worked out in [The code](THE-CODE.html).
 Under each room is what it carries, counted by walking the lists with the same
 rules the Z80 uses. The captions are written in the cartridge's own font.
 
+And they are not on their own. Before each level comes **the whole plan**, with
+the four rooms placed where the cartridge places them: the arrangement `0x52DB`
+gives it, which is not the same for all - there are columns, rows, 2x2 and
+fourteen odd shapes. Put together like this, platforms and ladders carry on
+from one room into the next. Before each round comes **the minimap of its five
+levels**, with the skull doors joined up.
+
 """,
 }
 
@@ -74,6 +88,44 @@ RONDA = {
     "en": "## Round %d — levels %d to %d\n\n",
 }
 NIVEL = {"es": "### Nivel %d\n\n", "en": "### Level %d\n\n"}
+PIE_RONDA = {
+    "es": "*Los cinco niveles de la ronda %d y sus puertas de calavera. Cada "
+          "nivel esta puesto con el reparto de salas que le da 0x52DB, y cada "
+          "raya une DOS puertas que se emparejan de verdad: la puerta j del "
+          "nivel A dice (B, k) y la puerta k del nivel B dice (A, j). Las 64 "
+          "del cartucho emparejan asi, y ninguna sale de su ronda.*\n\n",
+    "en": "*The five levels of round %d and their skull doors. Each level is "
+          "laid out with the room arrangement 0x52DB gives it, and every line "
+          "joins TWO doors that really pair up: door j of level A says (B, k) "
+          "and door k of level B says (A, j). All 64 in the cartridge pair up "
+          "like that, and none leaves its round.*\n\n",
+}
+PIE_NIVEL = {
+    "es": "*Las cuatro salas del nivel %d, puestas donde el cartucho las "
+          "pone: %s. El reparto sale del nibble alto de 0x52DB, que es "
+          "columna por cuatro mas fila.*\n\n",
+    "en": "*The four rooms of level %d, placed where the cartridge places "
+          "them: %s. The arrangement comes from the high nibble of 0x52DB, "
+          "which is column times four plus row.*\n\n",
+}
+
+
+def forma(rom, n, idioma):
+    """El reparto escrito: 2x2, una fila de cuatro, o el dibujo si es raro."""
+    pos = M.reparto_del_nivel(rom, n)
+    cols = max(x for x, _ in pos) + 1
+    filas = max(y for _, y in pos) + 1
+    if cols * filas == 4:
+        if filas == 1:
+            return "una fila de cuatro" if idioma == "es" else "a row of four"
+        if cols == 1:
+            return ("una columna de cuatro" if idioma == "es"
+                    else "a column of four")
+        return "2x2"
+    rej = {(x, y): str(s + 1) for s, (x, y) in enumerate(pos)}
+    dibujo = " / ".join("".join(rej.get((x, y), "-") for x in range(cols))
+                        for y in range(filas))
+    return "%dx%d, `%s`" % (cols, filas, dibujo)
 PIE = {"es": "*Nivel %d, sala %d. %s*\n\n", "en": "*Level %d, room %d. %s*\n\n"}
 NADA = {"es": "No lleva nada encima: solo el decorado.",
         "en": "Nothing on top of it: just the scenery."}
@@ -93,8 +145,16 @@ def pagina(rom, idioma, prefijo):
     for ronda in range(1, 6):
         primero = 5 * ronda - 4
         out.append(RONDA[idioma] % (ronda, primero, primero + 4))
+        out.append("![%s %d](%sronda-%d.png)\n\n"
+                   % ("Ronda" if idioma == "es" else "Round", ronda,
+                      prefijo, ronda))
+        out.append(PIE_RONDA[idioma] % ronda)
         for n in range(primero, primero + 5):
             out.append(NIVEL[idioma] % n)
+            out.append("![%s %d](%smapa-nivel-%02d.png)\n\n"
+                       % ("Nivel" if idioma == "es" else "Level", n,
+                          prefijo, n))
+            out.append(PIE_NIVEL[idioma] % (n, forma(rom, n, idioma)))
             for s, c in enumerate(por_sala(rom, n)):
                 if c:
                     lista = ", ".join(

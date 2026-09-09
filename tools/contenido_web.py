@@ -16,6 +16,42 @@ herramientas de tools/, y no copiadas de ningun otro proyecto.
 
 HALLAZGOS = {
     "es": [
+        ("Las cuatro salas de un nivel no van en columna: van en un plano",
+         "<p><code>empieza_el_nivel</code> (<code>0x4F82</code>) saca de "
+         "<code>0x9D67</code> un byte por nivel y lo deja en "
+         "<code>(0xE06A)</code>. Ese byte elige una de las <b>diecinueve</b> "
+         "filas de <code>0x52DB</code>, cuatro bytes, uno por sala.</p>"
+         "<p>De cada byte, el <b>nibble bajo</b> es la sala a la que se pasa "
+         "saliendo por la izquierda (<code>0xF</code>: no hay), y el "
+         "<b>alto es LA POSICION</b> de esa sala en el plano. Que es la "
+         "posicion lo dice el perseguidor: <code>0x74C0</code> compara ese "
+         "nibble con <code>0xC0</code> -los dos bits altos- para decidir si "
+         "tiene que moverse en horizontal, y <code>0x74C4</code> con "
+         "<code>0x30</code> -los dos bajos- para la vertical. O sea que el "
+         "nibble es <b>columna por cuatro mas fila</b>.</p>"
+         "<p>De ahi salen los repartos: cinco niveles en columna, dos en "
+         "fila, seis en 2x2 y <b>catorce con forma rara</b>. Y encaja con lo "
+         "demas: <code>0x5327</code> da la sala de la derecha, y las de "
+         "arriba y abajo son la de ahora menos y mas uno -el <code>dec b</code> "
+         "de <code>0x529A</code> y los dos <code>inc b</code> de "
+         "<code>0x52A2</code>-.</p>"
+         "<p>La prueba de que el reparto es el bueno esta en el dibujo: "
+         "montadas asi, <b>las plataformas y las escaleras siguen de una sala "
+         "a la de al lado</b>, y el agua del fondo se continua. Los "
+         "veinticinco mapas de <a href=\"LOS-NIVELES.html\">Las 100 salas</a> "
+         "estan rehechos con este reparto.</p>"),
+
+        ("Las 64 puertas de calavera emparejan sin una sola excepcion",
+         "<p>Cada puerta de calavera son tres bytes, y del tercero "
+         "<code>0x8DA8</code> saca <b>dos cosas</b>: los seis bits bajos son "
+         "el nivel al que lleva y los <b>dos altos la ENTRADA</b>, que es el "
+         "numero de puerta por la que se aparece alli.</p>"
+         "<p>Y eso convierte las puertas en parejas comprobables: si la "
+         "puerta <i>j</i> del nivel A dice (B, <i>k</i>), la puerta <i>k</i> "
+         "del nivel B tiene que decir (A, <i>j</i>). <b>Las 64 del cartucho "
+         "lo cumplen</b>, sin una excepcion, y ademas <b>ninguna sale de su "
+         "ronda</b>: los 25 niveles son cinco grupos de cinco, cerrados.</p>"),
+
         ("El nombre de la ronda ES su contrasena",
          "<p>En la pantalla del titulo se puede teclear. Las letras se van "
          "acumulando en <code>0xE4C0</code> y <code>0x5444</code> las compara "
@@ -159,6 +195,42 @@ HALLAZGOS = {
          "1985. El juego es de <b>1986</b>.</p>"),
     ],
     "en": [
+        ("The four rooms of a level are not a column: they are a plan",
+         "<p><code>empieza_el_nivel</code> (<code>0x4F82</code>) takes one "
+         "byte per level from <code>0x9D67</code> and leaves it in "
+         "<code>(0xE06A)</code>. That byte picks one of <b>nineteen</b> rows "
+         "at <code>0x52DB</code>, four bytes, one per room.</p>"
+         "<p>In each byte the <b>low nibble</b> is the room you pass into "
+         "leaving through the left (<code>0xF</code>: none), and the "
+         "<b>high one is THE POSITION</b> of that room in the plan. That it "
+         "is the position is settled by the chaser: <code>0x74C0</code> "
+         "compares that nibble with <code>0xC0</code> -the top two bits- to "
+         "decide whether to move horizontally, and <code>0x74C4</code> with "
+         "<code>0x30</code> -the bottom two- for the vertical. So the nibble "
+         "is <b>column times four plus row</b>.</p>"
+         "<p>Out come the arrangements: five levels in a column, two in a "
+         "row, six as 2x2 and <b>fourteen odd-shaped</b>. And it fits "
+         "everything else: <code>0x5327</code> gives the room to the right, "
+         "and the ones above and below are the current one minus and plus "
+         "one -the <code>dec b</code> at <code>0x529A</code> and the two "
+         "<code>inc b</code> at <code>0x52A2</code>-.</p>"
+         "<p>The proof that the arrangement is right is in the picture: put "
+         "together like this, <b>platforms and ladders carry on from one "
+         "room into the next</b>, and the water at the bottom runs through. "
+         "All twenty-five maps in <a href=\"THE-LEVELS.html\">The 100 "
+         "rooms</a> are redrawn with it.</p>"),
+
+        ("All 64 skull doors pair up without a single exception",
+         "<p>Each skull door is three bytes, and out of the third "
+         "<code>0x8DA8</code> takes <b>two things</b>: the low six bits are "
+         "the level it leads to and the <b>top two the ENTRANCE</b>, which is "
+         "the number of the door you come out of over there.</p>"
+         "<p>That turns the doors into checkable pairs: if door <i>j</i> of "
+         "level A says (B, <i>k</i>), then door <i>k</i> of level B has to "
+         "say (A, <i>j</i>). <b>All 64 in the cartridge do</b>, without one "
+         "exception, and on top of that <b>none leaves its round</b>: the 25 "
+         "levels are five closed groups of five.</p>"),
+
         ("The name of the round IS its password",
          "<p>You can type on the title screen. Letters pile up at "
          "<code>0xE4C0</code> and <code>0x5444</code> matches them against "
@@ -372,6 +444,28 @@ GALERIA = [
      "door to the next level, and the four cages: shut, open, with the friend "
      "inside and with the item inside. Each is a tile block straight out of "
      "the cartridge, untouched."),
+
+    ("ronda-1.png",
+     "Los cinco niveles de la ronda 1 y sus puertas de calavera. Cada nivel "
+     "va con el reparto de salas que le da 0x52DB, y cada raya une DOS "
+     "puertas que se emparejan de verdad: la puerta j del nivel A dice "
+     "(B, k) y la puerta k del nivel B dice (A, j). Las 64 del cartucho "
+     "emparejan asi, y ninguna sale de su ronda.",
+     "The five levels of round 1 and their skull doors. Each level is laid "
+     "out with the room arrangement 0x52DB gives it, and every line joins "
+     "TWO doors that really pair up: door j of level A says (B, k) and door "
+     "k of level B says (A, j). All 64 in the cartridge pair up like that, "
+     "and none leaves its round."),
+
+    ("mapa-nivel-08.png",
+     "El nivel 8, uno de los que no son ni una fila ni un 2x2: la sala 1 "
+     "arriba a la izquierda y las otras tres en fila debajo. Las escaleras y "
+     "las plataformas siguen de una sala a la de al lado, que es la prueba de "
+     "que el reparto de 0x52DB es el bueno.",
+     "Level 8, one of those that are neither a row nor a 2x2: room 1 at the "
+     "top left and the other three in a row below. Ladders and platforms "
+     "carry on from one room into the next, which is the proof that the "
+     "arrangement at 0x52DB is the right one."),
 
     ("mapa-nivel-13.png",
      "El nivel 13, uno de los tres que llevan el bicho de patas: el que espera "

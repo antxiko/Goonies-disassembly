@@ -84,6 +84,20 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 </style>
 <div class="w"><nav class="top"><a href="index.html">Home</a><a href="GETTING-STARTED.html">Start</a><a href="THE-GAME.html">The game</a><a href="THE-LEVELS.html">The 100 rooms</a><a href="THE-CARTRIDGE.html">The cartridge</a><a href="THE-CODE.html">The code</a><a href="FINDINGS.html" style=color:var(--tinta)>Findings</a><a href="IN-THE-EMULATOR.html">In the emulator</a><a href="OPEN-QUESTIONS.html">Open questions</a><a href="es/HALLAZGOS.html" style="margin-left:auto;color:var(--oro)">Castellano</a></nav>
 <h1 id="findings">Findings</h1>
+<h2 id="the-four-rooms-of-a-level-are-not-a-column-they-are-a-plan">The four rooms of a level are not a column: they are a plan</h2>
+<p><code>empieza_el_nivel</code> (<code>0x4F82</code>) takes one byte per level from <code>0x9D67</code> and leaves it in <code>(0xE06A)</code>. That byte picks one of <b>nineteen</b> rows at <code>0x52DB</code>, four bytes, one per room.</p>
+<p>In each byte the <b>low nibble</b> is the room you pass into leaving through the left (<code>0xF</code>: none), and the <b>high one is THE POSITION</b> of that room in the plan. That it is the position is not a guess: the chaser settles it. <code>0x74C0</code> compares that nibble with <code>0xC0</code> -the top two bits- to decide whether it has to move horizontally, and <code>0x74C4</code> with <code>0x30</code> -the bottom two- for the vertical. So the nibble is <b>column times four plus row</b>.</p>
+<p>And it fits everything else: <code>0x5327</code> gives the room to the right, and the ones above and below are the current one minus and plus one -the <code>dec b</code> at <code>0x529A</code> and the two <code>inc b</code> at <code>0x52A2</code>-.</p>
+<p>The twenty-five arrangements, counted off those bytes:</p>
+<table><tr><th>shape</th><th>levels</th></tr><tr><td>a column of four</td><td>1, 10, 15</td></tr><tr><td>a row of four</td><td>2, 19</td></tr><tr><td>2x2</td><td>3, 9, 13, 17, 24, 25</td></tr><tr><td>three columns by two rows</td><td>4, 6, 8, 11, 14, 21</td></tr><tr><td>two columns by three rows</td><td>5, 7, 12, 16, 18, 20, 22, 23</td></tr></table>
+<p>The proof that the arrangement is right is in the picture: put together like this, <b>platforms and ladders carry on from one room into the next</b>, and the water at the bottom runs through.</p>
+<p><img src="imagenes/mapa-nivel-08.png?v=026dcd5e" alt="Level 8"></p>
+<p>All twenty-five maps in <a href="THE-LEVELS.html">The 100 rooms</a> are redrawn with it.</p>
+<h2 id="all-64-skull-doors-pair-up-without-a-single-exception">All 64 skull doors pair up without a single exception</h2>
+<p>Each skull door is three bytes, and out of the third <code>0x8DA8</code> takes <b>two things</b>: the low six bits are the level it leads to and the <b>top two the ENTRANCE</b>, which is the number of the door you come out of over there.</p>
+<p>That turns the doors into checkable pairs: if door <em>j</em> of level A says (B, <em>k</em>), then door <em>k</em> of level B has to say (A, <em>j</em>). <b>All 64 in the cartridge do</b>, without one exception, and on top of that <b>none leaves its round</b>: the 25 levels are five closed groups of five.</p>
+<p><img src="imagenes/ronda-1.png?v=683657a6" alt="Round 1"></p>
+<p>Every line on that minimap joins two doors that really pair up. There is one per round in <a href="THE-LEVELS.html">The 100 rooms</a>.</p>
 <h2 id="the-name-of-the-round-is-its-password">The name of the round is its password</h2>
 <p>You can type on the title screen. <code>0x53C8</code> reads the keyboard with SNSMAT and piles what you type into <code>0xE4C0</code> — up to sixteen letters, with the index in <code>(0xE074)</code> — and on release it calls <code>0x5444</code>, which matches those sixteen bytes against <b>five names</b>, from <code>0x546E</code> onwards and <b>nineteen bytes apart</b>.</p>
 <p>If one matches, <code>0x5421</code> uses which it was as an index into the table at <code>0x543A</code>:</p>

@@ -1,5 +1,56 @@
 # Findings
 
+## The four rooms of a level are not a column: they are a plan
+
+`empieza_el_nivel` (`0x4F82`) takes one byte per level from `0x9D67` and leaves
+it in `(0xE06A)`. That byte picks one of **nineteen** rows at `0x52DB`, four
+bytes, one per room.
+
+In each byte the **low nibble** is the room you pass into leaving through the
+left (`0xF`: none), and the **high one is THE POSITION** of that room in the
+plan. That it is the position is not a guess: the chaser settles it. `0x74C0`
+compares that nibble with `0xC0` -the top two bits- to decide whether it has to
+move horizontally, and `0x74C4` with `0x30` -the bottom two- for the vertical.
+So the nibble is **column times four plus row**.
+
+And it fits everything else: `0x5327` gives the room to the right, and the ones
+above and below are the current one minus and plus one -the `dec b` at `0x529A`
+and the two `inc b` at `0x52A2`-.
+
+The twenty-five arrangements, counted off those bytes:
+
+| shape | levels |
+| --- | --- |
+| a column of four | 1, 10, 15 |
+| a row of four | 2, 19 |
+| 2x2 | 3, 9, 13, 17, 24, 25 |
+| three columns by two rows | 4, 6, 8, 11, 14, 21 |
+| two columns by three rows | 5, 7, 12, 16, 18, 20, 22, 23 |
+
+The proof that the arrangement is right is in the picture: put together like
+this, **platforms and ladders carry on from one room into the next**, and the
+water at the bottom runs through.
+
+![Level 8](imagenes/mapa-nivel-08.png)
+
+All twenty-five maps in [The 100 rooms](THE-LEVELS.html) are redrawn with it.
+
+## All 64 skull doors pair up without a single exception
+
+Each skull door is three bytes, and out of the third `0x8DA8` takes **two
+things**: the low six bits are the level it leads to and the **top two the
+ENTRANCE**, which is the number of the door you come out of over there.
+
+That turns the doors into checkable pairs: if door *j* of level A says (B, *k*),
+then door *k* of level B has to say (A, *j*). **All 64 in the cartridge do**,
+without one exception, and on top of that **none leaves its round**: the 25
+levels are five closed groups of five.
+
+![Round 1](imagenes/ronda-1.png)
+
+Every line on that minimap joins two doors that really pair up. There is one
+per round in [The 100 rooms](THE-LEVELS.html).
+
 ## The name of the round is its password
 
 You can type on the title screen. `0x53C8` reads the keyboard with SNSMAT and

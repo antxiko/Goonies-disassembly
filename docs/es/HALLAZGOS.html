@@ -84,6 +84,20 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 </style>
 <div class="w"><nav class="top"><a href="index.html">Portada</a><a href="EMPEZAR.html">Empezar</a><a href="EL-JUEGO.html">El juego</a><a href="LOS-NIVELES.html">Las 100 salas</a><a href="EL-CARTUCHO.html">El cartucho</a><a href="EL-CODIGO.html">El código</a><a href="HALLAZGOS.html" style=color:var(--tinta)>Hallazgos</a><a href="EN-EL-EMULADOR.html">En el emulador</a><a href="PREGUNTAS-ABIERTAS.html">Preguntas abiertas</a><a href="../FINDINGS.html" style="margin-left:auto;color:var(--oro)">English</a></nav>
 <h1 id="hallazgos">Hallazgos</h1>
+<h2 id="las-cuatro-salas-de-un-nivel-no-van-en-columna-van-en-un-plano">Las cuatro salas de un nivel no van en columna: van en un plano</h2>
+<p><code>empieza_el_nivel</code> (<code>0x4F82</code>) saca de <code>0x9D67</code> un byte por nivel y lo deja en <code>(0xE06A)</code>. Ese byte elige una de las <b>diecinueve</b> filas de <code>0x52DB</code>, cuatro bytes, uno por sala.</p>
+<p>De cada byte, el <b>nibble bajo</b> es la sala a la que se pasa saliendo por la izquierda (<code>0xF</code>: no hay), y el <b>alto es LA POSICION</b> de esa sala en el plano. Que es la posicion no es una suposicion: lo dice el perseguidor. <code>0x74C0</code> compara ese nibble con <code>0xC0</code> -los dos bits altos- para decidir si tiene que moverse en horizontal, y <code>0x74C4</code> con <code>0x30</code> -los dos bajos- para la vertical. O sea que el nibble es <b>columna por cuatro mas fila</b>.</p>
+<p>Y encaja con todo lo demas: <code>0x5327</code> da la sala de la derecha, y las de arriba y abajo son la de ahora menos y mas uno -el <code>dec b</code> de <code>0x529A</code> y los dos <code>inc b</code> de <code>0x52A2</code>-.</p>
+<p>Los veinticinco repartos, contados sobre esos bytes:</p>
+<table><tr><th>forma</th><th>niveles</th></tr><tr><td>una columna de cuatro</td><td>1, 10, 15</td></tr><tr><td>una fila de cuatro</td><td>2, 19</td></tr><tr><td>2x2</td><td>3, 9, 13, 17, 24, 25</td></tr><tr><td>tres columnas por dos filas</td><td>4, 6, 8, 11, 14, 21</td></tr><tr><td>dos columnas por tres filas</td><td>5, 7, 12, 16, 18, 20, 22, 23</td></tr></table>
+<p>La prueba de que el reparto es el bueno esta en el dibujo: montadas asi, <b>las plataformas y las escaleras siguen de una sala a la de al lado</b>, y el agua del fondo se continua.</p>
+<p><img src="../imagenes/mapa-nivel-08.png?v=026dcd5e" alt="El nivel 8"></p>
+<p>Los veinticinco mapas de <a href="LOS-NIVELES.html">Las 100 salas</a> estan rehechos con este reparto.</p>
+<h2 id="las-64-puertas-de-calavera-emparejan-sin-una-sola-excepcion">Las 64 puertas de calavera emparejan sin una sola excepcion</h2>
+<p>Cada puerta de calavera son tres bytes, y del tercero <code>0x8DA8</code> saca <b>dos cosas</b>: los seis bits bajos son el nivel al que lleva y los <b>dos altos la ENTRADA</b>, que es el numero de puerta por la que se aparece alli.</p>
+<p>Eso convierte las puertas en parejas comprobables: si la puerta <em>j</em> del nivel A dice (B, <em>k</em>), la puerta <em>k</em> del nivel B tiene que decir (A, <em>j</em>). <b>Las 64 del cartucho lo cumplen</b>, sin una excepcion, y ademas <b>ninguna sale de su ronda</b>: los 25 niveles son cinco grupos de cinco, cerrados.</p>
+<p><img src="../imagenes/ronda-1.png?v=683657a6" alt="La ronda 1"></p>
+<p>Cada raya de ese minimapa une dos puertas que se emparejan de verdad. Hay uno por ronda en <a href="LOS-NIVELES.html">Las 100 salas</a>.</p>
 <h2 id="el-nombre-de-la-ronda-es-su-contrasena">El nombre de la ronda es su contraseña</h2>
 <p>En la pantalla del título se puede teclear. <code>0x53C8</code> lee el teclado con SNSMAT y va metiendo lo tecleado en <code>0xE4C0</code> —hasta dieciséis letras, con el índice en <code>(0xE074)</code>—, y al soltar llama a <code>0x5444</code>, que compara esos dieciséis bytes contra <b>cinco nombres</b>, de <code>0x546E</code> en adelante y <b>de diecinueve en diecinueve</b> bytes.</p>
 <p>Si alguno cuadra, <code>0x5421</code> usa cuál era como índice en la tabla de <code>0x543A</code>:</p>

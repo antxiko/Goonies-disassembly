@@ -45,10 +45,16 @@ the five screens come out at **zero differences** in colour, patterns and
 sprite patterns.
 
 All **one hundred rooms** are drawn — twenty-five levels of four, and not one
-repeats.
+repeats. So are the **twenty-five plans**, with the four rooms placed where the
+cartridge places them, plus a **minimap per round** with the doors joined up.
 
 ## What turned up
 
+- **The four rooms of a level are a plan, not a column.** The high nibble of
+  `0x52DB` is each room's position: column times four plus row. There are
+  columns, rows, 2x2 and fourteen odd shapes.
+- **All 64 skull doors pair up without a single exception**, and none leaves
+  its round: the 25 levels are five closed groups of five.
 - **The name of the round is its password.** The same bytes that paint the
   caption are the ones you type. MR SLOTH, GOON DOCKS, DOUBLOON, ONE EYED
   WILLY, GOONIES.

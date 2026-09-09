@@ -45,10 +45,16 @@ VRAM del emulador: las cinco pantallas salen a **cero diferencias** en color,
 patrones y patrones de sprite.
 
 Están dibujadas **las cien salas**: veinticinco niveles de cuatro, y ninguna se
-repite.
+repite. Y los **veinticinco planos**, con las cuatro salas puestas donde el
+cartucho las pone, más un **minimapa por ronda** con las puertas unidas.
 
 ## Lo que apareció
 
+- **Las cuatro salas de un nivel van en un plano, no en columna.** El nibble
+  alto de `0x52DB` es la posición de cada sala: columna por cuatro más fila.
+  Hay columnas, filas, 2x2 y catorce formas raras.
+- **Las 64 puertas de calavera emparejan sin una sola excepción**, y ninguna
+  sale de su ronda: los 25 niveles son cinco grupos de cinco, cerrados.
 - **El nombre de la ronda es su contraseña.** Los mismos bytes que pintan el
   rótulo son los que se teclean. MR SLOTH, GOON DOCKS, DOUBLOON, ONE EYED
   WILLY, GOONIES.

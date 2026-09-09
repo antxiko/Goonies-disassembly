@@ -2472,6 +2472,20 @@ mira_si_cambia_de_sala:
 	ret			;526c
 
 ; ----------------------------------------------------------------------
+; ======================================================================
+; DECIDIR A QUE SALA SE PASA, Y COMO ESTAN PUESTAS LAS CUATRO
+; ======================================================================
+; Las cuatro salas de un nivel NO van en columna: van en un plano, y no
+; el mismo en todos. Saliendo por los lados, la sala nueva sale de las
+; tablas de 0x52DB y 0x5327; saliendo por arriba o por abajo, es la de
+; ahora menos o mas uno.
+;
+; La FORMA del plano esta en el nibble ALTO de esos mismos bytes de
+; 0x52DB: columna*4 + fila. Lo dice el perseguidor, que es quien lo usa
+; aparte de aqui: 0x74C0 lo compara con 0xC0 -los dos bits altos, o sea
+; la columna- para decidir si se mueve en horizontal, y 0x74C4 con 0x30
+; -la fila- para la vertical. Montadas asi, las plataformas y las
+; escaleras siguen de una sala a la de al lado; en columna, no.
 ; DECIDIR A QUE SALA SE PASA
 ; ----------------------------------------------------------------------
 a_que_sala_paso:
@@ -2514,7 +2528,7 @@ L_5298:
 	ld c,0f1h		;529c   ; la fila a la que se entra por abajo
 	cp 008h		;529e   ; menos de 8 es salirse por arriba
 	jr c,L_52BE		;52a0
-	inc b			;52a2   ; dos salas mas alla, que es como esta puesto el mapa: arriba y abajo se saltan dos
+	inc b			;52a2   ; una sala mas: arriba y abajo son la de ahora menos y mas uno, y la forma del plano la pone el nibble alto de 0x52DB
 	inc b			;52a3
 	ld c,00eh		;52a4   ; la fila a la que se entra por arriba
 	cp 0f7h		;52a6   ; y 0xF7 o mas es salirse por abajo
@@ -2564,7 +2578,12 @@ busca_en_la_tabla_de_salas:
 
 ; ----------------------------------------------------------------------
 ; DATOS salas_al_salir_por_la_izquierda: 19 filas de 4; la fila la da (0xE06A)
-;   y la columna la sala de ahora
+;   y la columna la sala de ahora. Cada byte lleva DOS cosas: el nibble BAJO
+;   es la sala de la izquierda -0xF: no hay- y el ALTO es LA POSICION de esta
+;   sala en el plano, columna*4 + fila. Que es la posicion lo dice el
+;   perseguidor: 0x74C0 mira ese nibble con 0xC0 -los dos bits altos, la
+;   columna- para moverse en horizontal y 0x74C4 con 0x30 -la fila- para la
+;   vertical
 ;   0x52db..0x5327  (76 bytes)
 DATA_salas_al_salir_por_la_izquierda:
 	defb 00fh,01fh,02fh,03fh	; 52db
@@ -10997,7 +11016,7 @@ mete_un_registro_de_tres:
 	and 03fh		;8da9   ; del tercero, los seis bits bajos
 	ld (de),a			;8dab
 	inc de			;8dac
-	ld a,(hl)			;8dad   ; y los dos altos aparte
+	ld a,(hl)			;8dad   ; y los dos altos aparte: son LA ENTRADA, el numero de puerta por la que se aparece alli. Las 64 del cartucho emparejan: la puerta j de A dice (B, k) y la k de B dice (A, j)
 	rla			;8dae
 	rla			;8daf
 	rla			;8db0
@@ -12112,10 +12131,12 @@ DATA_color_del_marcador_abajo:
 	defb 002h,050h,010h,0f0h,003h,0e0h,00dh,080h,008h,0f0h,000h	; 9d5c  .P.........
 
 ; ----------------------------------------------------------------------
-; DATOS un_byte_por_nivel: 25 bytes, uno por nivel; 0x4F82 lo lee y lo deja en
-;   (0xE06A)
+; DATOS el_reparto_de_salas_de_cada_nivel: 25 bytes, uno por nivel; 0x4F82 lo
+;   lee y lo deja en (0xE06A). Es CUAL DE LOS 19 REPARTOS de 0x52DB le toca, o
+;   sea la forma del plano del nivel: 1, 10 y 15 en columna; 2 y 19 en fila;
+;   3, 9, 13, 17, 24 y 25 en 2x2; y los otros catorce con forma rara
 ;   0x9d67..0x9d80  (25 bytes)
-DATA_un_byte_por_nivel:
+DATA_el_reparto_de_salas_de_cada_nivel:
 	defb 000h,012h,007h,00fh,006h,00bh,008h,00dh,007h,000h,00eh,004h,007h,00ah,000h,005h	; 9d67  ................
 	defb 007h,002h,012h,001h,00ch,008h,002h,007h,007h	; 9d77  .........
 
