@@ -33,7 +33,7 @@ levels**, with the skull doors joined up.
 
 ![Level 1](imagenes/mapa-nivel-01.png)
 
-*The four rooms of level 1, placed where the cartridge places them: a column of four. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.*
+*The four rooms of level 1, placed where the cartridge places them: a row of four. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
 
 ![Level 1 room 1](imagenes/sala-01-1.png)
 
@@ -55,7 +55,7 @@ levels**, with the skull doors joined up.
 
 ![Level 2](imagenes/mapa-nivel-02.png)
 
-*The four rooms of level 2, placed where the cartridge places them: a row of four. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.*
+*The four rooms of level 2, placed where the cartridge places them: a column of four. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
 
 ![Level 2 room 1](imagenes/sala-02-1.png)
 
@@ -77,7 +77,7 @@ levels**, with the skull doors joined up.
 
 ![Level 3](imagenes/mapa-nivel-03.png)
 
-*The four rooms of level 3, placed where the cartridge places them: 2x2. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.*
+*The four rooms of level 3, placed where the cartridge places them: 2x2. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
 
 ![Level 3 room 1](imagenes/sala-03-1.png)
 
@@ -99,7 +99,7 @@ levels**, with the skull doors joined up.
 
 ![Level 4](imagenes/mapa-nivel-04.png)
 
-*The four rooms of level 4, placed where the cartridge places them: 3x2, `--3 / 124`. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.*
+*The four rooms of level 4, placed where the cartridge places them: 2x3, `-1 / -2 / 34`. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
 
 ![Level 4 room 1](imagenes/sala-04-1.png)
 
@@ -121,7 +121,7 @@ levels**, with the skull doors joined up.
 
 ![Level 5](imagenes/mapa-nivel-05.png)
 
-*The four rooms of level 5, placed where the cartridge places them: 2x3, `1- / 2- / 34`. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.*
+*The four rooms of level 5, placed where the cartridge places them: 3x2, `123 / --4`. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
 
 ![Level 5 room 1](imagenes/sala-05-1.png)
 
@@ -149,7 +149,7 @@ levels**, with the skull doors joined up.
 
 ![Level 6](imagenes/mapa-nivel-06.png)
 
-*The four rooms of level 6, placed where the cartridge places them: 3x2, `124 / -3-`. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.*
+*The four rooms of level 6, placed where the cartridge places them: 2x3, `1- / 23 / 4-`. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
 
 ![Level 6 room 1](imagenes/sala-06-1.png)
 
@@ -171,7 +171,7 @@ levels**, with the skull doors joined up.
 
 ![Level 7](imagenes/mapa-nivel-07.png)
 
-*The four rooms of level 7, placed where the cartridge places them: 2x3, `1- / 23 / -4`. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.*
+*The four rooms of level 7, placed where the cartridge places them: 3x2, `12- / -34`. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
 
 ![Level 7 room 1](imagenes/sala-07-1.png)
 
@@ -193,7 +193,7 @@ levels**, with the skull doors joined up.
 
 ![Level 8](imagenes/mapa-nivel-08.png)
 
-*The four rooms of level 8, placed where the cartridge places them: 3x2, `1-- / 234`. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.*
+*The four rooms of level 8, placed where the cartridge places them: 2x3, `12 / -3 / -4`. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
 
 ![Level 8 room 1](imagenes/sala-08-1.png)
 
@@ -215,7 +215,7 @@ levels**, with the skull doors joined up.
 
 ![Level 9](imagenes/mapa-nivel-09.png)
 
-*The four rooms of level 9, placed where the cartridge places them: 2x2. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.*
+*The four rooms of level 9, placed where the cartridge places them: 2x2. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
 
 ![Level 9 room 1](imagenes/sala-09-1.png)
 
@@ -237,7 +237,7 @@ levels**, with the skull doors joined up.
 
 ![Level 10](imagenes/mapa-nivel-10.png)
 
-*The four rooms of level 10, placed where the cartridge places them: a column of four. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.*
+*The four rooms of level 10, placed where the cartridge places them: a row of four. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
 
 ![Level 10 room 1](imagenes/sala-10-1.png)
 
@@ -265,7 +265,7 @@ levels**, with the skull doors joined up.
 
 ![Level 11](imagenes/mapa-nivel-11.png)
 
-*The four rooms of level 11, placed where the cartridge places them: 3x2, `-2- / 134`. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.*
+*The four rooms of level 11, placed where the cartridge places them: 2x3, `-1 / 23 / -4`. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
 
 ![Level 11 room 1](imagenes/sala-11-1.png)
 
@@ -287,7 +287,7 @@ levels**, with the skull doors joined up.
 
 ![Level 12](imagenes/mapa-nivel-12.png)
 
-*The four rooms of level 12, placed where the cartridge places them: 2x3, `14 / 2- / 3-`. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.*
+*The four rooms of level 12, placed where the cartridge places them: 3x2, `123 / 4--`. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
 
 ![Level 12 room 1](imagenes/sala-12-1.png)
 
@@ -309,7 +309,7 @@ levels**, with the skull doors joined up.
 
 ![Level 13](imagenes/mapa-nivel-13.png)
 
-*The four rooms of level 13, placed where the cartridge places them: 2x2. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.*
+*The four rooms of level 13, placed where the cartridge places them: 2x2. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
 
 ![Level 13 room 1](imagenes/sala-13-1.png)
 
@@ -331,7 +331,7 @@ levels**, with the skull doors joined up.
 
 ![Level 14](imagenes/mapa-nivel-14.png)
 
-*The four rooms of level 14, placed where the cartridge places them: 3x2, `123 / --4`. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.*
+*The four rooms of level 14, placed where the cartridge places them: 2x3, `1- / 2- / 34`. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
 
 ![Level 14 room 1](imagenes/sala-14-1.png)
 
@@ -353,7 +353,7 @@ levels**, with the skull doors joined up.
 
 ![Level 15](imagenes/mapa-nivel-15.png)
 
-*The four rooms of level 15, placed where the cartridge places them: a column of four. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.*
+*The four rooms of level 15, placed where the cartridge places them: a row of four. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
 
 ![Level 15 room 1](imagenes/sala-15-1.png)
 
@@ -381,7 +381,7 @@ levels**, with the skull doors joined up.
 
 ![Level 16](imagenes/mapa-nivel-16.png)
 
-*The four rooms of level 16, placed where the cartridge places them: 2x3, `1- / 24 / 3-`. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.*
+*The four rooms of level 16, placed where the cartridge places them: 3x2, `123 / -4-`. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
 
 ![Level 16 room 1](imagenes/sala-16-1.png)
 
@@ -403,7 +403,7 @@ levels**, with the skull doors joined up.
 
 ![Level 17](imagenes/mapa-nivel-17.png)
 
-*The four rooms of level 17, placed where the cartridge places them: 2x2. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.*
+*The four rooms of level 17, placed where the cartridge places them: 2x2. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
 
 ![Level 17 room 1](imagenes/sala-17-1.png)
 
@@ -425,7 +425,7 @@ levels**, with the skull doors joined up.
 
 ![Level 18](imagenes/mapa-nivel-18.png)
 
-*The four rooms of level 18, placed where the cartridge places them: 2x3, `-2 / 13 / -4`. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.*
+*The four rooms of level 18, placed where the cartridge places them: 3x2, `-1- / 234`. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
 
 ![Level 18 room 1](imagenes/sala-18-1.png)
 
@@ -447,7 +447,7 @@ levels**, with the skull doors joined up.
 
 ![Level 19](imagenes/mapa-nivel-19.png)
 
-*The four rooms of level 19, placed where the cartridge places them: a row of four. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.*
+*The four rooms of level 19, placed where the cartridge places them: a column of four. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
 
 ![Level 19 room 1](imagenes/sala-19-1.png)
 
@@ -469,7 +469,7 @@ levels**, with the skull doors joined up.
 
 ![Level 20](imagenes/mapa-nivel-20.png)
 
-*The four rooms of level 20, placed where the cartridge places them: 2x3, `12 / -3 / -4`. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.*
+*The four rooms of level 20, placed where the cartridge places them: 3x2, `1-- / 234`. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
 
 ![Level 20 room 1](imagenes/sala-20-1.png)
 
@@ -497,7 +497,7 @@ levels**, with the skull doors joined up.
 
 ![Level 21](imagenes/mapa-nivel-21.png)
 
-*The four rooms of level 21, placed where the cartridge places them: 3x2, `134 / 2--`. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.*
+*The four rooms of level 21, placed where the cartridge places them: 2x3, `12 / 3- / 4-`. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
 
 ![Level 21 room 1](imagenes/sala-21-1.png)
 
@@ -519,7 +519,7 @@ levels**, with the skull doors joined up.
 
 ![Level 22](imagenes/mapa-nivel-22.png)
 
-*The four rooms of level 22, placed where the cartridge places them: 2x3, `1- / 23 / -4`. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.*
+*The four rooms of level 22, placed where the cartridge places them: 3x2, `12- / -34`. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
 
 ![Level 22 room 1](imagenes/sala-22-1.png)
 
@@ -541,7 +541,7 @@ levels**, with the skull doors joined up.
 
 ![Level 23](imagenes/mapa-nivel-23.png)
 
-*The four rooms of level 23, placed where the cartridge places them: 2x3, `-2 / 13 / -4`. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.*
+*The four rooms of level 23, placed where the cartridge places them: 3x2, `-1- / 234`. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
 
 ![Level 23 room 1](imagenes/sala-23-1.png)
 
@@ -563,7 +563,7 @@ levels**, with the skull doors joined up.
 
 ![Level 24](imagenes/mapa-nivel-24.png)
 
-*The four rooms of level 24, placed where the cartridge places them: 2x2. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.*
+*The four rooms of level 24, placed where the cartridge places them: 2x2. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
 
 ![Level 24 room 1](imagenes/sala-24-1.png)
 
@@ -585,7 +585,7 @@ levels**, with the skull doors joined up.
 
 ![Level 25](imagenes/mapa-nivel-25.png)
 
-*The four rooms of level 25, placed where the cartridge places them: 2x2. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.*
+*The four rooms of level 25, placed where the cartridge places them: 2x2. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
 
 ![Level 25 room 1](imagenes/sala-25-1.png)
 

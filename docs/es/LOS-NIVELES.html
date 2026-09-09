@@ -90,11 +90,11 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p>Debajo de cada sala va lo que lleva encima, contado recorriendo las listas con las mismas reglas que usa el Z80. Los rotulos estan escritos con la fuente del propio cartucho.</p>
 <p>Y no van sueltas. Delante de cada nivel va <b>el plano entero</b>, con las cuatro salas puestas donde el cartucho las pone: el reparto que le da <code>0x52DB</code>, que no es el mismo en todos -hay columnas, filas, 2x2 y catorce formas raras-. Montadas asi, las plataformas y las escaleras siguen de una sala a la de al lado. Delante de cada ronda va ademas <b>el minimapa de sus cinco niveles</b>, con las puertas de calavera unidas.</p>
 <h2 id="ronda-1-niveles-1-a-5">Ronda 1 — niveles 1 a 5</h2>
-<p><img src="../imagenes/ronda-1.png?v=781b81cd" alt="Ronda 1"></p>
+<p><img src="../imagenes/ronda-1.png?v=5d5e688f" alt="Ronda 1"></p>
 <p><em>Los cinco niveles de la ronda 1 y sus puertas de calavera. Cada nivel esta puesto con el reparto de salas que le da 0x52DB, y cada raya une DOS puertas que se emparejan de verdad: la puerta j del nivel A dice (B, k) y la puerta k del nivel B dice (A, j). Las 64 del cartucho emparejan asi, y ninguna sale de su ronda. Dos cosas de este dibujo NO salen de la ROM, y por eso se dicen: el sitio de cada nivel en el anillo -de los doce ordenes posibles se elige el que menos cruces deja- y la comba de las curvas, que separa las parejas de niveles unidas por DOS puertas.</em></p>
 <h3 id="nivel-1">Nivel 1</h3>
-<p><img src="../imagenes/mapa-nivel-01.png?v=54f26e67" alt="Nivel 1"></p>
-<p><em>Las cuatro salas del nivel 1, puestas donde el cartucho las pone: una columna de cuatro. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.</em></p>
+<p><img src="../imagenes/mapa-nivel-01.png?v=a67744d2" alt="Nivel 1"></p>
+<p><em>Las cuatro salas del nivel 1, puestas donde el cartucho las pone: una fila de cuatro. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.</em></p>
 <p><img src="../imagenes/sala-01-1.png?v=ce7b306e" alt="Nivel 1 sala 1"></p>
 <p><em>Nivel 1, sala 1. Lleva: 2 estalactita, 2 gotera, 1 trasto, 1 jaula, 1 objeto, 1 puerta, 1 calavera.</em></p>
 <p><img src="../imagenes/sala-01-2.png?v=c46e4bff" alt="Nivel 1 sala 2"></p>
@@ -104,8 +104,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="../imagenes/sala-01-4.png?v=9cd03b5f" alt="Nivel 1 sala 4"></p>
 <p><em>Nivel 1, sala 4. Lleva: 3 calavera, 2 estalactita, 2 puerta al nivel, 1 trasto, 1 jaula, 1 gotera.</em></p>
 <h3 id="nivel-2">Nivel 2</h3>
-<p><img src="../imagenes/mapa-nivel-02.png?v=793a23ff" alt="Nivel 2"></p>
-<p><em>Las cuatro salas del nivel 2, puestas donde el cartucho las pone: una fila de cuatro. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.</em></p>
+<p><img src="../imagenes/mapa-nivel-02.png?v=8525c33d" alt="Nivel 2"></p>
+<p><em>Las cuatro salas del nivel 2, puestas donde el cartucho las pone: una columna de cuatro. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.</em></p>
 <p><img src="../imagenes/sala-02-1.png?v=9914a47f" alt="Nivel 2 sala 1"></p>
 <p><em>Nivel 2, sala 1. Lleva: 1 perseguidor, 1 puerta al nivel, 1 jaula, 1 objeto.</em></p>
 <p><img src="../imagenes/sala-02-2.png?v=a3a1572d" alt="Nivel 2 sala 2"></p>
@@ -115,8 +115,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="../imagenes/sala-02-4.png?v=0c43ed8b" alt="Nivel 2 sala 4"></p>
 <p><em>Nivel 2, sala 4. Lleva: 2 calavera, 1 puerta al nivel, 1 trasto, 1 gotera.</em></p>
 <h3 id="nivel-3">Nivel 3</h3>
-<p><img src="../imagenes/mapa-nivel-03.png?v=f02c223c" alt="Nivel 3"></p>
-<p><em>Las cuatro salas del nivel 3, puestas donde el cartucho las pone: 2x2. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.</em></p>
+<p><img src="../imagenes/mapa-nivel-03.png?v=cffb425d" alt="Nivel 3"></p>
+<p><em>Las cuatro salas del nivel 3, puestas donde el cartucho las pone: 2x2. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.</em></p>
 <p><img src="../imagenes/sala-03-1.png?v=77627119" alt="Nivel 3 sala 1"></p>
 <p><em>Nivel 3, sala 1. Lleva: 6 chorro del tubo, 1 estalactita, 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 jaula, 1 gotera.</em></p>
 <p><img src="../imagenes/sala-03-2.png?v=52819bd6" alt="Nivel 3 sala 2"></p>
@@ -126,8 +126,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="../imagenes/sala-03-4.png?v=abfb60a3" alt="Nivel 3 sala 4"></p>
 <p><em>Nivel 3, sala 4. Lleva: 3 chorro del tubo, 3 gotera, 1 puerta al nivel, 1 trasto, 1 objeto, 1 agua, 1 calavera.</em></p>
 <h3 id="nivel-4">Nivel 4</h3>
-<p><img src="../imagenes/mapa-nivel-04.png?v=005c97c9" alt="Nivel 4"></p>
-<p><em>Las cuatro salas del nivel 4, puestas donde el cartucho las pone: 3x2, <code>--3 / 124</code>. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.</em></p>
+<p><img src="../imagenes/mapa-nivel-04.png?v=560998cb" alt="Nivel 4"></p>
+<p><em>Las cuatro salas del nivel 4, puestas donde el cartucho las pone: 2x3, <code>-1 / -2 / 34</code>. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.</em></p>
 <p><img src="../imagenes/sala-04-1.png?v=138db154" alt="Nivel 4 sala 1"></p>
 <p><em>Nivel 4, sala 1. Lleva: 2 trasto, 2 gotera, 2 calavera, 1 estalactita, 1 perseguidor, 1 puerta al nivel, 1 bola de piedra.</em></p>
 <p><img src="../imagenes/sala-04-2.png?v=af7f6aec" alt="Nivel 4 sala 2"></p>
@@ -137,8 +137,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="../imagenes/sala-04-4.png?v=b2835eff" alt="Nivel 4 sala 4"></p>
 <p><em>Nivel 4, sala 4. Lleva: 2 jaula, 2 calavera, 1 estalactita, 1 perseguidor, 1 objeto, 1 gotera, 1 murcielago.</em></p>
 <h3 id="nivel-5">Nivel 5</h3>
-<p><img src="../imagenes/mapa-nivel-05.png?v=217e4f93" alt="Nivel 5"></p>
-<p><em>Las cuatro salas del nivel 5, puestas donde el cartucho las pone: 2x3, <code>1- / 2- / 34</code>. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.</em></p>
+<p><img src="../imagenes/mapa-nivel-05.png?v=40843175" alt="Nivel 5"></p>
+<p><em>Las cuatro salas del nivel 5, puestas donde el cartucho las pone: 3x2, <code>123 / --4</code>. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.</em></p>
 <p><img src="../imagenes/sala-05-1.png?v=4ae62a32" alt="Nivel 5 sala 1"></p>
 <p><em>Nivel 5, sala 1. Lleva: 2 agua, 1 puerta al nivel, 1 trasto, 1 objeto, 1 gotera, 1 calavera.</em></p>
 <p><img src="../imagenes/sala-05-2.png?v=f40639af" alt="Nivel 5 sala 2"></p>
@@ -148,11 +148,11 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="../imagenes/sala-05-4.png?v=b05eb814" alt="Nivel 5 sala 4"></p>
 <p><em>Nivel 5, sala 4. Lleva: 4 gotera, 2 trasto, 2 calavera, 1 perseguidor, 1 puerta al nivel, 1 jaula, 1 puerta.</em></p>
 <h2 id="ronda-2-niveles-6-a-10">Ronda 2 — niveles 6 a 10</h2>
-<p><img src="../imagenes/ronda-2.png?v=a79f4e55" alt="Ronda 2"></p>
+<p><img src="../imagenes/ronda-2.png?v=82aa084d" alt="Ronda 2"></p>
 <p><em>Los cinco niveles de la ronda 2 y sus puertas de calavera. Cada nivel esta puesto con el reparto de salas que le da 0x52DB, y cada raya une DOS puertas que se emparejan de verdad: la puerta j del nivel A dice (B, k) y la puerta k del nivel B dice (A, j). Las 64 del cartucho emparejan asi, y ninguna sale de su ronda. Dos cosas de este dibujo NO salen de la ROM, y por eso se dicen: el sitio de cada nivel en el anillo -de los doce ordenes posibles se elige el que menos cruces deja- y la comba de las curvas, que separa las parejas de niveles unidas por DOS puertas.</em></p>
 <h3 id="nivel-6">Nivel 6</h3>
-<p><img src="../imagenes/mapa-nivel-06.png?v=07f10ba4" alt="Nivel 6"></p>
-<p><em>Las cuatro salas del nivel 6, puestas donde el cartucho las pone: 3x2, <code>124 / -3-</code>. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.</em></p>
+<p><img src="../imagenes/mapa-nivel-06.png?v=e91a5d2f" alt="Nivel 6"></p>
+<p><em>Las cuatro salas del nivel 6, puestas donde el cartucho las pone: 2x3, <code>1- / 23 / 4-</code>. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.</em></p>
 <p><img src="../imagenes/sala-06-1.png?v=f9aee7f9" alt="Nivel 6 sala 1"></p>
 <p><em>Nivel 6, sala 1. Lleva: 6 columna que crece, 3 gotera, 2 bola de piedra, 1 perseguidor, 1 puerta al nivel, 1 jaula, 1 puerta, 1 calavera.</em></p>
 <p><img src="../imagenes/sala-06-2.png?v=6b62a497" alt="Nivel 6 sala 2"></p>
@@ -162,8 +162,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="../imagenes/sala-06-4.png?v=18af1a98" alt="Nivel 6 sala 4"></p>
 <p><em>Nivel 6, sala 4. Lleva: 6 columna que crece, 3 calavera, 2 estalactita, 2 gotera, 1 puerta al nivel, 1 trasto, 1 murcielago.</em></p>
 <h3 id="nivel-7">Nivel 7</h3>
-<p><img src="../imagenes/mapa-nivel-07.png?v=1fd35d21" alt="Nivel 7"></p>
-<p><em>Las cuatro salas del nivel 7, puestas donde el cartucho las pone: 2x3, <code>1- / 23 / -4</code>. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.</em></p>
+<p><img src="../imagenes/mapa-nivel-07.png?v=d0bdcd7a" alt="Nivel 7"></p>
+<p><em>Las cuatro salas del nivel 7, puestas donde el cartucho las pone: 3x2, <code>12- / -34</code>. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.</em></p>
 <p><img src="../imagenes/sala-07-1.png?v=0e702704" alt="Nivel 7 sala 1"></p>
 <p><em>Nivel 7, sala 1. Lleva: 4 estalactita, 4 gotera, 2 bola de piedra, 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 jaula, 1 objeto.</em></p>
 <p><img src="../imagenes/sala-07-2.png?v=fb4b2feb" alt="Nivel 7 sala 2"></p>
@@ -173,8 +173,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="../imagenes/sala-07-4.png?v=3f02f5c3" alt="Nivel 7 sala 4"></p>
 <p><em>Nivel 7, sala 4. Lleva: 1 estalactita, 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 jaula, 1 agua, 1 gotera.</em></p>
 <h3 id="nivel-8">Nivel 8</h3>
-<p><img src="../imagenes/mapa-nivel-08.png?v=026dcd5e" alt="Nivel 8"></p>
-<p><em>Las cuatro salas del nivel 8, puestas donde el cartucho las pone: 3x2, <code>1-- / 234</code>. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.</em></p>
+<p><img src="../imagenes/mapa-nivel-08.png?v=effdc530" alt="Nivel 8"></p>
+<p><em>Las cuatro salas del nivel 8, puestas donde el cartucho las pone: 2x3, <code>12 / -3 / -4</code>. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.</em></p>
 <p><img src="../imagenes/sala-08-1.png?v=c0b56192" alt="Nivel 8 sala 1"></p>
 <p><em>Nivel 8, sala 1. Lleva: 6 columna que crece, 3 estalactita, 2 gotera, 2 calavera, 1 perseguidor, 1 trasto, 1 jaula.</em></p>
 <p><img src="../imagenes/sala-08-2.png?v=72566e88" alt="Nivel 8 sala 2"></p>
@@ -184,8 +184,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="../imagenes/sala-08-4.png?v=9e08d1f7" alt="Nivel 8 sala 4"></p>
 <p><em>Nivel 8, sala 4. Lleva: 2 trasto, 2 bola de piedra, 1 perseguidor, 1 puerta al nivel, 1 jaula.</em></p>
 <h3 id="nivel-9">Nivel 9</h3>
-<p><img src="../imagenes/mapa-nivel-09.png?v=1b6290e2" alt="Nivel 9"></p>
-<p><em>Las cuatro salas del nivel 9, puestas donde el cartucho las pone: 2x2. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.</em></p>
+<p><img src="../imagenes/mapa-nivel-09.png?v=0b5792c8" alt="Nivel 9"></p>
+<p><em>Las cuatro salas del nivel 9, puestas donde el cartucho las pone: 2x2. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.</em></p>
 <p><img src="../imagenes/sala-09-1.png?v=905140a5" alt="Nivel 9 sala 1"></p>
 <p><em>Nivel 9, sala 1. Lleva: 7 chorro del tubo, 2 gotera, 1 estalactita, 1 perseguidor, 1 trasto, 1 jaula, 1 puerta, 1 calavera.</em></p>
 <p><img src="../imagenes/sala-09-2.png?v=1faf63b4" alt="Nivel 9 sala 2"></p>
@@ -195,8 +195,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="../imagenes/sala-09-4.png?v=f70cdad9" alt="Nivel 9 sala 4"></p>
 <p><em>Nivel 9, sala 4. Lleva: 7 chorro del tubo, 2 perseguidor, 1 estalactita, 1 trasto, 1 jaula, 1 gotera, 1 calavera.</em></p>
 <h3 id="nivel-10">Nivel 10</h3>
-<p><img src="../imagenes/mapa-nivel-10.png?v=3d605a1f" alt="Nivel 10"></p>
-<p><em>Las cuatro salas del nivel 10, puestas donde el cartucho las pone: una columna de cuatro. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.</em></p>
+<p><img src="../imagenes/mapa-nivel-10.png?v=d4978049" alt="Nivel 10"></p>
+<p><em>Las cuatro salas del nivel 10, puestas donde el cartucho las pone: una fila de cuatro. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.</em></p>
 <p><img src="../imagenes/sala-10-1.png?v=c1dd9913" alt="Nivel 10 sala 1"></p>
 <p><em>Nivel 10, sala 1. Lleva: 2 gotera, 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 bola de piedra.</em></p>
 <p><img src="../imagenes/sala-10-2.png?v=c96f3946" alt="Nivel 10 sala 2"></p>
@@ -206,11 +206,11 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="../imagenes/sala-10-4.png?v=188fc916" alt="Nivel 10 sala 4"></p>
 <p><em>Nivel 10, sala 4. Lleva: 1 estalactita, 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 objeto, 1 bola de piedra, 1 gotera, 1 murcielago.</em></p>
 <h2 id="ronda-3-niveles-11-a-15">Ronda 3 — niveles 11 a 15</h2>
-<p><img src="../imagenes/ronda-3.png?v=cc9b2599" alt="Ronda 3"></p>
+<p><img src="../imagenes/ronda-3.png?v=ea3ead26" alt="Ronda 3"></p>
 <p><em>Los cinco niveles de la ronda 3 y sus puertas de calavera. Cada nivel esta puesto con el reparto de salas que le da 0x52DB, y cada raya une DOS puertas que se emparejan de verdad: la puerta j del nivel A dice (B, k) y la puerta k del nivel B dice (A, j). Las 64 del cartucho emparejan asi, y ninguna sale de su ronda. Dos cosas de este dibujo NO salen de la ROM, y por eso se dicen: el sitio de cada nivel en el anillo -de los doce ordenes posibles se elige el que menos cruces deja- y la comba de las curvas, que separa las parejas de niveles unidas por DOS puertas.</em></p>
 <h3 id="nivel-11">Nivel 11</h3>
-<p><img src="../imagenes/mapa-nivel-11.png?v=712e865a" alt="Nivel 11"></p>
-<p><em>Las cuatro salas del nivel 11, puestas donde el cartucho las pone: 3x2, <code>-2- / 134</code>. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.</em></p>
+<p><img src="../imagenes/mapa-nivel-11.png?v=947cde71" alt="Nivel 11"></p>
+<p><em>Las cuatro salas del nivel 11, puestas donde el cartucho las pone: 2x3, <code>-1 / 23 / -4</code>. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.</em></p>
 <p><img src="../imagenes/sala-11-1.png?v=e3a4ba80" alt="Nivel 11 sala 1"></p>
 <p><em>Nivel 11, sala 1. Lleva: 2 estalactita, 1 perseguidor, 1 puerta al nivel, 1 jaula.</em></p>
 <p><img src="../imagenes/sala-11-2.png?v=2e6391e3" alt="Nivel 11 sala 2"></p>
@@ -220,8 +220,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="../imagenes/sala-11-4.png?v=d5d76286" alt="Nivel 11 sala 4"></p>
 <p><em>Nivel 11, sala 4. Lleva: 6 columna que crece, 3 calavera, 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 objeto, 1 bola de piedra, 1 gotera, 1 murcielago.</em></p>
 <h3 id="nivel-12">Nivel 12</h3>
-<p><img src="../imagenes/mapa-nivel-12.png?v=176f1d7a" alt="Nivel 12"></p>
-<p><em>Las cuatro salas del nivel 12, puestas donde el cartucho las pone: 2x3, <code>14 / 2- / 3-</code>. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.</em></p>
+<p><img src="../imagenes/mapa-nivel-12.png?v=9b66d73c" alt="Nivel 12"></p>
+<p><em>Las cuatro salas del nivel 12, puestas donde el cartucho las pone: 3x2, <code>123 / 4--</code>. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.</em></p>
 <p><img src="../imagenes/sala-12-1.png?v=46f27389" alt="Nivel 12 sala 1"></p>
 <p><em>Nivel 12, sala 1. Lleva: 4 estalactita, 2 trasto, 2 calavera, 1 perseguidor, 1 puerta al nivel, 1 bola de piedra, 1 gotera.</em></p>
 <p><img src="../imagenes/sala-12-2.png?v=e5a3a82f" alt="Nivel 12 sala 2"></p>
@@ -231,8 +231,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="../imagenes/sala-12-4.png?v=3cd36ea2" alt="Nivel 12 sala 4"></p>
 <p><em>Nivel 12, sala 4. Lleva: 4 calavera, 3 estalactita, 1 perseguidor, 1 puerta al nivel, 1 jaula.</em></p>
 <h3 id="nivel-13">Nivel 13</h3>
-<p><img src="../imagenes/mapa-nivel-13.png?v=377bf5d3" alt="Nivel 13"></p>
-<p><em>Las cuatro salas del nivel 13, puestas donde el cartucho las pone: 2x2. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.</em></p>
+<p><img src="../imagenes/mapa-nivel-13.png?v=a053e25e" alt="Nivel 13"></p>
+<p><em>Las cuatro salas del nivel 13, puestas donde el cartucho las pone: 2x2. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.</em></p>
 <p><img src="../imagenes/sala-13-1.png?v=92b0869d" alt="Nivel 13 sala 1"></p>
 <p><em>Nivel 13, sala 1. Lleva: 3 estalactita, 2 gotera, 2 calavera, 1 puerta al nivel, 1 trasto, 1 bicho de patas.</em></p>
 <p><img src="../imagenes/sala-13-2.png?v=41cad249" alt="Nivel 13 sala 2"></p>
@@ -242,8 +242,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="../imagenes/sala-13-4.png?v=6b41ff24" alt="Nivel 13 sala 4"></p>
 <p><em>Nivel 13, sala 4. Lleva: 2 estalactita, 2 gotera, 2 calavera, 1 trasto, 1 jaula, 1 objeto, 1 agua.</em></p>
 <h3 id="nivel-14">Nivel 14</h3>
-<p><img src="../imagenes/mapa-nivel-14.png?v=c68d9222" alt="Nivel 14"></p>
-<p><em>Las cuatro salas del nivel 14, puestas donde el cartucho las pone: 3x2, <code>123 / --4</code>. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.</em></p>
+<p><img src="../imagenes/mapa-nivel-14.png?v=0a7bc06f" alt="Nivel 14"></p>
+<p><em>Las cuatro salas del nivel 14, puestas donde el cartucho las pone: 2x3, <code>1- / 2- / 34</code>. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.</em></p>
 <p><img src="../imagenes/sala-14-1.png?v=6c874244" alt="Nivel 14 sala 1"></p>
 <p><em>Nivel 14, sala 1. Lleva: 2 chorro del tubo, 1 estalactita, 1 puerta al nivel, 1 llamarada.</em></p>
 <p><img src="../imagenes/sala-14-2.png?v=70694674" alt="Nivel 14 sala 2"></p>
@@ -253,8 +253,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="../imagenes/sala-14-4.png?v=5c1aa6b2" alt="Nivel 14 sala 4"></p>
 <p><em>Nivel 14, sala 4. Lleva: 4 chorro del tubo, 3 estalactita, 2 perseguidor, 1 puerta al nivel, 1 trasto, 1 jaula, 1 objeto, 1 calavera, 1 murcielago.</em></p>
 <h3 id="nivel-15">Nivel 15</h3>
-<p><img src="../imagenes/mapa-nivel-15.png?v=21e2bfc2" alt="Nivel 15"></p>
-<p><em>Las cuatro salas del nivel 15, puestas donde el cartucho las pone: una columna de cuatro. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.</em></p>
+<p><img src="../imagenes/mapa-nivel-15.png?v=440099f4" alt="Nivel 15"></p>
+<p><em>Las cuatro salas del nivel 15, puestas donde el cartucho las pone: una fila de cuatro. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.</em></p>
 <p><img src="../imagenes/sala-15-1.png?v=3836bec2" alt="Nivel 15 sala 1"></p>
 <p><em>Nivel 15, sala 1. Lleva: 4 estalactita, 1 perseguidor, 1 puerta al nivel, 1 objeto, 1 gotera.</em></p>
 <p><img src="../imagenes/sala-15-2.png?v=05d2ebf2" alt="Nivel 15 sala 2"></p>
@@ -264,11 +264,11 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="../imagenes/sala-15-4.png?v=a79600cd" alt="Nivel 15 sala 4"></p>
 <p><em>Nivel 15, sala 4. Lleva: 2 gotera, 1 perseguidor, 1 puerta al nivel, 1 jaula, 1 murcielago.</em></p>
 <h2 id="ronda-4-niveles-16-a-20">Ronda 4 — niveles 16 a 20</h2>
-<p><img src="../imagenes/ronda-4.png?v=dafca0c3" alt="Ronda 4"></p>
+<p><img src="../imagenes/ronda-4.png?v=afaedf10" alt="Ronda 4"></p>
 <p><em>Los cinco niveles de la ronda 4 y sus puertas de calavera. Cada nivel esta puesto con el reparto de salas que le da 0x52DB, y cada raya une DOS puertas que se emparejan de verdad: la puerta j del nivel A dice (B, k) y la puerta k del nivel B dice (A, j). Las 64 del cartucho emparejan asi, y ninguna sale de su ronda. Dos cosas de este dibujo NO salen de la ROM, y por eso se dicen: el sitio de cada nivel en el anillo -de los doce ordenes posibles se elige el que menos cruces deja- y la comba de las curvas, que separa las parejas de niveles unidas por DOS puertas.</em></p>
 <h3 id="nivel-16">Nivel 16</h3>
-<p><img src="../imagenes/mapa-nivel-16.png?v=0b792754" alt="Nivel 16"></p>
-<p><em>Las cuatro salas del nivel 16, puestas donde el cartucho las pone: 2x3, <code>1- / 24 / 3-</code>. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.</em></p>
+<p><img src="../imagenes/mapa-nivel-16.png?v=006dec4c" alt="Nivel 16"></p>
+<p><em>Las cuatro salas del nivel 16, puestas donde el cartucho las pone: 3x2, <code>123 / -4-</code>. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.</em></p>
 <p><img src="../imagenes/sala-16-1.png?v=496f6dc3" alt="Nivel 16 sala 1"></p>
 <p><em>Nivel 16, sala 1. Lleva: 1 estalactita, 1 puerta al nivel, 1 trasto, 1 jaula, 1 objeto, 1 agua, 1 bola de piedra, 1 calavera.</em></p>
 <p><img src="../imagenes/sala-16-2.png?v=291287d8" alt="Nivel 16 sala 2"></p>
@@ -278,8 +278,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="../imagenes/sala-16-4.png?v=d2122bbc" alt="Nivel 16 sala 4"></p>
 <p><em>Nivel 16, sala 4. Lleva: 2 agua, 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 objeto.</em></p>
 <h3 id="nivel-17">Nivel 17</h3>
-<p><img src="../imagenes/mapa-nivel-17.png?v=c51e8c22" alt="Nivel 17"></p>
-<p><em>Las cuatro salas del nivel 17, puestas donde el cartucho las pone: 2x2. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.</em></p>
+<p><img src="../imagenes/mapa-nivel-17.png?v=43299ee8" alt="Nivel 17"></p>
+<p><em>Las cuatro salas del nivel 17, puestas donde el cartucho las pone: 2x2. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.</em></p>
 <p><img src="../imagenes/sala-17-1.png?v=55ec1d1b" alt="Nivel 17 sala 1"></p>
 <p><em>Nivel 17, sala 1. Lleva: 8 chorro del tubo, 1 perseguidor, 1 puerta al nivel, 1 calavera.</em></p>
 <p><img src="../imagenes/sala-17-2.png?v=8aca2009" alt="Nivel 17 sala 2"></p>
@@ -289,8 +289,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="../imagenes/sala-17-4.png?v=2d28cbb1" alt="Nivel 17 sala 4"></p>
 <p><em>Nivel 17, sala 4. Lleva: 2 gotera, 2 calavera, 1 estalactita, 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 llamarada, 1 chorro del tubo.</em></p>
 <h3 id="nivel-18">Nivel 18</h3>
-<p><img src="../imagenes/mapa-nivel-18.png?v=65599557" alt="Nivel 18"></p>
-<p><em>Las cuatro salas del nivel 18, puestas donde el cartucho las pone: 2x3, <code>-2 / 13 / -4</code>. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.</em></p>
+<p><img src="../imagenes/mapa-nivel-18.png?v=38611cff" alt="Nivel 18"></p>
+<p><em>Las cuatro salas del nivel 18, puestas donde el cartucho las pone: 3x2, <code>-1- / 234</code>. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.</em></p>
 <p><img src="../imagenes/sala-18-1.png?v=91585491" alt="Nivel 18 sala 1"></p>
 <p><em>Nivel 18, sala 1. Lleva: 2 trasto, 2 llamarada, 2 gotera, 1 estalactita, 1 perseguidor, 1 puerta al nivel, 1 calavera.</em></p>
 <p><img src="../imagenes/sala-18-2.png?v=dd2e2b4a" alt="Nivel 18 sala 2"></p>
@@ -300,8 +300,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="../imagenes/sala-18-4.png?v=0ae54256" alt="Nivel 18 sala 4"></p>
 <p><em>Nivel 18, sala 4. Lleva: 3 llamarada, 2 jaula, 1 perseguidor, 1 trasto, 1 gotera, 1 calavera, 1 bicho de patas.</em></p>
 <h3 id="nivel-19">Nivel 19</h3>
-<p><img src="../imagenes/mapa-nivel-19.png?v=241190a1" alt="Nivel 19"></p>
-<p><em>Las cuatro salas del nivel 19, puestas donde el cartucho las pone: una fila de cuatro. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.</em></p>
+<p><img src="../imagenes/mapa-nivel-19.png?v=459349e2" alt="Nivel 19"></p>
+<p><em>Las cuatro salas del nivel 19, puestas donde el cartucho las pone: una columna de cuatro. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.</em></p>
 <p><img src="../imagenes/sala-19-1.png?v=918725f0" alt="Nivel 19 sala 1"></p>
 <p><em>Nivel 19, sala 1. Lleva: 2 puerta al nivel, 1 estalactita, 1 perseguidor, 1 trasto.</em></p>
 <p><img src="../imagenes/sala-19-2.png?v=359a6543" alt="Nivel 19 sala 2"></p>
@@ -311,8 +311,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="../imagenes/sala-19-4.png?v=910d2921" alt="Nivel 19 sala 4"></p>
 <p><em>Nivel 19, sala 4. Lleva: 2 trasto, 2 agua, 1 estalactita, 1 puerta al nivel, 1 jaula, 1 gotera, 1 murcielago.</em></p>
 <h3 id="nivel-20">Nivel 20</h3>
-<p><img src="../imagenes/mapa-nivel-20.png?v=4cc33840" alt="Nivel 20"></p>
-<p><em>Las cuatro salas del nivel 20, puestas donde el cartucho las pone: 2x3, <code>12 / -3 / -4</code>. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.</em></p>
+<p><img src="../imagenes/mapa-nivel-20.png?v=94d32354" alt="Nivel 20"></p>
+<p><em>Las cuatro salas del nivel 20, puestas donde el cartucho las pone: 3x2, <code>1-- / 234</code>. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.</em></p>
 <p><img src="../imagenes/sala-20-1.png?v=06a48edb" alt="Nivel 20 sala 1"></p>
 <p><em>Nivel 20, sala 1. Lleva: 2 calavera, 1 estalactita, 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 llamarada, 1 gotera.</em></p>
 <p><img src="../imagenes/sala-20-2.png?v=72d3f423" alt="Nivel 20 sala 2"></p>
@@ -322,11 +322,11 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="../imagenes/sala-20-4.png?v=5a6fdac6" alt="Nivel 20 sala 4"></p>
 <p><em>Nivel 20, sala 4. Lleva: 1 estalactita, 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 bola de piedra.</em></p>
 <h2 id="ronda-5-niveles-21-a-25">Ronda 5 — niveles 21 a 25</h2>
-<p><img src="../imagenes/ronda-5.png?v=25a8bc0f" alt="Ronda 5"></p>
+<p><img src="../imagenes/ronda-5.png?v=3506c97a" alt="Ronda 5"></p>
 <p><em>Los cinco niveles de la ronda 5 y sus puertas de calavera. Cada nivel esta puesto con el reparto de salas que le da 0x52DB, y cada raya une DOS puertas que se emparejan de verdad: la puerta j del nivel A dice (B, k) y la puerta k del nivel B dice (A, j). Las 64 del cartucho emparejan asi, y ninguna sale de su ronda. Dos cosas de este dibujo NO salen de la ROM, y por eso se dicen: el sitio de cada nivel en el anillo -de los doce ordenes posibles se elige el que menos cruces deja- y la comba de las curvas, que separa las parejas de niveles unidas por DOS puertas.</em></p>
 <h3 id="nivel-21">Nivel 21</h3>
-<p><img src="../imagenes/mapa-nivel-21.png?v=846fad8b" alt="Nivel 21"></p>
-<p><em>Las cuatro salas del nivel 21, puestas donde el cartucho las pone: 3x2, <code>134 / 2--</code>. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.</em></p>
+<p><img src="../imagenes/mapa-nivel-21.png?v=7ef1d091" alt="Nivel 21"></p>
+<p><em>Las cuatro salas del nivel 21, puestas donde el cartucho las pone: 2x3, <code>12 / 3- / 4-</code>. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.</em></p>
 <p><img src="../imagenes/sala-21-1.png?v=211430e1" alt="Nivel 21 sala 1"></p>
 <p><em>Nivel 21, sala 1. Lleva: 2 gotera, 1 estalactita, 1 perseguidor, 1 jaula, 1 puerta, 1 calavera.</em></p>
 <p><img src="../imagenes/sala-21-2.png?v=77e28336" alt="Nivel 21 sala 2"></p>
@@ -336,8 +336,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="../imagenes/sala-21-4.png?v=1a2731c7" alt="Nivel 21 sala 4"></p>
 <p><em>Nivel 21, sala 4. Lleva: 3 gotera, 2 estalactita, 1 perseguidor, 1 jaula, 1 calavera.</em></p>
 <h3 id="nivel-22">Nivel 22</h3>
-<p><img src="../imagenes/mapa-nivel-22.png?v=e9e5a98c" alt="Nivel 22"></p>
-<p><em>Las cuatro salas del nivel 22, puestas donde el cartucho las pone: 2x3, <code>1- / 23 / -4</code>. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.</em></p>
+<p><img src="../imagenes/mapa-nivel-22.png?v=62d57d9d" alt="Nivel 22"></p>
+<p><em>Las cuatro salas del nivel 22, puestas donde el cartucho las pone: 3x2, <code>12- / -34</code>. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.</em></p>
 <p><img src="../imagenes/sala-22-1.png?v=2591b894" alt="Nivel 22 sala 1"></p>
 <p><em>Nivel 22, sala 1. Lleva: 2 estalactita, 2 calavera, 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 jaula, 1 llamarada, 1 gotera.</em></p>
 <p><img src="../imagenes/sala-22-2.png?v=e18dbe19" alt="Nivel 22 sala 2"></p>
@@ -347,8 +347,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="../imagenes/sala-22-4.png?v=90af2573" alt="Nivel 22 sala 4"></p>
 <p><em>Nivel 22, sala 4. Lleva: 3 estalactita, 2 perseguidor, 1 puerta al nivel, 1 jaula, 1 bola de piedra, 1 llamarada, 1 gotera, 1 calavera, 1 murcielago.</em></p>
 <h3 id="nivel-23">Nivel 23</h3>
-<p><img src="../imagenes/mapa-nivel-23.png?v=6c1d55f0" alt="Nivel 23"></p>
-<p><em>Las cuatro salas del nivel 23, puestas donde el cartucho las pone: 2x3, <code>-2 / 13 / -4</code>. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.</em></p>
+<p><img src="../imagenes/mapa-nivel-23.png?v=63ec79cb" alt="Nivel 23"></p>
+<p><em>Las cuatro salas del nivel 23, puestas donde el cartucho las pone: 3x2, <code>-1- / 234</code>. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.</em></p>
 <p><img src="../imagenes/sala-23-1.png?v=8eff75af" alt="Nivel 23 sala 1"></p>
 <p><em>Nivel 23, sala 1. Lleva: 2 estalactita, 2 gotera, 1 perseguidor, 1 puerta al nivel, 1 jaula.</em></p>
 <p><img src="../imagenes/sala-23-2.png?v=803d55b2" alt="Nivel 23 sala 2"></p>
@@ -358,8 +358,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="../imagenes/sala-23-4.png?v=4137ce7a" alt="Nivel 23 sala 4"></p>
 <p><em>Nivel 23, sala 4. Lleva: 1 perseguidor, 1 puerta al nivel, 1 trasto, 1 jaula, 1 objeto, 1 agua, 1 bicho de patas.</em></p>
 <h3 id="nivel-24">Nivel 24</h3>
-<p><img src="../imagenes/mapa-nivel-24.png?v=d09d5473" alt="Nivel 24"></p>
-<p><em>Las cuatro salas del nivel 24, puestas donde el cartucho las pone: 2x2. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.</em></p>
+<p><img src="../imagenes/mapa-nivel-24.png?v=2d9ad1ca" alt="Nivel 24"></p>
+<p><em>Las cuatro salas del nivel 24, puestas donde el cartucho las pone: 2x2. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.</em></p>
 <p><img src="../imagenes/sala-24-1.png?v=7d9b7070" alt="Nivel 24 sala 1"></p>
 <p><em>Nivel 24, sala 1. Lleva: 4 chorro del tubo, 2 estalactita, 1 jaula, 1 gotera, 1 calavera.</em></p>
 <p><img src="../imagenes/sala-24-2.png?v=01372d69" alt="Nivel 24 sala 2"></p>
@@ -369,8 +369,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="../imagenes/sala-24-4.png?v=a726c101" alt="Nivel 24 sala 4"></p>
 <p><em>Nivel 24, sala 4. Lleva: 2 chorro del tubo, 2 gotera, 2 calavera, 1 puerta al nivel, 1 jaula.</em></p>
 <h3 id="nivel-25">Nivel 25</h3>
-<p><img src="../imagenes/mapa-nivel-25.png?v=1a5e4948" alt="Nivel 25"></p>
-<p><em>Las cuatro salas del nivel 25, puestas donde el cartucho las pone: 2x2. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.</em></p>
+<p><img src="../imagenes/mapa-nivel-25.png?v=e06f09eb" alt="Nivel 25"></p>
+<p><em>Las cuatro salas del nivel 25, puestas donde el cartucho las pone: 2x2. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.</em></p>
 <p><img src="../imagenes/sala-25-1.png?v=c20af2c0" alt="Nivel 25 sala 1"></p>
 <p><em>Nivel 25, sala 1. Lleva: 8 columna que crece, 3 estalactita, 2 trasto, 2 bola de piedra, 1 perseguidor, 1 calavera, 1 murcielago.</em></p>
 <p><img src="../imagenes/sala-25-2.png?v=23857d56" alt="Nivel 25 sala 2"></p>

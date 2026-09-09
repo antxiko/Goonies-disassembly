@@ -430,26 +430,35 @@ def mapa_del_nivel(rom, nivel, hueco=12):
 # byte por nivel y lo deja en (0xE06A); ese byte elige una de las DIECINUEVE
 # filas de 0x52DB, cuatro bytes, uno por sala.
 #
-# De cada byte, el NIBBLE BAJO es la sala a la que se pasa saliendo por la
-# izquierda (0xF: no hay), y el ALTO es LA POSICION de esa sala en el plano.
-# Que es la posicion lo dice el perseguidor: 0x74C0 compara ese nibble con
-# 0xC0 -los dos bits altos- para decidir si tiene que moverse en horizontal,
-# y 0x74C4 con 0x30 -los dos bajos- para la vertical. O sea que el nibble es
-# columna*4 + fila.
+# De cada byte, el NIBBLE BAJO es otra sala (0xF: no hay) y el ALTO es LA
+# POSICION de esta en el plano: los dos bits ALTOS son LA FILA y los dos
+# siguientes LA COLUMNA.
 #
-# Y encaja con lo demas: 0x5327 da la sala de la derecha, y las de arriba y
-# abajo son la de ahora menos y mas uno (el `dec b` de 0x529A y los dos `inc
-# b` de 0x52A2).
+# ESTO ESTUVO PUBLICADO AL REVES, y lo caza theNestruo. Que el orden es este y
+# no el otro lo dicen los propios decorados: montando los planos asi, las
+# casillas de la ultima fila de una sala coinciden con las de la primera de la
+# de abajo en el 77,8 % de los casos, y las de su ultima columna con las de la
+# primera de la de al lado en el 56,6 % -o sea, las escaleras y las plataformas
+# siguen-. Con el orden cambiado sale 0,4 % y 0,0 %, que es POR DEBAJO del
+# 10,8 % y el 7,2 % que da comparar salas de niveles distintos. Lo mide
+# tests/test_listado.py, que ademas exige que la lectura cambiada suspenda.
+#
+# Y encaja con las dos tablas de paso: medido sobre las 38 entradas de cada
+# una, la sala que da 0x52DB esta SIEMPRE justo ENCIMA y la que da 0x5327
+# SIEMPRE justo DEBAJO. La sala n+1 -el `dec b` de 0x529A y los dos `inc b` de
+# 0x52A2- es la de la DERECHA, saltando al principio de la fila siguiente
+# cuando se acaba la de ahora, como se lee un texto.
 REPARTO_POR_NIVEL = 0x9D67            # un byte por nivel: cual de los 19
-SALAS_POR_LA_IZQUIERDA = 0x52DB       # 19 filas de cuatro
-SALAS_POR_LA_DERECHA = 0x5327
+SALAS_POR_ARRIBA = 0x52DB             # 19 filas de cuatro
+SALAS_POR_ABAJO = 0x5327
+SALAS_POR_LA_IZQUIERDA = SALAS_POR_ARRIBA   # el nombre viejo, que estaba mal
 
 
 def reparto_del_nivel(rom, nivel):
     """La posicion (columna, fila) de cada una de las cuatro salas."""
     r = rom[REPARTO_POR_NIVEL - ORG + nivel - 1]
-    return [((rom[SALAS_POR_LA_IZQUIERDA - ORG + 4 * r + s] >> 6),
-             (rom[SALAS_POR_LA_IZQUIERDA - ORG + 4 * r + s] >> 4) & 3)
+    return [(((rom[SALAS_POR_ARRIBA - ORG + 4 * r + s] >> 4) & 3),
+             (rom[SALAS_POR_ARRIBA - ORG + 4 * r + s] >> 6))
             for s in range(4)]
 
 

@@ -13,26 +13,37 @@ buscar en los bytes lo que el ya sabia.*
 `(0xE06A)`. Ese byte elige una de las **diecinueve** filas de `0x52DB`, cuatro
 bytes, uno por sala.
 
-De cada byte, el **nibble bajo** es la sala a la que se pasa saliendo por la
-izquierda (`0xF`: no hay), y el **alto es LA POSICION** de esa sala en el
-plano. Que es la posicion no es una suposicion: lo dice el perseguidor.
-`0x74C0` compara ese nibble con `0xC0` -los dos bits altos- para decidir si
-tiene que moverse en horizontal, y `0x74C4` con `0x30` -los dos bajos- para la
-vertical. O sea que el nibble es **columna por cuatro mas fila**.
+De cada byte, el **nibble bajo** es otra sala (`0xF`: no hay) y el **alto es LA POSICION** de esa sala en el
+plano: los dos bits **altos son LA FILA** y los dos siguientes **LA COLUMNA**.
 
-Y encaja con todo lo demas: `0x5327` da la sala de la derecha, y las de arriba
-y abajo son la de ahora menos y mas uno -el `dec b` de `0x529A` y los dos
-`inc b` de `0x52A2`-.
+Esto se publico AL REVES el 2026-09-09, y lo caza theNestruo. Lo que decide no
+es ningun razonamiento sino el propio decorado, contado casilla a casilla en
+las junturas internas de los 25 niveles:
+
+| lectura | ultima fila contra la primera de abajo | ultima columna contra la primera de al lado |
+| --- | --- | --- |
+| la buena | **77,8 %** | **56,6 %** |
+| con los ejes cambiados | 0,4 % | 0,0 % |
+| linea base: salas de OTRO nivel | 10,8 % | 7,2 % |
+
+La lectura que estuvo publicada encaja **por debajo del azar**. Hay un test que
+lo exige, y que ademas obliga a que la lectura cambiada suspenda.
+
+Y encaja con las dos tablas de paso, medido sobre sus 38 entradas cada una:
+la sala que da `0x52DB` esta **siempre justo encima** y la que da `0x5327`
+**siempre justo debajo**. La sala n+1 -el `dec b` de `0x529A` y los dos
+`inc b` de `0x52A2`- es la de la **derecha**, saltando al principio de la fila
+siguiente cuando se acaba la de ahora, como se lee un texto.
 
 Los veinticinco repartos, contados sobre esos bytes:
 
 | forma | niveles |
 | --- | --- |
-| una columna de cuatro | 1, 10, 15 |
-| una fila de cuatro | 2, 19 |
+| una fila de cuatro | 1, 10, 15 |
+| una columna de cuatro | 2, 19 |
 | 2x2 | 3, 9, 13, 17, 24, 25 |
-| tres columnas por dos filas | 4, 6, 8, 11, 14, 21 |
-| dos columnas por tres filas | 5, 7, 12, 16, 18, 20, 22, 23 |
+| dos columnas por tres filas | 4, 6, 8, 11, 14, 21 |
+| tres columnas por dos filas | 5, 7, 12, 16, 18, 20, 22, 23 |
 
 La prueba de que el reparto es el bueno esta en el dibujo: montadas asi, **las
 plataformas y las escaleras siguen de una sala a la de al lado**, y el agua del

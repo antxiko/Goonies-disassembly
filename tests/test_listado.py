@@ -781,12 +781,16 @@ class TestElRepartoDeSalas(unittest.TestCase):
     """
 
     REPARTO_POR_NIVEL = 0x9D67
-    SALAS_POR_LA_IZQUIERDA = 0x52DB
+    SALAS_POR_ARRIBA = 0x52DB
+    SALAS_POR_ABAJO = 0x5327
 
     def reparto(self, nivel):
+        """(columna, fila): los dos bits ALTOS son la fila y los dos de al lado
+        la columna. Estuvo publicado al reves; lo caza
+        test_el_orden_de_los_ejes_no_puede_estar_cambiado."""
         r = trozo(self.REPARTO_POR_NIVEL + nivel - 1, 1)[0]
-        b = trozo(self.SALAS_POR_LA_IZQUIERDA + 4 * r, 4)
-        return [(x >> 6, (x >> 4) & 3) for x in b]
+        b = trozo(self.SALAS_POR_ARRIBA + 4 * r, 4)
+        return [((x >> 4) & 3, x >> 6) for x in b]
 
     ROM = os.path.join(RAIZ, "goonies.rom")
 
@@ -817,20 +821,90 @@ class TestElRepartoDeSalas(unittest.TestCase):
                 self.assertEqual(usadas, list(range(len(usadas))),
                                  "el nivel %d salta un eje: %s" % (nivel, pos))
 
-    def test_las_salas_de_al_lado_son_las_que_dice_la_tabla(self):
-        """El nibble bajo dice la sala de la izquierda: tiene que estar AL LADO."""
+    def test_las_dos_tablas_de_paso_dicen_arriba_y_abajo(self):
+        """0x52DB da la sala de ENCIMA y 0x5327 la de DEBAJO, en las 38 de cada una.
+
+        Antes este test preguntaba por la sala de la IZQUIERDA, y pasaba: es lo
+        que dejo publicado el reparto con los ejes cambiados. Preguntando lo que
+        de verdad dicen las tablas, la lectura vieja suspende.
+        """
+        arriba = abajo = 0
         for nivel in range(1, 26):
             r = trozo(self.REPARTO_POR_NIVEL + nivel - 1, 1)[0]
-            b = trozo(self.SALAS_POR_LA_IZQUIERDA + 4 * r, 4)
             pos = self.reparto(nivel)
             for s in range(4):
-                izq = b[s] & 0x0F
-                if izq == 0x0F:
-                    continue
-                self.assertLess(izq, 4)
-                self.assertEqual((pos[izq][0] + 1, pos[izq][1]), pos[s],
-                                 "nivel %d: la sala %d dice que a su izquierda "
-                                 "esta la %d, y no esta al lado" % (nivel, s, izq))
+                a = trozo(self.SALAS_POR_ARRIBA + 4 * r + s, 1)[0] & 0x0F
+                if a != 0x0F:
+                    arriba += 1
+                    self.assertLess(a, 4)
+                    self.assertEqual((pos[a][0], pos[a][1] + 1), pos[s],
+                                     "nivel %d: la sala %d dice que encima "
+                                     "tiene la %d, y no esta encima"
+                                     % (nivel, s, a))
+                b = trozo(self.SALAS_POR_ABAJO + 4 * r + s, 1)[0]
+                if b != 0xFF:
+                    abajo += 1
+                    self.assertLess(b & 0x0F, 4)
+                    self.assertEqual((pos[b & 0x0F][0], pos[b & 0x0F][1] - 1),
+                                     pos[s],
+                                     "nivel %d: la sala %d dice que debajo "
+                                     "tiene la %d, y no esta debajo"
+                                     % (nivel, s, b & 0x0F))
+        self.assertEqual((arriba, abajo), (38, 38))
+
+    def test_el_orden_de_los_ejes_no_puede_estar_cambiado(self):
+        """El decorado decide: montado bien, sigue de una sala a la de al lado.
+
+        Este es el test que faltaba, y el que habria evitado publicar el plano
+        traspuesto. Se comparan las casillas a lado y lado de cada juntura
+        interna con la lectura buena y con la cambiada, y se exige que la buena
+        gane por mucho Y que la cambiada quede POR DEBAJO de la linea base, que
+        es comparar salas de niveles distintos.
+        """
+        import vram as V
+        rom = open(os.path.join(RAIZ, "goonies.rom"), "rb").read()
+        salas = {n: V.salas(rom, n)[0] for n in range(1, 26)}
+
+        def encajes(cambiado):
+            ok = tot = 0
+            for n in range(1, 26):
+                r = trozo(self.REPARTO_POR_NIVEL + n - 1, 1)[0]
+                b = trozo(self.SALAS_POR_ARRIBA + 4 * r, 4)
+                pos = [((x >> 6, (x >> 4) & 3) if cambiado
+                        else ((x >> 4) & 3, x >> 6)) for x in b]
+                S = salas[n]
+                for a in range(4):
+                    for c in range(4):
+                        if a == c:
+                            continue
+                        if pos[a][0] == pos[c][0] and pos[c][1] == pos[a][1] + 1:
+                            u, v = S[a][19], S[c][0]
+                            tot += 32
+                            ok += sum(1 for k in range(32) if u[k] == v[k])
+                        if pos[a][1] == pos[c][1] and pos[c][0] == pos[a][0] + 1:
+                            u = [S[a][f][31] for f in range(20)]
+                            v = [S[c][f][0] for f in range(20)]
+                            tot += 20
+                            ok += sum(1 for k in range(20) if u[k] == v[k])
+            return 100.0 * ok / tot
+
+        base = 0
+        n_base = 0
+        for n in range(1, 26):
+            m = 1 + (n + 7) % 25
+            for a in range(4):
+                u, v = salas[n][a][19], salas[m][(a + 1) % 4][0]
+                n_base += 32
+                base += sum(1 for k in range(32) if u[k] == v[k])
+        base = 100.0 * base / n_base
+
+        buena, mala = encajes(False), encajes(True)
+        self.assertGreater(buena, 60.0,
+                           "el plano bueno solo encaja el %.1f %%" % buena)
+        self.assertLess(mala, base,
+                        "la lectura CAMBIADA encaja el %.1f %%, por encima de "
+                        "la linea base %.1f %%: este test no distingue"
+                        % (mala, base))
 
     def test_las_sesenta_y_cuatro_puertas_emparejan(self):
         """La puerta j de A dice (B, k), y la puerta k de B tiene que decir (A, j)."""

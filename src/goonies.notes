@@ -246,7 +246,7 @@ D 0x9d11 0x9d3c color_del_marcador_arriba  RLE, 496 bytes desde 0x1010
 F 0x9d11 16
 D 0x9d3c 0x9d67 color_del_marcador_abajo  RLE, 264 bytes desde 0x14A8
 F 0x9d3c 16
-D 0x9d67 0x9d80 el_reparto_de_salas_de_cada_nivel  25 bytes, uno por nivel; 0x4F82 lo lee y lo deja en (0xE06A). Es CUAL DE LOS 19 REPARTOS de 0x52DB le toca, o sea la forma del plano del nivel: 1, 10 y 15 en columna; 2 y 19 en fila; 3, 9, 13, 17, 24 y 25 en 2x2; y los otros catorce con forma rara
+D 0x9d67 0x9d80 el_reparto_de_salas_de_cada_nivel  25 bytes, uno por nivel; 0x4F82 lo lee y lo deja en (0xE06A). Es CUAL DE LOS 19 REPARTOS de 0x52DB le toca, o sea la forma del plano del nivel: 1, 10 y 15 en FILA de cuatro; 2 y 19 en COLUMNA; 3, 9, 13, 17, 24 y 25 en 2x2; y los otros catorce con forma rara
 F 0x9d67 16
 
 # ======================================================================
@@ -1572,9 +1572,9 @@ C 0x513f y si no, lo que sobra se coge del principio del bufer: los sprites se t
 #
 # Del byte se usan los dos nibbles por separado: 0x52BB se queda con el bajo y
 # 0x52CA con el alto.
-D 0x52db 0x5327 salas_al_salir_por_la_izquierda  19 filas de 4; la fila la da (0xE06A) y la columna la sala de ahora. Cada byte lleva DOS cosas: el nibble BAJO es la sala de la izquierda -0xF: no hay- y el ALTO es LA POSICION de esta sala en el plano, columna*4 + fila. Que es la posicion lo dice el perseguidor: 0x74C0 mira ese nibble con 0xC0 -los dos bits altos, la columna- para moverse en horizontal y 0x74C4 con 0x30 -la fila- para la vertical
+D 0x52db 0x5327 salas_al_salir_por_arriba  19 filas de 4; la fila la da (0xE06A) y la columna la sala de ahora. Cada byte lleva DOS cosas: el nibble BAJO es la sala de ARRIBA -0xF: no hay- y el ALTO es LA POSICION de esta sala en el plano: los dos bits ALTOS la FILA y los dos siguientes la COLUMNA. Medido sobre las 38 entradas: la sala que cita esta SIEMPRE justo encima
 F 0x52db 4
-D 0x5327 0x5373 salas_al_salir_por_la_derecha  la gemela, con la misma forma
+D 0x5327 0x5373 salas_al_salir_por_abajo  la gemela, con la misma forma; su nibble bajo es la sala de ABAJO, medido igual sobre 38 entradas
 F 0x5327 4
 
 
@@ -1635,7 +1635,7 @@ C 0x5294 si es 0xC0 o mas, se sale POR LA DERECHA
 C 0x5298 y si no, se mira la fila
 C 0x529c la fila a la que se entra por abajo
 C 0x529e menos de 8 es salirse por arriba
-C 0x52a2 una sala mas: arriba y abajo son la de ahora menos y mas uno, y la forma del plano la pone el nibble alto de 0x52DB
+C 0x52a2 una sala mas: la de al lado es la de ahora menos y mas uno, saltando de fila como se lee un texto; la forma del plano la pone el nibble alto de 0x52DB
 C 0x52a4 la fila a la que se entra por arriba
 C 0x52a6 y 0xF7 o mas es salirse por abajo
 C 0x52aa si no se ha salido por ningun lado, vuelve sin z

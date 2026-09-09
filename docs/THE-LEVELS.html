@@ -90,11 +90,11 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p>Under each room is what it carries, counted by walking the lists with the same rules the Z80 uses. The captions are written in the cartridge&#x27;s own font.</p>
 <p>And they are not on their own. Before each level comes <b>the whole plan</b>, with the four rooms placed where the cartridge places them: the arrangement <code>0x52DB</code> gives it, which is not the same for all - there are columns, rows, 2x2 and fourteen odd shapes. Put together like this, platforms and ladders carry on from one room into the next. Before each round comes <b>the minimap of its five levels</b>, with the skull doors joined up.</p>
 <h2 id="round-1-levels-1-to-5">Round 1 — levels 1 to 5</h2>
-<p><img src="imagenes/ronda-1.png?v=781b81cd" alt="Round 1"></p>
+<p><img src="imagenes/ronda-1.png?v=5d5e688f" alt="Round 1"></p>
 <p><em>The five levels of round 1 and their skull doors. Each level is laid out with the room arrangement 0x52DB gives it, and every line joins TWO doors that really pair up: door j of level A says (B, k) and door k of level B says (A, j). All 64 in the cartridge pair up like that, and none leaves its round. Two things in this picture do NOT come from the ROM, so they are said out loud: where each level sits on the ring -of the twelve possible orders the one with fewest crossings is picked- and the bow of the curves, which separates the pairs of levels joined by TWO doors.</em></p>
 <h3 id="level-1">Level 1</h3>
-<p><img src="imagenes/mapa-nivel-01.png?v=54f26e67" alt="Level 1"></p>
-<p><em>The four rooms of level 1, placed where the cartridge places them: a column of four. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.</em></p>
+<p><img src="imagenes/mapa-nivel-01.png?v=a67744d2" alt="Level 1"></p>
+<p><em>The four rooms of level 1, placed where the cartridge places them: a row of four. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.</em></p>
 <p><img src="imagenes/sala-01-1.png?v=ce7b306e" alt="Level 1 room 1"></p>
 <p><em>Level 1, room 1. It carries: 2 stalactite, 2 drip, 1 blinking pickup, 1 cage, 1 hidden item, 1 skull door, 1 skull.</em></p>
 <p><img src="imagenes/sala-01-2.png?v=c46e4bff" alt="Level 1 room 2"></p>
@@ -104,8 +104,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="imagenes/sala-01-4.png?v=9cd03b5f" alt="Level 1 room 4"></p>
 <p><em>Level 1, room 4. It carries: 3 skull, 2 stalactite, 2 door to the next level, 1 blinking pickup, 1 cage, 1 drip.</em></p>
 <h3 id="level-2">Level 2</h3>
-<p><img src="imagenes/mapa-nivel-02.png?v=793a23ff" alt="Level 2"></p>
-<p><em>The four rooms of level 2, placed where the cartridge places them: a row of four. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.</em></p>
+<p><img src="imagenes/mapa-nivel-02.png?v=8525c33d" alt="Level 2"></p>
+<p><em>The four rooms of level 2, placed where the cartridge places them: a column of four. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.</em></p>
 <p><img src="imagenes/sala-02-1.png?v=9914a47f" alt="Level 2 room 1"></p>
 <p><em>Level 2, room 1. It carries: 1 chaser, 1 door to the next level, 1 cage, 1 hidden item.</em></p>
 <p><img src="imagenes/sala-02-2.png?v=a3a1572d" alt="Level 2 room 2"></p>
@@ -115,8 +115,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="imagenes/sala-02-4.png?v=0c43ed8b" alt="Level 2 room 4"></p>
 <p><em>Level 2, room 4. It carries: 2 skull, 1 door to the next level, 1 blinking pickup, 1 drip.</em></p>
 <h3 id="level-3">Level 3</h3>
-<p><img src="imagenes/mapa-nivel-03.png?v=f02c223c" alt="Level 3"></p>
-<p><em>The four rooms of level 3, placed where the cartridge places them: 2x2. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.</em></p>
+<p><img src="imagenes/mapa-nivel-03.png?v=cffb425d" alt="Level 3"></p>
+<p><em>The four rooms of level 3, placed where the cartridge places them: 2x2. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.</em></p>
 <p><img src="imagenes/sala-03-1.png?v=77627119" alt="Level 3 room 1"></p>
 <p><em>Level 3, room 1. It carries: 6 pipe leak, 1 stalactite, 1 chaser, 1 door to the next level, 1 blinking pickup, 1 cage, 1 drip.</em></p>
 <p><img src="imagenes/sala-03-2.png?v=52819bd6" alt="Level 3 room 2"></p>
@@ -126,8 +126,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="imagenes/sala-03-4.png?v=abfb60a3" alt="Level 3 room 4"></p>
 <p><em>Level 3, room 4. It carries: 3 pipe leak, 3 drip, 1 door to the next level, 1 blinking pickup, 1 hidden item, 1 water jet, 1 skull.</em></p>
 <h3 id="level-4">Level 4</h3>
-<p><img src="imagenes/mapa-nivel-04.png?v=005c97c9" alt="Level 4"></p>
-<p><em>The four rooms of level 4, placed where the cartridge places them: 3x2, <code>--3 / 124</code>. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.</em></p>
+<p><img src="imagenes/mapa-nivel-04.png?v=560998cb" alt="Level 4"></p>
+<p><em>The four rooms of level 4, placed where the cartridge places them: 2x3, <code>-1 / -2 / 34</code>. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.</em></p>
 <p><img src="imagenes/sala-04-1.png?v=138db154" alt="Level 4 room 1"></p>
 <p><em>Level 4, room 1. It carries: 2 blinking pickup, 2 drip, 2 skull, 1 stalactite, 1 chaser, 1 door to the next level, 1 boulder.</em></p>
 <p><img src="imagenes/sala-04-2.png?v=af7f6aec" alt="Level 4 room 2"></p>
@@ -137,8 +137,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="imagenes/sala-04-4.png?v=b2835eff" alt="Level 4 room 4"></p>
 <p><em>Level 4, room 4. It carries: 2 cage, 2 skull, 1 stalactite, 1 chaser, 1 hidden item, 1 drip, 1 bat.</em></p>
 <h3 id="level-5">Level 5</h3>
-<p><img src="imagenes/mapa-nivel-05.png?v=217e4f93" alt="Level 5"></p>
-<p><em>The four rooms of level 5, placed where the cartridge places them: 2x3, <code>1- / 2- / 34</code>. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.</em></p>
+<p><img src="imagenes/mapa-nivel-05.png?v=40843175" alt="Level 5"></p>
+<p><em>The four rooms of level 5, placed where the cartridge places them: 3x2, <code>123 / --4</code>. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.</em></p>
 <p><img src="imagenes/sala-05-1.png?v=4ae62a32" alt="Level 5 room 1"></p>
 <p><em>Level 5, room 1. It carries: 2 water jet, 1 door to the next level, 1 blinking pickup, 1 hidden item, 1 drip, 1 skull.</em></p>
 <p><img src="imagenes/sala-05-2.png?v=f40639af" alt="Level 5 room 2"></p>
@@ -148,11 +148,11 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="imagenes/sala-05-4.png?v=b05eb814" alt="Level 5 room 4"></p>
 <p><em>Level 5, room 4. It carries: 4 drip, 2 blinking pickup, 2 skull, 1 chaser, 1 door to the next level, 1 cage, 1 skull door.</em></p>
 <h2 id="round-2-levels-6-to-10">Round 2 — levels 6 to 10</h2>
-<p><img src="imagenes/ronda-2.png?v=a79f4e55" alt="Round 2"></p>
+<p><img src="imagenes/ronda-2.png?v=82aa084d" alt="Round 2"></p>
 <p><em>The five levels of round 2 and their skull doors. Each level is laid out with the room arrangement 0x52DB gives it, and every line joins TWO doors that really pair up: door j of level A says (B, k) and door k of level B says (A, j). All 64 in the cartridge pair up like that, and none leaves its round. Two things in this picture do NOT come from the ROM, so they are said out loud: where each level sits on the ring -of the twelve possible orders the one with fewest crossings is picked- and the bow of the curves, which separates the pairs of levels joined by TWO doors.</em></p>
 <h3 id="level-6">Level 6</h3>
-<p><img src="imagenes/mapa-nivel-06.png?v=07f10ba4" alt="Level 6"></p>
-<p><em>The four rooms of level 6, placed where the cartridge places them: 3x2, <code>124 / -3-</code>. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.</em></p>
+<p><img src="imagenes/mapa-nivel-06.png?v=e91a5d2f" alt="Level 6"></p>
+<p><em>The four rooms of level 6, placed where the cartridge places them: 2x3, <code>1- / 23 / 4-</code>. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.</em></p>
 <p><img src="imagenes/sala-06-1.png?v=f9aee7f9" alt="Level 6 room 1"></p>
 <p><em>Level 6, room 1. It carries: 6 rising column, 3 drip, 2 boulder, 1 chaser, 1 door to the next level, 1 cage, 1 skull door, 1 skull.</em></p>
 <p><img src="imagenes/sala-06-2.png?v=6b62a497" alt="Level 6 room 2"></p>
@@ -162,8 +162,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="imagenes/sala-06-4.png?v=18af1a98" alt="Level 6 room 4"></p>
 <p><em>Level 6, room 4. It carries: 6 rising column, 3 skull, 2 stalactite, 2 drip, 1 door to the next level, 1 blinking pickup, 1 bat.</em></p>
 <h3 id="level-7">Level 7</h3>
-<p><img src="imagenes/mapa-nivel-07.png?v=1fd35d21" alt="Level 7"></p>
-<p><em>The four rooms of level 7, placed where the cartridge places them: 2x3, <code>1- / 23 / -4</code>. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.</em></p>
+<p><img src="imagenes/mapa-nivel-07.png?v=d0bdcd7a" alt="Level 7"></p>
+<p><em>The four rooms of level 7, placed where the cartridge places them: 3x2, <code>12- / -34</code>. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.</em></p>
 <p><img src="imagenes/sala-07-1.png?v=0e702704" alt="Level 7 room 1"></p>
 <p><em>Level 7, room 1. It carries: 4 stalactite, 4 drip, 2 boulder, 1 chaser, 1 door to the next level, 1 blinking pickup, 1 cage, 1 hidden item.</em></p>
 <p><img src="imagenes/sala-07-2.png?v=fb4b2feb" alt="Level 7 room 2"></p>
@@ -173,8 +173,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="imagenes/sala-07-4.png?v=3f02f5c3" alt="Level 7 room 4"></p>
 <p><em>Level 7, room 4. It carries: 1 stalactite, 1 chaser, 1 door to the next level, 1 blinking pickup, 1 cage, 1 water jet, 1 drip.</em></p>
 <h3 id="level-8">Level 8</h3>
-<p><img src="imagenes/mapa-nivel-08.png?v=026dcd5e" alt="Level 8"></p>
-<p><em>The four rooms of level 8, placed where the cartridge places them: 3x2, <code>1-- / 234</code>. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.</em></p>
+<p><img src="imagenes/mapa-nivel-08.png?v=effdc530" alt="Level 8"></p>
+<p><em>The four rooms of level 8, placed where the cartridge places them: 2x3, <code>12 / -3 / -4</code>. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.</em></p>
 <p><img src="imagenes/sala-08-1.png?v=c0b56192" alt="Level 8 room 1"></p>
 <p><em>Level 8, room 1. It carries: 6 rising column, 3 stalactite, 2 drip, 2 skull, 1 chaser, 1 blinking pickup, 1 cage.</em></p>
 <p><img src="imagenes/sala-08-2.png?v=72566e88" alt="Level 8 room 2"></p>
@@ -184,8 +184,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="imagenes/sala-08-4.png?v=9e08d1f7" alt="Level 8 room 4"></p>
 <p><em>Level 8, room 4. It carries: 2 blinking pickup, 2 boulder, 1 chaser, 1 door to the next level, 1 cage.</em></p>
 <h3 id="level-9">Level 9</h3>
-<p><img src="imagenes/mapa-nivel-09.png?v=1b6290e2" alt="Level 9"></p>
-<p><em>The four rooms of level 9, placed where the cartridge places them: 2x2. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.</em></p>
+<p><img src="imagenes/mapa-nivel-09.png?v=0b5792c8" alt="Level 9"></p>
+<p><em>The four rooms of level 9, placed where the cartridge places them: 2x2. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.</em></p>
 <p><img src="imagenes/sala-09-1.png?v=905140a5" alt="Level 9 room 1"></p>
 <p><em>Level 9, room 1. It carries: 7 pipe leak, 2 drip, 1 stalactite, 1 chaser, 1 blinking pickup, 1 cage, 1 skull door, 1 skull.</em></p>
 <p><img src="imagenes/sala-09-2.png?v=1faf63b4" alt="Level 9 room 2"></p>
@@ -195,8 +195,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="imagenes/sala-09-4.png?v=f70cdad9" alt="Level 9 room 4"></p>
 <p><em>Level 9, room 4. It carries: 7 pipe leak, 2 chaser, 1 stalactite, 1 blinking pickup, 1 cage, 1 drip, 1 skull.</em></p>
 <h3 id="level-10">Level 10</h3>
-<p><img src="imagenes/mapa-nivel-10.png?v=3d605a1f" alt="Level 10"></p>
-<p><em>The four rooms of level 10, placed where the cartridge places them: a column of four. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.</em></p>
+<p><img src="imagenes/mapa-nivel-10.png?v=d4978049" alt="Level 10"></p>
+<p><em>The four rooms of level 10, placed where the cartridge places them: a row of four. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.</em></p>
 <p><img src="imagenes/sala-10-1.png?v=c1dd9913" alt="Level 10 room 1"></p>
 <p><em>Level 10, room 1. It carries: 2 drip, 1 chaser, 1 door to the next level, 1 blinking pickup, 1 boulder.</em></p>
 <p><img src="imagenes/sala-10-2.png?v=c96f3946" alt="Level 10 room 2"></p>
@@ -206,11 +206,11 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="imagenes/sala-10-4.png?v=188fc916" alt="Level 10 room 4"></p>
 <p><em>Level 10, room 4. It carries: 1 stalactite, 1 chaser, 1 door to the next level, 1 blinking pickup, 1 hidden item, 1 boulder, 1 drip, 1 bat.</em></p>
 <h2 id="round-3-levels-11-to-15">Round 3 — levels 11 to 15</h2>
-<p><img src="imagenes/ronda-3.png?v=cc9b2599" alt="Round 3"></p>
+<p><img src="imagenes/ronda-3.png?v=ea3ead26" alt="Round 3"></p>
 <p><em>The five levels of round 3 and their skull doors. Each level is laid out with the room arrangement 0x52DB gives it, and every line joins TWO doors that really pair up: door j of level A says (B, k) and door k of level B says (A, j). All 64 in the cartridge pair up like that, and none leaves its round. Two things in this picture do NOT come from the ROM, so they are said out loud: where each level sits on the ring -of the twelve possible orders the one with fewest crossings is picked- and the bow of the curves, which separates the pairs of levels joined by TWO doors.</em></p>
 <h3 id="level-11">Level 11</h3>
-<p><img src="imagenes/mapa-nivel-11.png?v=712e865a" alt="Level 11"></p>
-<p><em>The four rooms of level 11, placed where the cartridge places them: 3x2, <code>-2- / 134</code>. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.</em></p>
+<p><img src="imagenes/mapa-nivel-11.png?v=947cde71" alt="Level 11"></p>
+<p><em>The four rooms of level 11, placed where the cartridge places them: 2x3, <code>-1 / 23 / -4</code>. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.</em></p>
 <p><img src="imagenes/sala-11-1.png?v=e3a4ba80" alt="Level 11 room 1"></p>
 <p><em>Level 11, room 1. It carries: 2 stalactite, 1 chaser, 1 door to the next level, 1 cage.</em></p>
 <p><img src="imagenes/sala-11-2.png?v=2e6391e3" alt="Level 11 room 2"></p>
@@ -220,8 +220,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="imagenes/sala-11-4.png?v=d5d76286" alt="Level 11 room 4"></p>
 <p><em>Level 11, room 4. It carries: 6 rising column, 3 skull, 1 chaser, 1 door to the next level, 1 blinking pickup, 1 hidden item, 1 boulder, 1 drip, 1 bat.</em></p>
 <h3 id="level-12">Level 12</h3>
-<p><img src="imagenes/mapa-nivel-12.png?v=176f1d7a" alt="Level 12"></p>
-<p><em>The four rooms of level 12, placed where the cartridge places them: 2x3, <code>14 / 2- / 3-</code>. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.</em></p>
+<p><img src="imagenes/mapa-nivel-12.png?v=9b66d73c" alt="Level 12"></p>
+<p><em>The four rooms of level 12, placed where the cartridge places them: 3x2, <code>123 / 4--</code>. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.</em></p>
 <p><img src="imagenes/sala-12-1.png?v=46f27389" alt="Level 12 room 1"></p>
 <p><em>Level 12, room 1. It carries: 4 stalactite, 2 blinking pickup, 2 skull, 1 chaser, 1 door to the next level, 1 boulder, 1 drip.</em></p>
 <p><img src="imagenes/sala-12-2.png?v=e5a3a82f" alt="Level 12 room 2"></p>
@@ -231,8 +231,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="imagenes/sala-12-4.png?v=3cd36ea2" alt="Level 12 room 4"></p>
 <p><em>Level 12, room 4. It carries: 4 skull, 3 stalactite, 1 chaser, 1 door to the next level, 1 cage.</em></p>
 <h3 id="level-13">Level 13</h3>
-<p><img src="imagenes/mapa-nivel-13.png?v=377bf5d3" alt="Level 13"></p>
-<p><em>The four rooms of level 13, placed where the cartridge places them: 2x2. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.</em></p>
+<p><img src="imagenes/mapa-nivel-13.png?v=a053e25e" alt="Level 13"></p>
+<p><em>The four rooms of level 13, placed where the cartridge places them: 2x2. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.</em></p>
 <p><img src="imagenes/sala-13-1.png?v=92b0869d" alt="Level 13 room 1"></p>
 <p><em>Level 13, room 1. It carries: 3 stalactite, 2 drip, 2 skull, 1 door to the next level, 1 blinking pickup, 1 many-legged creature.</em></p>
 <p><img src="imagenes/sala-13-2.png?v=41cad249" alt="Level 13 room 2"></p>
@@ -242,8 +242,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="imagenes/sala-13-4.png?v=6b41ff24" alt="Level 13 room 4"></p>
 <p><em>Level 13, room 4. It carries: 2 stalactite, 2 drip, 2 skull, 1 blinking pickup, 1 cage, 1 hidden item, 1 water jet.</em></p>
 <h3 id="level-14">Level 14</h3>
-<p><img src="imagenes/mapa-nivel-14.png?v=c68d9222" alt="Level 14"></p>
-<p><em>The four rooms of level 14, placed where the cartridge places them: 3x2, <code>123 / --4</code>. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.</em></p>
+<p><img src="imagenes/mapa-nivel-14.png?v=0a7bc06f" alt="Level 14"></p>
+<p><em>The four rooms of level 14, placed where the cartridge places them: 2x3, <code>1- / 2- / 34</code>. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.</em></p>
 <p><img src="imagenes/sala-14-1.png?v=6c874244" alt="Level 14 room 1"></p>
 <p><em>Level 14, room 1. It carries: 2 pipe leak, 1 stalactite, 1 door to the next level, 1 flame.</em></p>
 <p><img src="imagenes/sala-14-2.png?v=70694674" alt="Level 14 room 2"></p>
@@ -253,8 +253,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="imagenes/sala-14-4.png?v=5c1aa6b2" alt="Level 14 room 4"></p>
 <p><em>Level 14, room 4. It carries: 4 pipe leak, 3 stalactite, 2 chaser, 1 door to the next level, 1 blinking pickup, 1 cage, 1 hidden item, 1 skull, 1 bat.</em></p>
 <h3 id="level-15">Level 15</h3>
-<p><img src="imagenes/mapa-nivel-15.png?v=21e2bfc2" alt="Level 15"></p>
-<p><em>The four rooms of level 15, placed where the cartridge places them: a column of four. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.</em></p>
+<p><img src="imagenes/mapa-nivel-15.png?v=440099f4" alt="Level 15"></p>
+<p><em>The four rooms of level 15, placed where the cartridge places them: a row of four. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.</em></p>
 <p><img src="imagenes/sala-15-1.png?v=3836bec2" alt="Level 15 room 1"></p>
 <p><em>Level 15, room 1. It carries: 4 stalactite, 1 chaser, 1 door to the next level, 1 hidden item, 1 drip.</em></p>
 <p><img src="imagenes/sala-15-2.png?v=05d2ebf2" alt="Level 15 room 2"></p>
@@ -264,11 +264,11 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="imagenes/sala-15-4.png?v=a79600cd" alt="Level 15 room 4"></p>
 <p><em>Level 15, room 4. It carries: 2 drip, 1 chaser, 1 door to the next level, 1 cage, 1 bat.</em></p>
 <h2 id="round-4-levels-16-to-20">Round 4 — levels 16 to 20</h2>
-<p><img src="imagenes/ronda-4.png?v=dafca0c3" alt="Round 4"></p>
+<p><img src="imagenes/ronda-4.png?v=afaedf10" alt="Round 4"></p>
 <p><em>The five levels of round 4 and their skull doors. Each level is laid out with the room arrangement 0x52DB gives it, and every line joins TWO doors that really pair up: door j of level A says (B, k) and door k of level B says (A, j). All 64 in the cartridge pair up like that, and none leaves its round. Two things in this picture do NOT come from the ROM, so they are said out loud: where each level sits on the ring -of the twelve possible orders the one with fewest crossings is picked- and the bow of the curves, which separates the pairs of levels joined by TWO doors.</em></p>
 <h3 id="level-16">Level 16</h3>
-<p><img src="imagenes/mapa-nivel-16.png?v=0b792754" alt="Level 16"></p>
-<p><em>The four rooms of level 16, placed where the cartridge places them: 2x3, <code>1- / 24 / 3-</code>. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.</em></p>
+<p><img src="imagenes/mapa-nivel-16.png?v=006dec4c" alt="Level 16"></p>
+<p><em>The four rooms of level 16, placed where the cartridge places them: 3x2, <code>123 / -4-</code>. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.</em></p>
 <p><img src="imagenes/sala-16-1.png?v=496f6dc3" alt="Level 16 room 1"></p>
 <p><em>Level 16, room 1. It carries: 1 stalactite, 1 door to the next level, 1 blinking pickup, 1 cage, 1 hidden item, 1 water jet, 1 boulder, 1 skull.</em></p>
 <p><img src="imagenes/sala-16-2.png?v=291287d8" alt="Level 16 room 2"></p>
@@ -278,8 +278,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="imagenes/sala-16-4.png?v=d2122bbc" alt="Level 16 room 4"></p>
 <p><em>Level 16, room 4. It carries: 2 water jet, 1 chaser, 1 door to the next level, 1 blinking pickup, 1 hidden item.</em></p>
 <h3 id="level-17">Level 17</h3>
-<p><img src="imagenes/mapa-nivel-17.png?v=c51e8c22" alt="Level 17"></p>
-<p><em>The four rooms of level 17, placed where the cartridge places them: 2x2. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.</em></p>
+<p><img src="imagenes/mapa-nivel-17.png?v=43299ee8" alt="Level 17"></p>
+<p><em>The four rooms of level 17, placed where the cartridge places them: 2x2. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.</em></p>
 <p><img src="imagenes/sala-17-1.png?v=55ec1d1b" alt="Level 17 room 1"></p>
 <p><em>Level 17, room 1. It carries: 8 pipe leak, 1 chaser, 1 door to the next level, 1 skull.</em></p>
 <p><img src="imagenes/sala-17-2.png?v=8aca2009" alt="Level 17 room 2"></p>
@@ -289,8 +289,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="imagenes/sala-17-4.png?v=2d28cbb1" alt="Level 17 room 4"></p>
 <p><em>Level 17, room 4. It carries: 2 drip, 2 skull, 1 stalactite, 1 chaser, 1 door to the next level, 1 blinking pickup, 1 flame, 1 pipe leak.</em></p>
 <h3 id="level-18">Level 18</h3>
-<p><img src="imagenes/mapa-nivel-18.png?v=65599557" alt="Level 18"></p>
-<p><em>The four rooms of level 18, placed where the cartridge places them: 2x3, <code>-2 / 13 / -4</code>. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.</em></p>
+<p><img src="imagenes/mapa-nivel-18.png?v=38611cff" alt="Level 18"></p>
+<p><em>The four rooms of level 18, placed where the cartridge places them: 3x2, <code>-1- / 234</code>. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.</em></p>
 <p><img src="imagenes/sala-18-1.png?v=91585491" alt="Level 18 room 1"></p>
 <p><em>Level 18, room 1. It carries: 2 blinking pickup, 2 flame, 2 drip, 1 stalactite, 1 chaser, 1 door to the next level, 1 skull.</em></p>
 <p><img src="imagenes/sala-18-2.png?v=dd2e2b4a" alt="Level 18 room 2"></p>
@@ -300,8 +300,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="imagenes/sala-18-4.png?v=0ae54256" alt="Level 18 room 4"></p>
 <p><em>Level 18, room 4. It carries: 3 flame, 2 cage, 1 chaser, 1 blinking pickup, 1 drip, 1 skull, 1 many-legged creature.</em></p>
 <h3 id="level-19">Level 19</h3>
-<p><img src="imagenes/mapa-nivel-19.png?v=241190a1" alt="Level 19"></p>
-<p><em>The four rooms of level 19, placed where the cartridge places them: a row of four. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.</em></p>
+<p><img src="imagenes/mapa-nivel-19.png?v=459349e2" alt="Level 19"></p>
+<p><em>The four rooms of level 19, placed where the cartridge places them: a column of four. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.</em></p>
 <p><img src="imagenes/sala-19-1.png?v=918725f0" alt="Level 19 room 1"></p>
 <p><em>Level 19, room 1. It carries: 2 door to the next level, 1 stalactite, 1 chaser, 1 blinking pickup.</em></p>
 <p><img src="imagenes/sala-19-2.png?v=359a6543" alt="Level 19 room 2"></p>
@@ -311,8 +311,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="imagenes/sala-19-4.png?v=910d2921" alt="Level 19 room 4"></p>
 <p><em>Level 19, room 4. It carries: 2 blinking pickup, 2 water jet, 1 stalactite, 1 door to the next level, 1 cage, 1 drip, 1 bat.</em></p>
 <h3 id="level-20">Level 20</h3>
-<p><img src="imagenes/mapa-nivel-20.png?v=4cc33840" alt="Level 20"></p>
-<p><em>The four rooms of level 20, placed where the cartridge places them: 2x3, <code>12 / -3 / -4</code>. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.</em></p>
+<p><img src="imagenes/mapa-nivel-20.png?v=94d32354" alt="Level 20"></p>
+<p><em>The four rooms of level 20, placed where the cartridge places them: 3x2, <code>1-- / 234</code>. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.</em></p>
 <p><img src="imagenes/sala-20-1.png?v=06a48edb" alt="Level 20 room 1"></p>
 <p><em>Level 20, room 1. It carries: 2 skull, 1 stalactite, 1 chaser, 1 door to the next level, 1 blinking pickup, 1 flame, 1 drip.</em></p>
 <p><img src="imagenes/sala-20-2.png?v=72d3f423" alt="Level 20 room 2"></p>
@@ -322,11 +322,11 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="imagenes/sala-20-4.png?v=5a6fdac6" alt="Level 20 room 4"></p>
 <p><em>Level 20, room 4. It carries: 1 stalactite, 1 chaser, 1 door to the next level, 1 blinking pickup, 1 boulder.</em></p>
 <h2 id="round-5-levels-21-to-25">Round 5 — levels 21 to 25</h2>
-<p><img src="imagenes/ronda-5.png?v=25a8bc0f" alt="Round 5"></p>
+<p><img src="imagenes/ronda-5.png?v=3506c97a" alt="Round 5"></p>
 <p><em>The five levels of round 5 and their skull doors. Each level is laid out with the room arrangement 0x52DB gives it, and every line joins TWO doors that really pair up: door j of level A says (B, k) and door k of level B says (A, j). All 64 in the cartridge pair up like that, and none leaves its round. Two things in this picture do NOT come from the ROM, so they are said out loud: where each level sits on the ring -of the twelve possible orders the one with fewest crossings is picked- and the bow of the curves, which separates the pairs of levels joined by TWO doors.</em></p>
 <h3 id="level-21">Level 21</h3>
-<p><img src="imagenes/mapa-nivel-21.png?v=846fad8b" alt="Level 21"></p>
-<p><em>The four rooms of level 21, placed where the cartridge places them: 3x2, <code>134 / 2--</code>. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.</em></p>
+<p><img src="imagenes/mapa-nivel-21.png?v=7ef1d091" alt="Level 21"></p>
+<p><em>The four rooms of level 21, placed where the cartridge places them: 2x3, <code>12 / 3- / 4-</code>. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.</em></p>
 <p><img src="imagenes/sala-21-1.png?v=211430e1" alt="Level 21 room 1"></p>
 <p><em>Level 21, room 1. It carries: 2 drip, 1 stalactite, 1 chaser, 1 cage, 1 skull door, 1 skull.</em></p>
 <p><img src="imagenes/sala-21-2.png?v=77e28336" alt="Level 21 room 2"></p>
@@ -336,8 +336,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="imagenes/sala-21-4.png?v=1a2731c7" alt="Level 21 room 4"></p>
 <p><em>Level 21, room 4. It carries: 3 drip, 2 stalactite, 1 chaser, 1 cage, 1 skull.</em></p>
 <h3 id="level-22">Level 22</h3>
-<p><img src="imagenes/mapa-nivel-22.png?v=e9e5a98c" alt="Level 22"></p>
-<p><em>The four rooms of level 22, placed where the cartridge places them: 2x3, <code>1- / 23 / -4</code>. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.</em></p>
+<p><img src="imagenes/mapa-nivel-22.png?v=62d57d9d" alt="Level 22"></p>
+<p><em>The four rooms of level 22, placed where the cartridge places them: 3x2, <code>12- / -34</code>. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.</em></p>
 <p><img src="imagenes/sala-22-1.png?v=2591b894" alt="Level 22 room 1"></p>
 <p><em>Level 22, room 1. It carries: 2 stalactite, 2 skull, 1 chaser, 1 door to the next level, 1 blinking pickup, 1 cage, 1 flame, 1 drip.</em></p>
 <p><img src="imagenes/sala-22-2.png?v=e18dbe19" alt="Level 22 room 2"></p>
@@ -347,8 +347,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="imagenes/sala-22-4.png?v=90af2573" alt="Level 22 room 4"></p>
 <p><em>Level 22, room 4. It carries: 3 stalactite, 2 chaser, 1 door to the next level, 1 cage, 1 boulder, 1 flame, 1 drip, 1 skull, 1 bat.</em></p>
 <h3 id="level-23">Level 23</h3>
-<p><img src="imagenes/mapa-nivel-23.png?v=6c1d55f0" alt="Level 23"></p>
-<p><em>The four rooms of level 23, placed where the cartridge places them: 2x3, <code>-2 / 13 / -4</code>. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.</em></p>
+<p><img src="imagenes/mapa-nivel-23.png?v=63ec79cb" alt="Level 23"></p>
+<p><em>The four rooms of level 23, placed where the cartridge places them: 3x2, <code>-1- / 234</code>. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.</em></p>
 <p><img src="imagenes/sala-23-1.png?v=8eff75af" alt="Level 23 room 1"></p>
 <p><em>Level 23, room 1. It carries: 2 stalactite, 2 drip, 1 chaser, 1 door to the next level, 1 cage.</em></p>
 <p><img src="imagenes/sala-23-2.png?v=803d55b2" alt="Level 23 room 2"></p>
@@ -358,8 +358,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="imagenes/sala-23-4.png?v=4137ce7a" alt="Level 23 room 4"></p>
 <p><em>Level 23, room 4. It carries: 1 chaser, 1 door to the next level, 1 blinking pickup, 1 cage, 1 hidden item, 1 water jet, 1 many-legged creature.</em></p>
 <h3 id="level-24">Level 24</h3>
-<p><img src="imagenes/mapa-nivel-24.png?v=d09d5473" alt="Level 24"></p>
-<p><em>The four rooms of level 24, placed where the cartridge places them: 2x2. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.</em></p>
+<p><img src="imagenes/mapa-nivel-24.png?v=2d9ad1ca" alt="Level 24"></p>
+<p><em>The four rooms of level 24, placed where the cartridge places them: 2x2. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.</em></p>
 <p><img src="imagenes/sala-24-1.png?v=7d9b7070" alt="Level 24 room 1"></p>
 <p><em>Level 24, room 1. It carries: 4 pipe leak, 2 stalactite, 1 cage, 1 drip, 1 skull.</em></p>
 <p><img src="imagenes/sala-24-2.png?v=01372d69" alt="Level 24 room 2"></p>
@@ -369,8 +369,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><img src="imagenes/sala-24-4.png?v=a726c101" alt="Level 24 room 4"></p>
 <p><em>Level 24, room 4. It carries: 2 pipe leak, 2 drip, 2 skull, 1 door to the next level, 1 cage.</em></p>
 <h3 id="level-25">Level 25</h3>
-<p><img src="imagenes/mapa-nivel-25.png?v=1a5e4948" alt="Level 25"></p>
-<p><em>The four rooms of level 25, placed where the cartridge places them: 2x2. The arrangement comes from the high nibble of 0x52DB, which is column times four plus row.</em></p>
+<p><img src="imagenes/mapa-nivel-25.png?v=e06f09eb" alt="Level 25"></p>
+<p><em>The four rooms of level 25, placed where the cartridge places them: 2x2. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.</em></p>
 <p><img src="imagenes/sala-25-1.png?v=c20af2c0" alt="Level 25 room 1"></p>
 <p><em>Level 25, room 1. It carries: 8 rising column, 3 stalactite, 2 blinking pickup, 2 boulder, 1 chaser, 1 skull, 1 bat.</em></p>
 <p><img src="imagenes/sala-25-2.png?v=23857d56" alt="Level 25 room 2"></p>

@@ -34,7 +34,7 @@ puertas de calavera unidas.
 
 ![Nivel 1](../imagenes/mapa-nivel-01.png)
 
-*Las cuatro salas del nivel 1, puestas donde el cartucho las pone: una columna de cuatro. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.*
+*Las cuatro salas del nivel 1, puestas donde el cartucho las pone: una fila de cuatro. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.*
 
 ![Nivel 1 sala 1](../imagenes/sala-01-1.png)
 
@@ -56,7 +56,7 @@ puertas de calavera unidas.
 
 ![Nivel 2](../imagenes/mapa-nivel-02.png)
 
-*Las cuatro salas del nivel 2, puestas donde el cartucho las pone: una fila de cuatro. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.*
+*Las cuatro salas del nivel 2, puestas donde el cartucho las pone: una columna de cuatro. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.*
 
 ![Nivel 2 sala 1](../imagenes/sala-02-1.png)
 
@@ -78,7 +78,7 @@ puertas de calavera unidas.
 
 ![Nivel 3](../imagenes/mapa-nivel-03.png)
 
-*Las cuatro salas del nivel 3, puestas donde el cartucho las pone: 2x2. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.*
+*Las cuatro salas del nivel 3, puestas donde el cartucho las pone: 2x2. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.*
 
 ![Nivel 3 sala 1](../imagenes/sala-03-1.png)
 
@@ -100,7 +100,7 @@ puertas de calavera unidas.
 
 ![Nivel 4](../imagenes/mapa-nivel-04.png)
 
-*Las cuatro salas del nivel 4, puestas donde el cartucho las pone: 3x2, `--3 / 124`. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.*
+*Las cuatro salas del nivel 4, puestas donde el cartucho las pone: 2x3, `-1 / -2 / 34`. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.*
 
 ![Nivel 4 sala 1](../imagenes/sala-04-1.png)
 
@@ -122,7 +122,7 @@ puertas de calavera unidas.
 
 ![Nivel 5](../imagenes/mapa-nivel-05.png)
 
-*Las cuatro salas del nivel 5, puestas donde el cartucho las pone: 2x3, `1- / 2- / 34`. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.*
+*Las cuatro salas del nivel 5, puestas donde el cartucho las pone: 3x2, `123 / --4`. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.*
 
 ![Nivel 5 sala 1](../imagenes/sala-05-1.png)
 
@@ -150,7 +150,7 @@ puertas de calavera unidas.
 
 ![Nivel 6](../imagenes/mapa-nivel-06.png)
 
-*Las cuatro salas del nivel 6, puestas donde el cartucho las pone: 3x2, `124 / -3-`. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.*
+*Las cuatro salas del nivel 6, puestas donde el cartucho las pone: 2x3, `1- / 23 / 4-`. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.*
 
 ![Nivel 6 sala 1](../imagenes/sala-06-1.png)
 
@@ -172,7 +172,7 @@ puertas de calavera unidas.
 
 ![Nivel 7](../imagenes/mapa-nivel-07.png)
 
-*Las cuatro salas del nivel 7, puestas donde el cartucho las pone: 2x3, `1- / 23 / -4`. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.*
+*Las cuatro salas del nivel 7, puestas donde el cartucho las pone: 3x2, `12- / -34`. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.*
 
 ![Nivel 7 sala 1](../imagenes/sala-07-1.png)
 
@@ -194,7 +194,7 @@ puertas de calavera unidas.
 
 ![Nivel 8](../imagenes/mapa-nivel-08.png)
 
-*Las cuatro salas del nivel 8, puestas donde el cartucho las pone: 3x2, `1-- / 234`. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.*
+*Las cuatro salas del nivel 8, puestas donde el cartucho las pone: 2x3, `12 / -3 / -4`. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.*
 
 ![Nivel 8 sala 1](../imagenes/sala-08-1.png)
 
@@ -216,7 +216,7 @@ puertas de calavera unidas.
 
 ![Nivel 9](../imagenes/mapa-nivel-09.png)
 
-*Las cuatro salas del nivel 9, puestas donde el cartucho las pone: 2x2. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.*
+*Las cuatro salas del nivel 9, puestas donde el cartucho las pone: 2x2. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.*
 
 ![Nivel 9 sala 1](../imagenes/sala-09-1.png)
 
@@ -238,7 +238,7 @@ puertas de calavera unidas.
 
 ![Nivel 10](../imagenes/mapa-nivel-10.png)
 
-*Las cuatro salas del nivel 10, puestas donde el cartucho las pone: una columna de cuatro. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.*
+*Las cuatro salas del nivel 10, puestas donde el cartucho las pone: una fila de cuatro. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.*
 
 ![Nivel 10 sala 1](../imagenes/sala-10-1.png)
 
@@ -266,7 +266,7 @@ puertas de calavera unidas.
 
 ![Nivel 11](../imagenes/mapa-nivel-11.png)
 
-*Las cuatro salas del nivel 11, puestas donde el cartucho las pone: 3x2, `-2- / 134`. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.*
+*Las cuatro salas del nivel 11, puestas donde el cartucho las pone: 2x3, `-1 / 23 / -4`. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.*
 
 ![Nivel 11 sala 1](../imagenes/sala-11-1.png)
 
@@ -288,7 +288,7 @@ puertas de calavera unidas.
 
 ![Nivel 12](../imagenes/mapa-nivel-12.png)
 
-*Las cuatro salas del nivel 12, puestas donde el cartucho las pone: 2x3, `14 / 2- / 3-`. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.*
+*Las cuatro salas del nivel 12, puestas donde el cartucho las pone: 3x2, `123 / 4--`. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.*
 
 ![Nivel 12 sala 1](../imagenes/sala-12-1.png)
 
@@ -310,7 +310,7 @@ puertas de calavera unidas.
 
 ![Nivel 13](../imagenes/mapa-nivel-13.png)
 
-*Las cuatro salas del nivel 13, puestas donde el cartucho las pone: 2x2. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.*
+*Las cuatro salas del nivel 13, puestas donde el cartucho las pone: 2x2. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.*
 
 ![Nivel 13 sala 1](../imagenes/sala-13-1.png)
 
@@ -332,7 +332,7 @@ puertas de calavera unidas.
 
 ![Nivel 14](../imagenes/mapa-nivel-14.png)
 
-*Las cuatro salas del nivel 14, puestas donde el cartucho las pone: 3x2, `123 / --4`. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.*
+*Las cuatro salas del nivel 14, puestas donde el cartucho las pone: 2x3, `1- / 2- / 34`. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.*
 
 ![Nivel 14 sala 1](../imagenes/sala-14-1.png)
 
@@ -354,7 +354,7 @@ puertas de calavera unidas.
 
 ![Nivel 15](../imagenes/mapa-nivel-15.png)
 
-*Las cuatro salas del nivel 15, puestas donde el cartucho las pone: una columna de cuatro. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.*
+*Las cuatro salas del nivel 15, puestas donde el cartucho las pone: una fila de cuatro. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.*
 
 ![Nivel 15 sala 1](../imagenes/sala-15-1.png)
 
@@ -382,7 +382,7 @@ puertas de calavera unidas.
 
 ![Nivel 16](../imagenes/mapa-nivel-16.png)
 
-*Las cuatro salas del nivel 16, puestas donde el cartucho las pone: 2x3, `1- / 24 / 3-`. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.*
+*Las cuatro salas del nivel 16, puestas donde el cartucho las pone: 3x2, `123 / -4-`. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.*
 
 ![Nivel 16 sala 1](../imagenes/sala-16-1.png)
 
@@ -404,7 +404,7 @@ puertas de calavera unidas.
 
 ![Nivel 17](../imagenes/mapa-nivel-17.png)
 
-*Las cuatro salas del nivel 17, puestas donde el cartucho las pone: 2x2. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.*
+*Las cuatro salas del nivel 17, puestas donde el cartucho las pone: 2x2. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.*
 
 ![Nivel 17 sala 1](../imagenes/sala-17-1.png)
 
@@ -426,7 +426,7 @@ puertas de calavera unidas.
 
 ![Nivel 18](../imagenes/mapa-nivel-18.png)
 
-*Las cuatro salas del nivel 18, puestas donde el cartucho las pone: 2x3, `-2 / 13 / -4`. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.*
+*Las cuatro salas del nivel 18, puestas donde el cartucho las pone: 3x2, `-1- / 234`. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.*
 
 ![Nivel 18 sala 1](../imagenes/sala-18-1.png)
 
@@ -448,7 +448,7 @@ puertas de calavera unidas.
 
 ![Nivel 19](../imagenes/mapa-nivel-19.png)
 
-*Las cuatro salas del nivel 19, puestas donde el cartucho las pone: una fila de cuatro. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.*
+*Las cuatro salas del nivel 19, puestas donde el cartucho las pone: una columna de cuatro. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.*
 
 ![Nivel 19 sala 1](../imagenes/sala-19-1.png)
 
@@ -470,7 +470,7 @@ puertas de calavera unidas.
 
 ![Nivel 20](../imagenes/mapa-nivel-20.png)
 
-*Las cuatro salas del nivel 20, puestas donde el cartucho las pone: 2x3, `12 / -3 / -4`. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.*
+*Las cuatro salas del nivel 20, puestas donde el cartucho las pone: 3x2, `1-- / 234`. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.*
 
 ![Nivel 20 sala 1](../imagenes/sala-20-1.png)
 
@@ -498,7 +498,7 @@ puertas de calavera unidas.
 
 ![Nivel 21](../imagenes/mapa-nivel-21.png)
 
-*Las cuatro salas del nivel 21, puestas donde el cartucho las pone: 3x2, `134 / 2--`. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.*
+*Las cuatro salas del nivel 21, puestas donde el cartucho las pone: 2x3, `12 / 3- / 4-`. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.*
 
 ![Nivel 21 sala 1](../imagenes/sala-21-1.png)
 
@@ -520,7 +520,7 @@ puertas de calavera unidas.
 
 ![Nivel 22](../imagenes/mapa-nivel-22.png)
 
-*Las cuatro salas del nivel 22, puestas donde el cartucho las pone: 2x3, `1- / 23 / -4`. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.*
+*Las cuatro salas del nivel 22, puestas donde el cartucho las pone: 3x2, `12- / -34`. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.*
 
 ![Nivel 22 sala 1](../imagenes/sala-22-1.png)
 
@@ -542,7 +542,7 @@ puertas de calavera unidas.
 
 ![Nivel 23](../imagenes/mapa-nivel-23.png)
 
-*Las cuatro salas del nivel 23, puestas donde el cartucho las pone: 2x3, `-2 / 13 / -4`. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.*
+*Las cuatro salas del nivel 23, puestas donde el cartucho las pone: 3x2, `-1- / 234`. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.*
 
 ![Nivel 23 sala 1](../imagenes/sala-23-1.png)
 
@@ -564,7 +564,7 @@ puertas de calavera unidas.
 
 ![Nivel 24](../imagenes/mapa-nivel-24.png)
 
-*Las cuatro salas del nivel 24, puestas donde el cartucho las pone: 2x2. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.*
+*Las cuatro salas del nivel 24, puestas donde el cartucho las pone: 2x2. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.*
 
 ![Nivel 24 sala 1](../imagenes/sala-24-1.png)
 
@@ -586,7 +586,7 @@ puertas de calavera unidas.
 
 ![Nivel 25](../imagenes/mapa-nivel-25.png)
 
-*Las cuatro salas del nivel 25, puestas donde el cartucho las pone: 2x2. El reparto sale del nibble alto de 0x52DB, que es columna por cuatro mas fila.*
+*Las cuatro salas del nivel 25, puestas donde el cartucho las pone: 2x2. El reparto sale del nibble alto de 0x52DB, que es la fila por cuatro mas la columna.*
 
 ![Nivel 25 sala 1](../imagenes/sala-25-1.png)
 

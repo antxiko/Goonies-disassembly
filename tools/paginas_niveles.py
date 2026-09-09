@@ -103,10 +103,10 @@ PIE_RONDA = {
 PIE_NIVEL = {
     "es": "*Las cuatro salas del nivel %d, puestas donde el cartucho las "
           "pone: %s. El reparto sale del nibble alto de 0x52DB, que es "
-          "columna por cuatro mas fila.*\n\n",
+          "la fila por cuatro mas la columna.*\n\n",
     "en": "*The four rooms of level %d, placed where the cartridge places "
           "them: %s. The arrangement comes from the high nibble of 0x52DB, "
-          "which is column times four plus row.*\n\n",
+          "which is the row times four plus the column.*\n\n",
 }
 
 

@@ -14,26 +14,38 @@ knew.*
 it in `(0xE06A)`. That byte picks one of **nineteen** rows at `0x52DB`, four
 bytes, one per room.
 
-In each byte the **low nibble** is the room you pass into leaving through the
-left (`0xF`: none), and the **high one is THE POSITION** of that room in the
-plan. That it is the position is not a guess: the chaser settles it. `0x74C0`
-compares that nibble with `0xC0` -the top two bits- to decide whether it has to
-move horizontally, and `0x74C4` with `0x30` -the bottom two- for the vertical.
-So the nibble is **column times four plus row**.
+In each byte the **low nibble** is another room (`0xF`: none) and the **high one
+is THE POSITION** of this one in the plan: the top two bits are **THE ROW** and
+the next two **THE COLUMN**.
 
-And it fits everything else: `0x5327` gives the room to the right, and the ones
-above and below are the current one minus and plus one -the `dec b` at `0x529A`
-and the two `inc b` at `0x52A2`-.
+This went out the other way round on 2026-09-09, and theNestruo caught it. What
+settles it is not an argument but the scenery itself, counted tile by tile along
+every internal seam of all 25 levels:
+
+| reading | last row against the first row below | last column against the first column beside |
+| --- | --- | --- |
+| the right one | **77.8 %** | **56.6 %** |
+| axes swapped | 0.4 % | 0.0 % |
+| baseline: rooms from ANOTHER level | 10.8 % | 7.2 % |
+
+The reading that was published matches **below chance**. There is a test that
+demands this, and that also requires the swapped reading to fail.
+
+And it fits the two transition tables, measured over their 38 entries each: the
+room `0x52DB` gives is **always directly above**, and the one `0x5327` gives
+**always directly below**. Room n+1 - the `dec b` at `0x529A` and the two
+`inc b` at `0x52A2` - is the one to the **right**, wrapping to the start of the
+next row when the current one runs out, the way text is read.
 
 The twenty-five arrangements, counted off those bytes:
 
 | shape | levels |
 | --- | --- |
-| a column of four | 1, 10, 15 |
-| a row of four | 2, 19 |
+| a row of four | 1, 10, 15 |
+| a column of four | 2, 19 |
 | 2x2 | 3, 9, 13, 17, 24, 25 |
-| three columns by two rows | 4, 6, 8, 11, 14, 21 |
-| two columns by three rows | 5, 7, 12, 16, 18, 20, 22, 23 |
+| two columns by three rows | 4, 6, 8, 11, 14, 21 |
+| three columns by two rows | 5, 7, 12, 16, 18, 20, 22, 23 |
 
 The proof that the arrangement is right is in the picture: put together like
 this, **platforms and ladders carry on from one room into the next**, and the
