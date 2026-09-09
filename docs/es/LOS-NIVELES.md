@@ -28,7 +28,7 @@ puertas de calavera unidas.
 
 ![Ronda 1](../imagenes/ronda-1.png)
 
-*Los cinco niveles de la ronda 1 y sus puertas de calavera. Cada nivel esta puesto con el reparto de salas que le da 0x52DB, y cada raya une DOS puertas que se emparejan de verdad: la puerta j del nivel A dice (B, k) y la puerta k del nivel B dice (A, j). Las 64 del cartucho emparejan asi, y ninguna sale de su ronda.*
+*Los cinco niveles de la ronda 1 y sus puertas de calavera. Cada nivel esta puesto con el reparto de salas que le da 0x52DB, y cada raya une DOS puertas que se emparejan de verdad: la puerta j del nivel A dice (B, k) y la puerta k del nivel B dice (A, j). Las 64 del cartucho emparejan asi, y ninguna sale de su ronda. Dos cosas de este dibujo NO salen de la ROM, y por eso se dicen: el sitio de cada nivel en el anillo -de los doce ordenes posibles se elige el que menos cruces deja- y la comba de las curvas, que separa las parejas de niveles unidas por DOS puertas.*
 
 ### Nivel 1
 
@@ -144,7 +144,7 @@ puertas de calavera unidas.
 
 ![Ronda 2](../imagenes/ronda-2.png)
 
-*Los cinco niveles de la ronda 2 y sus puertas de calavera. Cada nivel esta puesto con el reparto de salas que le da 0x52DB, y cada raya une DOS puertas que se emparejan de verdad: la puerta j del nivel A dice (B, k) y la puerta k del nivel B dice (A, j). Las 64 del cartucho emparejan asi, y ninguna sale de su ronda.*
+*Los cinco niveles de la ronda 2 y sus puertas de calavera. Cada nivel esta puesto con el reparto de salas que le da 0x52DB, y cada raya une DOS puertas que se emparejan de verdad: la puerta j del nivel A dice (B, k) y la puerta k del nivel B dice (A, j). Las 64 del cartucho emparejan asi, y ninguna sale de su ronda. Dos cosas de este dibujo NO salen de la ROM, y por eso se dicen: el sitio de cada nivel en el anillo -de los doce ordenes posibles se elige el que menos cruces deja- y la comba de las curvas, que separa las parejas de niveles unidas por DOS puertas.*
 
 ### Nivel 6
 
@@ -260,7 +260,7 @@ puertas de calavera unidas.
 
 ![Ronda 3](../imagenes/ronda-3.png)
 
-*Los cinco niveles de la ronda 3 y sus puertas de calavera. Cada nivel esta puesto con el reparto de salas que le da 0x52DB, y cada raya une DOS puertas que se emparejan de verdad: la puerta j del nivel A dice (B, k) y la puerta k del nivel B dice (A, j). Las 64 del cartucho emparejan asi, y ninguna sale de su ronda.*
+*Los cinco niveles de la ronda 3 y sus puertas de calavera. Cada nivel esta puesto con el reparto de salas que le da 0x52DB, y cada raya une DOS puertas que se emparejan de verdad: la puerta j del nivel A dice (B, k) y la puerta k del nivel B dice (A, j). Las 64 del cartucho emparejan asi, y ninguna sale de su ronda. Dos cosas de este dibujo NO salen de la ROM, y por eso se dicen: el sitio de cada nivel en el anillo -de los doce ordenes posibles se elige el que menos cruces deja- y la comba de las curvas, que separa las parejas de niveles unidas por DOS puertas.*
 
 ### Nivel 11
 
@@ -376,7 +376,7 @@ puertas de calavera unidas.
 
 ![Ronda 4](../imagenes/ronda-4.png)
 
-*Los cinco niveles de la ronda 4 y sus puertas de calavera. Cada nivel esta puesto con el reparto de salas que le da 0x52DB, y cada raya une DOS puertas que se emparejan de verdad: la puerta j del nivel A dice (B, k) y la puerta k del nivel B dice (A, j). Las 64 del cartucho emparejan asi, y ninguna sale de su ronda.*
+*Los cinco niveles de la ronda 4 y sus puertas de calavera. Cada nivel esta puesto con el reparto de salas que le da 0x52DB, y cada raya une DOS puertas que se emparejan de verdad: la puerta j del nivel A dice (B, k) y la puerta k del nivel B dice (A, j). Las 64 del cartucho emparejan asi, y ninguna sale de su ronda. Dos cosas de este dibujo NO salen de la ROM, y por eso se dicen: el sitio de cada nivel en el anillo -de los doce ordenes posibles se elige el que menos cruces deja- y la comba de las curvas, que separa las parejas de niveles unidas por DOS puertas.*
 
 ### Nivel 16
 
@@ -492,7 +492,7 @@ puertas de calavera unidas.
 
 ![Ronda 5](../imagenes/ronda-5.png)
 
-*Los cinco niveles de la ronda 5 y sus puertas de calavera. Cada nivel esta puesto con el reparto de salas que le da 0x52DB, y cada raya une DOS puertas que se emparejan de verdad: la puerta j del nivel A dice (B, k) y la puerta k del nivel B dice (A, j). Las 64 del cartucho emparejan asi, y ninguna sale de su ronda.*
+*Los cinco niveles de la ronda 5 y sus puertas de calavera. Cada nivel esta puesto con el reparto de salas que le da 0x52DB, y cada raya une DOS puertas que se emparejan de verdad: la puerta j del nivel A dice (B, k) y la puerta k del nivel B dice (A, j). Las 64 del cartucho emparejan asi, y ninguna sale de su ronda. Dos cosas de este dibujo NO salen de la ROM, y por eso se dicen: el sitio de cada nivel en el anillo -de los doce ordenes posibles se elige el que menos cruces deja- y la comba de las curvas, que separa las parejas de niveles unidas por DOS puertas.*
 
 ### Nivel 21
 

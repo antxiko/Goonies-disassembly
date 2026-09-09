@@ -520,65 +520,190 @@ def raya(px, a, b, color, grosor=1):
             y0 += sy
 
 
-def minimapa_de_la_ronda(rom, ronda, escala=4, radio=230, margen=14):
+# El minimapa de la ronda: colores propios, que no son los del cartucho porque
+# esto no es una pantalla del juego sino un diagrama.
+MM_FONDO = (14, 14, 22)
+MM_MARCO = (86, 86, 112)
+MM_CABECERA = (38, 38, 56)
+MM_RAYA = (255, 146, 24)
+MM_PUERTA = (255, 214, 0)
+MM_ROTULO = (232, 232, 240)
+
+
+def recuadro(px, y0, x0, alto, ancho, color, grosor=1):
+    """Un marco alrededor de un nivel, con su franja de cabecera."""
+    for g in range(grosor):
+        for c in range(x0 - 1 - g, x0 + ancho + 1 + g):
+            for f in (y0 - 1 - g, y0 + alto + g):
+                if 0 <= f < len(px) and 0 <= c < len(px[0]):
+                    px[f][c] = color
+        for f in range(y0 - 1 - g, y0 + alto + 1 + g):
+            for c in (x0 - 1 - g, x0 + ancho + g):
+                if 0 <= f < len(px) and 0 <= c < len(px[0]):
+                    px[f][c] = color
+
+
+def banda(px, y0, x0, alto, ancho, color):
+    """Rellena un rectangulo: la franja donde va el numero del nivel."""
+    for f in range(y0, y0 + alto):
+        if 0 <= f < len(px):
+            for c in range(x0, x0 + ancho):
+                if 0 <= c < len(px[0]):
+                    px[f][c] = color
+
+
+def punto_gordo(px, y, x, color, r=2, borde=(20, 20, 28)):
+    """Una marca de puerta, con reborde para que se vea sobre cualquier sala."""
+    for f in range(-r - 1, r + 2):
+        for c in range(-r - 1, r + 2):
+            if abs(f) > r or abs(c) > r:
+                if 0 <= y + f < len(px) and 0 <= x + c < len(px[0]):
+                    px[y + f][x + c] = borde
+    for f in range(-r, r + 1):
+        for c in range(-r, r + 1):
+            if 0 <= y + f < len(px) and 0 <= x + c < len(px[0]):
+                px[y + f][x + c] = color
+
+
+def curva(px, a, b, comba, color, centro=None):
+    """Una Bezier cuadratica de a a b, combada `comba` pixeles hacia un lado.
+
+    Las rayas rectas tenian dos problemas: cortaban por el medio del dibujo, y
+    dos niveles unidos por DOS puertas -el 6 y el 7 de la ronda 2- daban dos
+    rayas casi encima una de otra, o sea que se veia una. Combadas, y con una
+    comba distinta por cada pareja repetida, se ven las dos.
+    """
+    (ay, ax), (by, bx) = a, b
+    my, mx = (ay + by) / 2.0, (ax + bx) / 2.0
+    dy, dx = by - ay, bx - ax
+    largo = max(1.0, (dy * dy + dx * dx) ** 0.5)
+    ny, nx = -dx / largo, dy / largo
+    # la comba va SIEMPRE hacia fuera del centro del dibujo: asi las curvas
+    # rodean los paneles en vez de cruzarlos por encima
+    if centro is not None and ((my - centro[0]) * ny + (mx - centro[1]) * nx) < 0:
+        ny, nx = -ny, -nx
+    cy, cx = my + ny * comba, mx + nx * comba
+    pasos = int(largo * 1.5) + 2
+    for k in range(pasos + 1):
+        s = k / float(pasos)
+        u = 1.0 - s
+        y = int(round(u * u * ay + 2 * u * s * cy + s * s * by))
+        x = int(round(u * u * ax + 2 * u * s * cx + s * s * bx))
+        for f in (0, 1):
+            for c in (0, 1):
+                if 0 <= y + f < len(px) and 0 <= x + c < len(px[0]):
+                    px[y + f][x + c] = color
+
+
+def se_cruzan(p1, p2, p3, p4):
+    """Si los segmentos p1p2 y p3p4 se cortan. Solo para ordenar el anillo."""
+    def lado(a, b, c):
+        v = ((b[1] - a[1]) * (c[0] - a[0]) - (b[0] - a[0]) * (c[1] - a[1]))
+        return (v > 0) - (v < 0)
+    return (lado(p1, p2, p3) * lado(p1, p2, p4) < 0
+            and lado(p3, p4, p1) * lado(p3, p4, p2) < 0)
+
+
+def minimapa_de_la_ronda(rom, ronda, escala=4, margen=20):
     """Los cinco niveles de una ronda, con sus puertas de calavera unidas.
 
-    Cada nivel es su propio plano encogido; los cinco se reparten en un
-    pentagono y cada raya une DOS puertas que se emparejan de verdad: la
+    Cada nivel va en su propio recuadro, con su plano montado como lo monta el
+    cartucho, y cada curva une DOS puertas que se emparejan de verdad: la
     puerta j del nivel A dice (B, k) y la puerta k del nivel B dice (A, j).
-    Las 64 puertas del cartucho emparejan asi, sin una sola excepcion, y
-    ninguna sale de su ronda.
+
+    Dos cosas que este dibujo NO deduce de la ROM, y por eso se dicen aqui: el
+    sitio de cada nivel en el anillo y la comba de las curvas. El cartucho no
+    guarda ninguna posicion para un nivel dentro de su ronda -una ronda es un
+    grafo, no una rejilla-, asi que de los doce ordenes distintos del anillo se
+    elige el que menos cruces de rayas produce, y nada mas.
     """
     import math
+    import itertools
     tipo = fuente(rom)
     primero = 5 * ronda - 4
     niveles = list(range(primero, primero + 5))
     planos = {n: encoge(plano_del_nivel(rom, n, hueco=0), escala)
               for n in niveles}
     puertas = {n: puertas_del_nivel(rom, n) for n in niveles}
+    parejas = [(n, j, p[3], p[4]) for n in niveles
+               for j, p in enumerate(puertas[n]) if p[3] > n]
 
-    # el pentagono, con la punta arriba, y la esquina de cada nivel
-    esquina = {}
-    for i, n in enumerate(niveles):
-        ang = -math.pi / 2 + 2 * math.pi * i / 5
-        esquina[n] = (int(-radio * math.cos(ang) - len(planos[n]) / 2),
-                      int(radio * math.sin(ang) - len(planos[n][0]) / 2))
-    # y el lienzo justo, contando el rotulo que va diez pixeles por encima
-    y0 = min(e[0] for e in esquina.values()) - 10 - margen
+    # el anillo: una elipse a la medida de los planos, para no dejar un
+    # agujero enorme en el centro
+    ancho_max = max(len(pl[0]) for pl in planos.values())
+    alto_max = max(len(pl) for pl in planos.values())
+    rx, ry = ancho_max * 0.85 + 60, alto_max * 0.85 + 60
+
+    def sitios(orden):
+        d = {}
+        for i, n in enumerate(orden):
+            ang = -math.pi / 2 + 2 * math.pi * i / 5
+            d[n] = (ry * math.sin(ang), rx * math.cos(ang))
+        return d
+
+    def cruces(orden):
+        c = sitios(orden)
+        seg = [(c[a], c[b]) for a, _, b, _ in parejas]
+        return sum(1 for i in range(len(seg)) for k in range(i + 1, len(seg))
+                   if se_cruzan(seg[i][0], seg[i][1], seg[k][0], seg[k][1]))
+
+    # los doce ordenes distintos del anillo: el primero se fija y no se cuenta
+    # el mismo anillo del reves
+    mejor, mejores = None, None
+    for resto in itertools.permutations(niveles[1:]):
+        if resto[0] > resto[-1]:
+            continue
+        orden = [niveles[0]] + list(resto)
+        c = cruces(orden)
+        if mejor is None or c < mejor:
+            mejor, mejores = c, orden
+
+    centros = sitios(mejores)
+    esquina = {n: (int(centros[n][0] - len(planos[n]) / 2),
+                   int(centros[n][1] - len(planos[n][0]) / 2))
+               for n in niveles}
+    CAB = 11
+    y0 = min(e[0] for e in esquina.values()) - CAB - margen
     x0 = min(e[1] for e in esquina.values()) - margen
     H = max(esquina[n][0] + len(planos[n]) for n in niveles) - y0 + margen
-    W = max(esquina[n][1] + len(planos[n][0]) for n in niveles) - x0 + margen
+    W = max(esquina[n][1] + max(len(planos[n][0]), 8 * len("NIVEL %d" % n) + 6)
+            for n in niveles) - x0 + margen
     esquina = {n: (e[0] - y0, e[1] - x0) for n, e in esquina.items()}
-    px = [[(0, 0, 0)] * W for _ in range(H)]
+    px = [[MM_FONDO] * W for _ in range(H)]
 
     def sitio(n, puerta):
-        """El pixel del lienzo donde cae esa puerta: su sala, y dentro su sitio."""
+        """El pixel de una puerta: su sala en el plano, y su sitio en la sala."""
         sala, fila, col, _, _ = puerta
         x, y = reparto_del_nivel(rom, n)[sala]
         ey, ex = esquina[n]
-        return (ey + (y * 20 * 8 + fila * 8 + 8) // escala,
+        return (ey + (y * 20 * 8 + fila * 8 + 16) // escala,
                 ex + (x * 32 * 8 + col * 8 + 12) // escala)
 
+    # los recuadros y los planos
     for n in niveles:
         ey, ex = esquina[n]
+        alto, ancho = len(planos[n]), len(planos[n][0])
+        # la cabecera nunca mas estrecha que su rotulo: "NIVEL 10" son 64
+        # pixeles y un nivel en columna mide justo eso
+        cab_ancho = max(ancho + 2, 8 * len("NIVEL %d" % n) + 6)
+        banda(px, ey - CAB, ex - 1, CAB, cab_ancho, MM_CABECERA)
         for f, fila in enumerate(planos[n]):
-            px[ey + f][ex:ex + len(fila)] = list(fila)
-        rotula(px, tipo, "NIVEL %d" % n, ey - 10, ex, (255, 255, 255))
-    # las rayas ENCIMA de los planos y de un solo pixel: si fueran debajo se
-    # perderian al entrar en el nivel y pareceria que no llegan a la puerta
-    for n in niveles:
-        for p in puertas[n]:
-            if p[3] <= n:                        # cada pareja, una sola vez
-                continue
-            raya(px, sitio(n, p), sitio(p[3], puertas[p[3]][p[4]]),
-                 (255, 120, 0), 0)
+            px[ey + f][ex:ex + ancho] = list(fila)
+        recuadro(px, ey - CAB, ex, alto + CAB, max(ancho, cab_ancho - 2),
+                 MM_MARCO)
+        rotula(px, tipo, "NIVEL %d" % n, ey - CAB + 2, ex + 2, MM_ROTULO)
+
+    # y las curvas encima, con una comba distinta por cada pareja repetida
+    veces = {}
+    for a, j, b, k in parejas:
+        veces[(a, b)] = veces.get((a, b), 0) + 1
+        comba = 16 + 22 * (veces[(a, b)] - 1)
+        curva(px, sitio(a, puertas[a][j]), sitio(b, puertas[b][k]),
+              comba, MM_RAYA, (H / 2.0, W / 2.0))
     for n in niveles:
         for p in puertas[n]:
             fy, fx = sitio(n, p)
-            for f in range(-2, 3):
-                for c in range(-2, 3):
-                    if 0 <= fy + f < H and 0 <= fx + c < W:
-                        px[fy + f][fx + c] = (255, 220, 0)
+            punto_gordo(px, fy, fx, MM_PUERTA)
     return px
 
 
@@ -635,8 +760,10 @@ def main():
             "%s x%d" % (k, v) for k, v in sorted(cuenta.items())),
             reparto_del_nivel(rom, n)))
     for r in range(1, 6):
+        # a escala 1: el minimapa ya trae sus propios tamanos, y doblarlo solo
+        # lo hace pesado
         G.png(os.path.join(carpeta, "ronda-%d.png" % r),
-              minimapa_de_la_ronda(rom, r))
+              minimapa_de_la_ronda(rom, r), escala=1)
     print("  100 salas sueltas, 25 mapas de nivel y 5 minimapas de ronda")
 
 

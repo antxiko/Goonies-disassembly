@@ -98,7 +98,7 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><em>Tambien de <b><a href="https://github.com/theNestruo">theNestruo</a></b>, en el mismo issue: pidio un minimapa por ronda con las puertas unidas. No habia forma de dibujarlo sin saber que puerta va con cual, y buscarlo es lo que destapo esto.</em></p>
 <p>Cada puerta de calavera son tres bytes, y del tercero <code>0x8DA8</code> saca <b>dos cosas</b>: los seis bits bajos son el nivel al que lleva y los <b>dos altos la ENTRADA</b>, que es el numero de puerta por la que se aparece alli.</p>
 <p>Eso convierte las puertas en parejas comprobables: si la puerta <em>j</em> del nivel A dice (B, <em>k</em>), la puerta <em>k</em> del nivel B tiene que decir (A, <em>j</em>). <b>Las 64 del cartucho lo cumplen</b>, sin una excepcion, y ademas <b>ninguna sale de su ronda</b>: los 25 niveles son cinco grupos de cinco, cerrados.</p>
-<p><img src="../imagenes/ronda-1.png?v=683657a6" alt="La ronda 1"></p>
+<p><img src="../imagenes/ronda-1.png?v=781b81cd" alt="La ronda 1"></p>
 <p>Cada raya de ese minimapa une dos puertas que se emparejan de verdad. Hay uno por ronda en <a href="LOS-NIVELES.html">Las 100 salas</a>.</p>
 <h2 id="el-nombre-de-la-ronda-es-su-contrasena">El nombre de la ronda es su contraseña</h2>
 <p>En la pantalla del título se puede teclear. <code>0x53C8</code> lee el teclado con SNSMAT y va metiendo lo tecleado en <code>0xE4C0</code> —hasta dieciséis letras, con el índice en <code>(0xE074)</code>—, y al soltar llama a <code>0x5444</code>, que compara esos dieciséis bytes contra <b>cinco nombres</b>, de <code>0x546E</code> en adelante y <b>de diecinueve en diecinueve</b> bytes.</p>

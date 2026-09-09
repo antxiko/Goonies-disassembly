@@ -98,7 +98,7 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><em>Also <b><a href="https://github.com/theNestruo">theNestruo</a></b>, in the same issue: he asked for a minimap per round with the doors joined by lines. There was no way to draw one without knowing which door goes with which, and going after that is what turned this up.</em></p>
 <p>Each skull door is three bytes, and out of the third <code>0x8DA8</code> takes <b>two things</b>: the low six bits are the level it leads to and the <b>top two the ENTRANCE</b>, which is the number of the door you come out of over there.</p>
 <p>That turns the doors into checkable pairs: if door <em>j</em> of level A says (B, <em>k</em>), then door <em>k</em> of level B has to say (A, <em>j</em>). <b>All 64 in the cartridge do</b>, without one exception, and on top of that <b>none leaves its round</b>: the 25 levels are five closed groups of five.</p>
-<p><img src="imagenes/ronda-1.png?v=683657a6" alt="Round 1"></p>
+<p><img src="imagenes/ronda-1.png?v=781b81cd" alt="Round 1"></p>
 <p>Every line on that minimap joins two doors that really pair up. There is one per round in <a href="THE-LEVELS.html">The 100 rooms</a>.</p>
 <h2 id="the-name-of-the-round-is-its-password">The name of the round is its password</h2>
 <p>You can type on the title screen. <code>0x53C8</code> reads the keyboard with SNSMAT and piles what you type into <code>0xE4C0</code> — up to sixteen letters, with the index in <code>(0xE074)</code> — and on release it calls <code>0x5444</code>, which matches those sixteen bytes against <b>five names</b>, from <code>0x546E</code> onwards and <b>nineteen bytes apart</b>.</p>

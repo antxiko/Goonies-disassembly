@@ -93,12 +93,12 @@ PIE_RONDA = {
           "nivel esta puesto con el reparto de salas que le da 0x52DB, y cada "
           "raya une DOS puertas que se emparejan de verdad: la puerta j del "
           "nivel A dice (B, k) y la puerta k del nivel B dice (A, j). Las 64 "
-          "del cartucho emparejan asi, y ninguna sale de su ronda.*\n\n",
+          "del cartucho emparejan asi, y ninguna sale de su ronda. Dos cosas de este dibujo NO salen de la ROM, y por eso se dicen: el sitio de cada nivel en el anillo -de los doce ordenes posibles se elige el que menos cruces deja- y la comba de las curvas, que separa las parejas de niveles unidas por DOS puertas.*\n\n",
     "en": "*The five levels of round %d and their skull doors. Each level is "
           "laid out with the room arrangement 0x52DB gives it, and every line "
           "joins TWO doors that really pair up: door j of level A says (B, k) "
           "and door k of level B says (A, j). All 64 in the cartridge pair up "
-          "like that, and none leaves its round.*\n\n",
+          "like that, and none leaves its round. Two things in this picture do NOT come from the ROM, so they are said out loud: where each level sits on the ring -of the twelve possible orders the one with fewest crossings is picked- and the bow of the curves, which separates the pairs of levels joined by TWO doors.*\n\n",
 }
 PIE_NIVEL = {
     "es": "*Las cuatro salas del nivel %d, puestas donde el cartucho las "

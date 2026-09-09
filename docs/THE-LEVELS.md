@@ -27,7 +27,7 @@ levels**, with the skull doors joined up.
 
 ![Round 1](imagenes/ronda-1.png)
 
-*The five levels of round 1 and their skull doors. Each level is laid out with the room arrangement 0x52DB gives it, and every line joins TWO doors that really pair up: door j of level A says (B, k) and door k of level B says (A, j). All 64 in the cartridge pair up like that, and none leaves its round.*
+*The five levels of round 1 and their skull doors. Each level is laid out with the room arrangement 0x52DB gives it, and every line joins TWO doors that really pair up: door j of level A says (B, k) and door k of level B says (A, j). All 64 in the cartridge pair up like that, and none leaves its round. Two things in this picture do NOT come from the ROM, so they are said out loud: where each level sits on the ring -of the twelve possible orders the one with fewest crossings is picked- and the bow of the curves, which separates the pairs of levels joined by TWO doors.*
 
 ### Level 1
 
@@ -143,7 +143,7 @@ levels**, with the skull doors joined up.
 
 ![Round 2](imagenes/ronda-2.png)
 
-*The five levels of round 2 and their skull doors. Each level is laid out with the room arrangement 0x52DB gives it, and every line joins TWO doors that really pair up: door j of level A says (B, k) and door k of level B says (A, j). All 64 in the cartridge pair up like that, and none leaves its round.*
+*The five levels of round 2 and their skull doors. Each level is laid out with the room arrangement 0x52DB gives it, and every line joins TWO doors that really pair up: door j of level A says (B, k) and door k of level B says (A, j). All 64 in the cartridge pair up like that, and none leaves its round. Two things in this picture do NOT come from the ROM, so they are said out loud: where each level sits on the ring -of the twelve possible orders the one with fewest crossings is picked- and the bow of the curves, which separates the pairs of levels joined by TWO doors.*
 
 ### Level 6
 
@@ -259,7 +259,7 @@ levels**, with the skull doors joined up.
 
 ![Round 3](imagenes/ronda-3.png)
 
-*The five levels of round 3 and their skull doors. Each level is laid out with the room arrangement 0x52DB gives it, and every line joins TWO doors that really pair up: door j of level A says (B, k) and door k of level B says (A, j). All 64 in the cartridge pair up like that, and none leaves its round.*
+*The five levels of round 3 and their skull doors. Each level is laid out with the room arrangement 0x52DB gives it, and every line joins TWO doors that really pair up: door j of level A says (B, k) and door k of level B says (A, j). All 64 in the cartridge pair up like that, and none leaves its round. Two things in this picture do NOT come from the ROM, so they are said out loud: where each level sits on the ring -of the twelve possible orders the one with fewest crossings is picked- and the bow of the curves, which separates the pairs of levels joined by TWO doors.*
 
 ### Level 11
 
@@ -375,7 +375,7 @@ levels**, with the skull doors joined up.
 
 ![Round 4](imagenes/ronda-4.png)
 
-*The five levels of round 4 and their skull doors. Each level is laid out with the room arrangement 0x52DB gives it, and every line joins TWO doors that really pair up: door j of level A says (B, k) and door k of level B says (A, j). All 64 in the cartridge pair up like that, and none leaves its round.*
+*The five levels of round 4 and their skull doors. Each level is laid out with the room arrangement 0x52DB gives it, and every line joins TWO doors that really pair up: door j of level A says (B, k) and door k of level B says (A, j). All 64 in the cartridge pair up like that, and none leaves its round. Two things in this picture do NOT come from the ROM, so they are said out loud: where each level sits on the ring -of the twelve possible orders the one with fewest crossings is picked- and the bow of the curves, which separates the pairs of levels joined by TWO doors.*
 
 ### Level 16
 
@@ -491,7 +491,7 @@ levels**, with the skull doors joined up.
 
 ![Round 5](imagenes/ronda-5.png)
 
-*The five levels of round 5 and their skull doors. Each level is laid out with the room arrangement 0x52DB gives it, and every line joins TWO doors that really pair up: door j of level A says (B, k) and door k of level B says (A, j). All 64 in the cartridge pair up like that, and none leaves its round.*
+*The five levels of round 5 and their skull doors. Each level is laid out with the room arrangement 0x52DB gives it, and every line joins TWO doors that really pair up: door j of level A says (B, k) and door k of level B says (A, j). All 64 in the cartridge pair up like that, and none leaves its round. Two things in this picture do NOT come from the ROM, so they are said out loud: where each level sits on the ring -of the twelve possible orders the one with fewest crossings is picked- and the bow of the curves, which separates the pairs of levels joined by TWO doors.*
 
 ### Level 21
 
