@@ -445,6 +445,24 @@ GALERIA = [
      "inside and with the item inside. Each is a tile block straight out of "
      "the cartridge, untouched."),
 
+    ("titulo.png",
+     "La pantalla del titulo, montada ejecutando en Python los mismos pasos "
+     "que el cartucho: el rotulo comprimido, la fuente de la casa y las tres "
+     "lineas de la licencia de Warner.",
+     "The title screen, built by running in Python the same steps the "
+     "cartridge runs: the compressed logo, the in-house font and the three "
+     "lines of the Warner licence."),
+
+    ("sprites.png",
+     "Los patrones de sprite en crudo, como quedan en la VRAM. Puestos asi no "
+     "se entiende casi nada, y por eso las laminas de arriba no son este "
+     "volcado: un bicho son VARIOS patrones, y lo que cambia de una postura a "
+     "otra es donde va cada uno.",
+     "The raw sprite patterns, as they sit in VRAM. Laid out like this they "
+     "say almost nothing, which is why the sheets above are not this dump: a "
+     "creature is SEVERAL patterns, and what changes from one pose to the "
+     "next is where each one goes."),
+
     ("ronda-1.png",
      "Los cinco niveles de la ronda 1 y sus puertas de calavera. Cada nivel "
      "va con el reparto de salas que le da 0x52DB, y cada raya une DOS "
