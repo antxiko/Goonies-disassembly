@@ -924,8 +924,8 @@ F 0x916e 17
 # ======================================================================
 B 0x401f EL ARRANQUE DEL TITULO, con un escribe-en-la-ROM que no hace nada
 L 0x401f prepara_el_titulo
-C 0x401f 0xC9E1 son, puestos en memoria, los bytes E1 C9: `pop hl / ret`
-C 0x4022 pero 0x411C es la ROM del propio cartucho, asi que este escribe SE PIERDE. Si tuviera efecto, convertiria el `djnz` de 0x411C en un `pop hl / ret`
+C 0x401f 0xC9E1 son, puestos en memoria, los bytes E1 C9: `pop hl` / `ret`
+C 0x4022 PROTECCION ANTICOPIA: los bytes 0xE1 0xC9 son `pop hl` y `ret`, y van encima del `djnz` de 0x411C. Desde ROM la escritura NO llega -la ROM no admite escritura- y por eso parece codigo muerto; en una copia cargada en RAM si cuela, y la cadena de la presentacion se corta ahi. Manuel Pazos la identifico en el RC-727, donde esta escrita byte a byte, como ReadKeys_AC
 C 0x4025 y sigue montando la pantalla del titulo
 B 0x4028 EL GANCHO DE LA INTERRUPCION: aqui cuelga el cuadro entero
 L 0x4028 cada_cuadro
@@ -942,8 +942,8 @@ C 0x4043 segunda lectura del VDP, ya de salida
 C 0x4048 y si el bit 7 dice que hubo colision o quinto sprite, otra pasada de sonido
 B 0x404d PONER UN REGISTRO DEL VDP, con otro escribe-en-la-ROM
 L 0x404d pon_registro_del_vdp
-C 0x404d otra vez lo mismo: 0x4129 cae dentro del `jp L_41C8` de 0x4128, y es ROM
-C 0x4050 asi que el escribe se pierde. De tener efecto, dejaria ahi un `jp 00000h`, o sea un reinicio
+C 0x404d HL a cero: es lo que va a escribir la linea siguiente
+C 0x4050 LA OTRA PROTECCION ANTICOPIA: el cero cae en 0x4129, que no es un dato sino el operando del `jp` de 0x4128. Desde ROM no llega; en RAM ese salto se queda en `jp 00000h`, o sea un reinicio en seco. Es la pareja de la de 0x4022, y en el RC-727 son VRAM_writeAC y ReadKeys_AC
 C 0x4053 lo que si hace es escribir el registro: b el valor, c el numero
 B 0x4056 LAS DOS SUMAS DE 16 BITS QUE USA TODO EL CARTUCHO
 L 0x4056 suma_a_a_hl

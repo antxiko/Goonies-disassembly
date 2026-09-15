@@ -41,8 +41,8 @@ DATA_punteros_del_game_master:
 ; EL ARRANQUE DEL TITULO, con un escribe-en-la-ROM que no hace nada
 ; ----------------------------------------------------------------------
 prepara_el_titulo:
-	ld hl,0c9e1h		;401f   ; 0xC9E1 son, puestos en memoria, los bytes E1 C9: `pop hl / ret`
-	ld (0411ch),hl		;4022   ; pero 0x411C es la ROM del propio cartucho, asi que este escribe SE PIERDE. Si tuviera efecto, convertiria el `djnz` de 0x411C en un `pop hl / ret`
+	ld hl,0c9e1h		;401f   ; 0xC9E1 son, puestos en memoria, los bytes E1 C9: `pop hl` / `ret`
+	ld (0411ch),hl		;4022   ; PROTECCION ANTICOPIA: los bytes 0xE1 0xC9 son `pop hl` y `ret`, y van encima del `djnz` de 0x411C. Desde ROM la escritura NO llega -la ROM no admite escritura- y por eso parece codigo muerto; en una copia cargada en RAM si cuela, y la cadena de la presentacion se corta ahi. Manuel Pazos la identifico en el RC-727, donde esta escrita byte a byte, como ReadKeys_AC
 	jp monta_el_cartel		;4025   ; y sigue montando la pantalla del titulo
 
 ; ----------------------------------------------------------------------
@@ -73,8 +73,8 @@ L_4043:
 ; PONER UN REGISTRO DEL VDP, con otro escribe-en-la-ROM
 ; ----------------------------------------------------------------------
 pon_registro_del_vdp:
-	ld hl,00000h		;404d   ; otra vez lo mismo: 0x4129 cae dentro del `jp L_41C8` de 0x4128, y es ROM
-	ld (04129h),hl		;4050   ; asi que el escribe se pierde. De tener efecto, dejaria ahi un `jp 00000h`, o sea un reinicio
+	ld hl,00000h		;404d   ; HL a cero: es lo que va a escribir la linea siguiente
+	ld (04129h),hl		;4050   ; LA OTRA PROTECCION ANTICOPIA: el cero cae en 0x4129, que no es un dato sino el operando del `jp` de 0x4128. Desde ROM no llega; en RAM ese salto se queda en `jp 00000h`, o sea un reinicio en seco. Es la pareja de la de 0x4022, y en el RC-727 son VRAM_writeAC y ReadKeys_AC
 	jp 00047h		;4053   ; BIOS WRTVDP - Writes data in the VDP-register | lo que si hace es escribir el registro: b el valor, c el numero
 
 ; ----------------------------------------------------------------------
@@ -2528,7 +2528,7 @@ L_5298:
 	ld c,0f1h		;529c   ; la fila a la que se entra por abajo
 	cp 008h		;529e   ; menos de 8 es salirse por arriba
 	jr c,L_52BE		;52a0
-	inc b			;52a2   ; una sala mas: arriba y abajo son la de ahora menos y mas uno, y la forma del plano la pone el nibble alto de 0x52DB
+	inc b			;52a2   ; una sala mas: la de al lado es la de ahora menos y mas uno, saltando de fila como se lee un texto; la forma del plano la pone el nibble alto de 0x52DB
 	inc b			;52a3
 	ld c,00eh		;52a4   ; la fila a la que se entra por arriba
 	cp 0f7h		;52a6   ; y 0xF7 o mas es salirse por abajo
@@ -2577,15 +2577,13 @@ busca_en_la_tabla_de_salas:
 	ret			;52da
 
 ; ----------------------------------------------------------------------
-; DATOS salas_al_salir_por_la_izquierda: 19 filas de 4; la fila la da (0xE06A)
-;   y la columna la sala de ahora. Cada byte lleva DOS cosas: el nibble BAJO
-;   es la sala de la izquierda -0xF: no hay- y el ALTO es LA POSICION de esta
-;   sala en el plano, columna*4 + fila. Que es la posicion lo dice el
-;   perseguidor: 0x74C0 mira ese nibble con 0xC0 -los dos bits altos, la
-;   columna- para moverse en horizontal y 0x74C4 con 0x30 -la fila- para la
-;   vertical
+; DATOS salas_al_salir_por_arriba: 19 filas de 4; la fila la da (0xE06A) y la
+;   columna la sala de ahora. Cada byte lleva DOS cosas: el nibble BAJO es la
+;   sala de ARRIBA -0xF: no hay- y el ALTO es LA POSICION de esta sala en el
+;   plano: los dos bits ALTOS la FILA y los dos siguientes la COLUMNA. Medido
+;   sobre las 38 entradas: la sala que cita esta SIEMPRE justo encima
 ;   0x52db..0x5327  (76 bytes)
-DATA_salas_al_salir_por_la_izquierda:
+DATA_salas_al_salir_por_arriba:
 	defb 00fh,01fh,02fh,03fh	; 52db
 	defb 00fh,040h,05fh,06fh	; 52df
 	defb 01fh,04fh,050h,06fh	; 52e3
@@ -2607,9 +2605,10 @@ DATA_salas_al_salir_por_la_izquierda:
 	defb 00fh,040h,081h,0c2h	; 5323
 
 ; ----------------------------------------------------------------------
-; DATOS salas_al_salir_por_la_derecha: la gemela, con la misma forma
+; DATOS salas_al_salir_por_abajo: la gemela, con la misma forma; su nibble
+;   bajo es la sala de ABAJO, medido igual sobre 38 entradas
 ;   0x5327..0x5373  (76 bytes)
-DATA_salas_al_salir_por_la_derecha:
+DATA_salas_al_salir_por_abajo:
 	defb 0ffh,0ffh,0ffh,0ffh	; 5327
 	defb 001h,0ffh,0ffh,0ffh	; 532b
 	defb 002h,0ffh,0ffh,0ffh	; 532f
@@ -12133,8 +12132,8 @@ DATA_color_del_marcador_abajo:
 ; ----------------------------------------------------------------------
 ; DATOS el_reparto_de_salas_de_cada_nivel: 25 bytes, uno por nivel; 0x4F82 lo
 ;   lee y lo deja en (0xE06A). Es CUAL DE LOS 19 REPARTOS de 0x52DB le toca, o
-;   sea la forma del plano del nivel: 1, 10 y 15 en columna; 2 y 19 en fila;
-;   3, 9, 13, 17, 24 y 25 en 2x2; y los otros catorce con forma rara
+;   sea la forma del plano del nivel: 1, 10 y 15 en FILA de cuatro; 2 y 19 en
+;   COLUMNA; 3, 9, 13, 17, 24 y 25 en 2x2; y los otros catorce con forma rara
 ;   0x9d67..0x9d80  (25 bytes)
 DATA_el_reparto_de_salas_de_cada_nivel:
 	defb 000h,012h,007h,00fh,006h,00bh,008h,00dh,007h,000h,00eh,004h,007h,00ah,000h,005h	; 9d67  ................

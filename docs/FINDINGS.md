@@ -55,6 +55,27 @@ water at the bottom runs through.
 
 All twenty-five maps in [The 100 rooms](THE-LEVELS.html) are redrawn with it.
 
+## The cartridge defends itself: copy protection
+
+Two instructions in the start-up write inside the cartridge itself:
+
+- **0x4022** puts a `pop hl` and a `ret` over the `djnz` at 0x411C.
+  It loads `0xC9E1` into HL and drops it in one go: in memory those two
+  bytes are `E1 C9`, which read as `pop hl` and `ret`.
+- **0x4050** leaves a zero at 0x4129, which is not data: it is the operand of
+  the `jp` at 0x4128. In memory that turns it into `jp 00000h`, a dead reset.
+
+**Neither of them does anything here.** The cartridge runs from ROM, and ROM takes no
+writes: that is why they look like dead code. They are not. A pirated cartridge is a
+copy loaded into **RAM**, and there the write does land and breaks the game.
+Doing nothing on the original is exactly the point.
+
+This is no one-off idea in this cartridge: the same pair —a write over a `djnz`
+and another over the operand of a `jp`— turns up in ten cartridges of this
+series, always in the same two start-up routines. **Manuel Pazos** identified
+them in his disassembly of RC-727, where he named them `ReadKeys_AC` and
+`VRAM_writeAC`.
+
 ## All 64 skull doors pair up without a single exception
 
 *Also **[theNestruo](https://github.com/theNestruo)**, in the same issue: he

@@ -54,6 +54,27 @@ fondo se continua.
 Los veinticinco mapas de [Las 100 salas](LOS-NIVELES.html) estan rehechos con
 este reparto.
 
+## El cartucho se defiende: protección anticopia
+
+Dos instrucciones del arranque escriben dentro del propio cartucho:
+
+- **0x4022** deja un `pop hl` y un `ret` encima del `djnz` de 0x411C.
+  Carga `0xC9E1` en HL y lo suelta de golpe: en memoria esos dos bytes
+  son `E1 C9`, que se leen como `pop hl` y `ret`.
+- **0x4050** deja un cero en 0x4129, que no es un dato: es el operando del `jp`
+  de 0x4128. En memoria eso lo convierte en `jp 00000h`, un reinicio en seco.
+
+**Ninguna de las dos hace nada aquí.** El cartucho corre desde ROM, y la ROM no admite
+escritura: por eso parecen código muerto. No lo son. Un cartucho pirateado es una
+copia cargada en **RAM**, y ahí la escritura sí cuela y rompe el juego. Que no
+haga nada en el original es justo la gracia.
+
+No es una idea suelta de este cartucho: el mismo par —una escritura sobre un
+`djnz` y otra sobre el operando de un `jp`— aparece en diez cartuchos de esta
+serie, siempre en las mismas dos rutinas del arranque. Las identificó **Manuel
+Pazos** en su desensamblado del RC-727, donde las llamó `ReadKeys_AC` y
+`VRAM_writeAC`.
+
 ## Las 64 puertas de calavera emparejan sin una sola excepcion
 
 *Tambien de **[theNestruo](https://github.com/theNestruo)**, en el mismo issue:
