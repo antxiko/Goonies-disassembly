@@ -51,7 +51,7 @@ fondo se continua.
 
 ![El nivel 8](../imagenes/mapa-nivel-08.png)
 
-Los veinticinco mapas de [Las 100 salas](LOS-NIVELES.html) estan rehechos con
+Los veinticinco mapas de [El mapa](LOS-NIVELES.html) estan rehechos con
 este reparto.
 
 ## El cartucho se defiende: protección anticopia
@@ -92,7 +92,7 @@ los 25 niveles son cinco grupos de cinco, cerrados.
 ![La ronda 1](../imagenes/ronda-1.png)
 
 Cada raya de ese minimapa une dos puertas que se emparejan de verdad. Hay uno
-por ronda en [Las 100 salas](LOS-NIVELES.html).
+por ronda en [El mapa](LOS-NIVELES.html).
 
 ## El nombre de la ronda es su contraseña
 

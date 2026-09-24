@@ -53,7 +53,7 @@ water at the bottom runs through.
 
 ![Level 8](imagenes/mapa-nivel-08.png)
 
-All twenty-five maps in [The 100 rooms](THE-LEVELS.html) are redrawn with it.
+All twenty-five maps in [The map](THE-LEVELS.html) are redrawn with it.
 
 ## The cartridge defends itself: copy protection
 
@@ -94,7 +94,7 @@ levels are five closed groups of five.
 ![Round 1](imagenes/ronda-1.png)
 
 Every line on that minimap joins two doors that really pair up. There is one
-per round in [The 100 rooms](THE-LEVELS.html).
+per round in [The map](THE-LEVELS.html).
 
 ## The name of the round is its password
 

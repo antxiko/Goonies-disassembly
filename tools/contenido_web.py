@@ -45,7 +45,7 @@ HALLAZGOS = {
          "<p>La prueba de que el reparto es el bueno esta en el dibujo: "
          "montadas asi, <b>las plataformas y las escaleras siguen de una sala "
          "a la de al lado</b>, y el agua del fondo se continua. Los "
-         "veinticinco mapas de <a href=\"LOS-NIVELES.html\">Las 100 salas</a> "
+         "veinticinco mapas de <a href=\"LOS-NIVELES.html\">El mapa</a> "
          "estan rehechos con este reparto.</p>"),
 
         ("Las 64 puertas de calavera emparejan sin una sola excepcion",
@@ -232,8 +232,8 @@ HALLAZGOS = {
          "<p>The proof that the arrangement is right is in the picture: put "
          "together like this, <b>platforms and ladders carry on from one "
          "room into the next</b>, and the water at the bottom runs through. "
-         "All twenty-five maps in <a href=\"THE-LEVELS.html\">The 100 "
-         "rooms</a> are redrawn with it.</p>"),
+         "All twenty-five maps in <a href=\"THE-LEVELS.html\">The "
+         "map</a> are redrawn with it.</p>"),
 
         ("All 64 skull doors pair up without a single exception",
          "<p><i>Also <b><a href=\"https://github.com/theNestruo\">theNestruo</a></b>, in the same issue: he asked for a minimap per round with the doors joined up, and going after which door goes with which is what turned this up.</i></p>"
@@ -407,15 +407,16 @@ GALERIA = [
     ("mapa-nivel-01.png",
      "El nivel 1 entero: sus cuatro salas de 32x20 casillas, descomprimidas "
      "desde los ochenta bytes del mapa, con todo lo que el cartucho planta "
-     "encima puesto donde lo planta -las jaulas, la puerta de la calavera, la "
-     "puerta al nivel siguiente, las estalactitas, las calaveras, las goteras "
-     "y el objeto escondido-. Los rotulos van escritos con la fuente del "
-     "propio cartucho.",
+     "encima puesto donde lo planta -las jaulas, la puerta de entrada, las "
+     "puertas de calavera, las estalactitas, las calaveras, las goteras y el "
+     "objeto escondido-. Las salas van pegadas, sin rotulo, y las jaulas "
+     "abiertas ensenando lo que guardan, con sus candados puestos.",
      "The whole of level 1: its four 32x20 tile rooms, decompressed from the "
      "eighty bytes of the map, with everything the cartridge puts on top "
-     "placed exactly where it puts it - the cages, the skull door, the door to "
-     "the next level, the stalactites, the skulls, the drips and the hidden "
-     "item. The captions are written in the cartridge's own font."),
+     "placed exactly where it puts it - the cages, the way in, the skull "
+     "doors, the stalactites, the skulls, the drips and the hidden item. The "
+     "rooms are drawn touching, with no caption, and the cages open, showing "
+     "what they hold, with their padlocks on."),
 
     ("objetos.png",
      "Los veintitres objetos del inventario, cada uno con el nivel en el que "
@@ -484,12 +485,14 @@ GALERIA = [
      "va con el reparto de salas que le da 0x52DB, y cada raya une DOS "
      "puertas que se emparejan de verdad: la puerta j del nivel A dice "
      "(B, k) y la puerta k del nivel B dice (A, j). Las 64 del cartucho "
-     "emparejan asi, y ninguna sale de su ronda.",
+     "emparejan asi, y ninguna sale de su ronda. Los planos van a 1:1 y las "
+     "rayas por detras de ellos.",
      "The five levels of round 1 and their skull doors. Each level is laid "
      "out with the room arrangement 0x52DB gives it, and every line joins "
      "TWO doors that really pair up: door j of level A says (B, k) and door "
      "k of level B says (A, j). All 64 in the cartridge pair up like that, "
-     "and none leaves its round."),
+     "and none leaves its round. The plans are at 1:1 and the lines run "
+     "behind them."),
 
     ("mapa-nivel-08.png",
      "El nivel 8, uno de los que no son ni una fila ni un 2x2: la sala 1 "

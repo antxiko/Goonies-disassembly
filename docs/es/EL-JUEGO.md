@@ -12,8 +12,8 @@ cinco rondas de cinco**, y cada nivel son **cuatro salas** de 32x20 casillas.
 ## Lo que hay que hacer en cada nivel
 
 Sacar a los amigos de sus jaulas. Cada uno que sale sube el contador de
-`(0xE130)`, y **con siete se abre la puerta de la calavera**, que es la que deja
-pasar al nivel siguiente. La llave está en `(0xE121)`.
+`(0xE130)`, y **con siete se abre la puerta de salida**, que es la que saca
+de la ronda. La llave está en `(0xE121)`.
 
 Las salas se recorren saliendo por los lados. El enlace entre ellas no es
 geométrico: son **dos tablas gemelas de 19 filas por 4 columnas** (`0x52DB` y
@@ -44,9 +44,8 @@ exactamente las mismas.
 
 ![Puertas y jaulas](../imagenes/puertas-y-jaulas.png)
 
-*La puerta de la calavera —cerrada y abierta—, la puerta al nivel siguiente y
-las cuatro jaulas: cerrada, abierta, con el amigo dentro y con el objeto
-dentro.*
+*La puerta de salida —cerrada y abierta—, la puerta de calavera y las cuatro
+jaulas: cerrada, abierta, con el amigo dentro y con el objeto dentro.*
 
 Cada nivel trae dos listas. La **lista del nivel** va pegada detrás de los
 ochenta bytes del mapa y reparte lo que hay por las cuatro salas; las **cuatro
@@ -59,11 +58,11 @@ registros y el `0xFF` cierra.
 | 0 | columna que crece | chorro de agua |
 | 1 | estalactita | bola de piedra |
 | 2 | **el perseguidor** | llamarada |
-| 3 | la puerta al nivel siguiente | fuga de la tubería |
+| 3 | la puerta de calavera | fuga de la tubería |
 | 4 | trasto que parpadea | el sitio del que gotea |
 | 5 | jaula | calavera |
 | 6 | objeto escondido | murciélago |
-| 7 | la puerta de la calavera | el bicho de patas |
+| 7 | la puerta de salida | el bicho de patas |
 
 `0x7A9E` pasa los siete peligros de daño y deja el bit en `(ix+00Ah)`, que es de
 donde sale también el color del jugador: chorro de agua `0x01`, estalactita
@@ -100,7 +99,7 @@ de la ronda que acabas de pasar. Ese nombre es la contraseña, porque **son los
 mismos bytes**: MR SLOTH, GOON DOCKS, DOUBLOON, ONE EYED WILLY y GOONIES. Está
 contado entero en [Hallazgos](HALLAZGOS.html).
 
-## Los veinticinco niveles
+## El mapa
 
-Están dibujados uno a uno, con sus cien salas, en [Los 25
-niveles](LOS-NIVELES.html).
+Los veinticinco niveles, con sus cien salas, están dibujados en [El
+mapa](LOS-NIVELES.html).

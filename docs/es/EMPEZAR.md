@@ -48,8 +48,8 @@ de arriba, el listado miente en alguna parte.
     make imagenes
 
 Dibuja en `work/gfx/` la pantalla del título, los **veinticinco mapas de nivel**
-con sus bichos y sus peligros, las figuras del jugador en color, la hoja de
-casillas y los veintitrés iconos del inventario. Ninguna es una captura: se
+con sus bichos y sus peligros, los cinco minimapas de ronda, las figuras del
+jugador en color, la hoja de casillas y los veintitrés iconos del inventario. Ninguna es una captura: se
 montan ejecutando en Python los mismos pasos que ejecuta el Z80.
 
 ## El cotejo contra el emulador

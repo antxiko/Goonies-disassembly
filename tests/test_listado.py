@@ -1123,3 +1123,94 @@ class TestLaCacheNoPuedeServirUnaImagenVieja(unittest.TestCase):
         # y que de verdad haya mirado algo: si el barrido no encuentra
         # imagenes, las dos comprobaciones de arriba pasan sin vigilar nada
         self.assertGreater(vistas, 100, "solo %d imagenes barridas" % vistas)
+
+
+class TestElMapa(unittest.TestCase):
+    """Lo que la pagina del mapa dice de cada nivel, contra la ROM.
+
+    Rehecha tras el issue #3 de theNestruo: las jaulas abiertas, las llaves,
+    el objeto escondido y el destino de las puertas salen de
+    mapas.resumen_del_nivel, y aqui se congela lo que se publica de ellos.
+    """
+
+    ROM = os.path.join(RAIZ, "goonies.rom")
+
+    @classmethod
+    def setUpClass(cls):
+        if not os.path.exists(cls.ROM):
+            raise unittest.SkipTest("hace falta goonies.rom")
+        import mapas
+        cls.M = mapas
+        cls.rom = open(cls.ROM, "rb").read()
+
+    def resumen(self, n):
+        return self.M.resumen_del_nivel(self.rom, n)
+
+    def test_el_objeto_escondido_es_el_del_inventario(self):
+        """El tercer byte del tipo 6 es el indice que 0x6EFF mete en el
+        inventario, y 0x5576 dice el nivel de cada uno de los 23: casan."""
+        niveles = trozo(0x5576, 23)
+        vistos = set()
+        for n in range(1, 26):
+            for _, i in self.resumen(n)["objetos"]:
+                if i < 23:
+                    self.assertEqual(niveles[i] + 1, n, "objeto %d" % i)
+                    vistos.add(i)
+        self.assertEqual(vistos, set(range(23)))
+
+    def test_los_cuatro_que_no_van_al_inventario(self):
+        """Los indices 23 a 26 -energia, segunda barra, puntos y puntos, por
+        la tabla de 0x6E2C- caen en el 15, el 16, el 6 y el 5."""
+        donde = {}
+        for n in range(1, 26):
+            for _, i in self.resumen(n)["objetos"]:
+                if i >= 23:
+                    donde[i] = n
+        self.assertEqual(donde, {23: 15, 24: 16, 25: 6, 26: 5})
+
+    def test_siete_amigos_por_ronda(self):
+        """Los que pide la puerta de salida: el `cp 007h` de 0x5FA0."""
+        for ronda in range(5):
+            amigos = sum(1 for n in range(5 * ronda + 1, 5 * ronda + 6)
+                         for _, que, _ in self.resumen(n)["jaulas"]
+                         if que == "amigo")
+            self.assertEqual(amigos, 7, "ronda %d" % (ronda + 1))
+
+    def test_las_cinco_salidas_llevan_a_la_ronda_siguiente(self):
+        """El tipo 7 con destino: cinco, y cada una al primer nivel de la
+        ronda de despues. La del 23 vuelve al 1."""
+        salidas = {}
+        for n in range(1, 26):
+            for _, destino in self.resumen(n)["salida"]:
+                salidas[n] = destino
+        self.assertEqual(salidas, {5: 6, 9: 11, 14: 16, 18: 21, 23: 1})
+
+    def test_la_jaula_abierta_ensena_lo_que_guarda_y_conserva_los_candados(self):
+        """Con jaulas_abiertas el arco es el de 0x608C (amigo) o 0x6098
+        (frasco) y la columnita de candados 0x92 sigue en su sitio."""
+        cerradas = [x for x in self.M.cosas_del_nivel(self.rom, 1)
+                    if x[5] == "jaula"]
+        abiertas = [x for x in self.M.cosas_del_nivel(self.rom, 1, True)
+                    if x[5] == "jaula"]
+        self.assertEqual(len(cerradas), 3)
+        for c, a in zip(cerradas, abiertas):
+            self.assertEqual(c[:3], a[:3], "no estan en el mismo sitio")
+            self.assertEqual(c[4][0][1:], [0xD5, 0x76, 0xF7], "barrotes")
+            self.assertEqual(a[4][0][1:], [0x87, 0x88, 0x89], "arco abierto")
+            self.assertEqual([f[0] for f in c[4]], [f[0] for f in a[4]],
+                             "los candados tienen que ser los mismos")
+            self.assertIn(0x92, [f[0] for f in a[4]])
+        # y dentro, en la tercera fila: el amigo (0x90) o el frasco (0x94)
+        self.assertEqual(sorted(a[4][2][2] for a in abiertas),
+                         [0x90, 0x90, 0x94])
+
+    def test_la_pagina_del_mapa(self):
+        """Veinticinco niveles, los 23 iconos en linea y ni una sala suelta."""
+        for fich, titulo, nivel in (("THE-LEVELS.md", "# The map", "### Level "),
+                                    (os.path.join("es", "LOS-NIVELES.md"),
+                                     "# El mapa", "### Nivel ")):
+            p = open(os.path.join(DOCS, fich), encoding="utf-8").read()
+            self.assertTrue(p.startswith(titulo), fich)
+            self.assertEqual(p.count(nivel), 25, fich)
+            self.assertEqual(p.count("imagenes/objeto-"), 23, fich)
+            self.assertNotIn("sala-", p, fich)

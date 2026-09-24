@@ -158,18 +158,27 @@ def fuente(rom):
     return {c: v[0x2000 + c * 8:0x2000 + c * 8 + 8] for c in range(0x10, 0x40)}
 
 
-def rotula(px, tipo, texto, fila, col, color=(255, 255, 255)):
-    """Escribe con la fuente del cartucho. Solo cifras, letras y el espacio."""
+def rotula(px, tipo, texto, fila, col, color=(255, 255, 255), zoom=1):
+    """Escribe con la fuente del cartucho. Solo cifras, letras y el espacio.
+
+    Con zoom > 1 cada pixel de la fuente es un cuadrado de zoom x zoom: lo
+    piden los rotulos del minimapa a escala 1, que sobre un plano de 1024
+    pixeles de ancho no se leerian a ocho.
+    """
     for i, ch in enumerate(texto):
         if ch == " ":
             continue
         c = 0x10 + int(ch) if ch.isdigit() else 0x21 + ord(ch) - ord("A")
         for y, b in enumerate(tipo.get(c, b"\0" * 8)):
             for x in range(8):
-                if b & (0x80 >> x):
-                    f, k = fila + y, col + i * 8 + x
-                    if 0 <= f < len(px) and 0 <= k < len(px[0]):
-                        px[f][k] = color
+                if not b & (0x80 >> x):
+                    continue
+                for dy in range(zoom):
+                    for dx in range(zoom):
+                        f = fila + y * zoom + dy
+                        k = col + (i * 8 + x) * zoom + dx
+                        if 0 <= f < len(px) and 0 <= k < len(px[0]):
+                            px[f][k] = color
 
 
 def tramos(rom, p, largo):
@@ -229,8 +238,16 @@ def sprite(sala, y, x, pat, color, nombre):
             "sprite", (pat, color), nombre)
 
 
-def cosas_del_nivel(rom, nivel):
-    """Todo lo que hay que pintar encima de las salas, ya colocado."""
+def cosas_del_nivel(rom, nivel, jaulas_abiertas=False):
+    """Todo lo que hay que pintar encima de las salas, ya colocado.
+
+    Con jaulas_abiertas las jaulas van ABIERTAS y con lo que guardan dentro
+    -el amigo o el frasco-, pero con sus candados puestos. Eso el cartucho no
+    lo pinta nunca: abierta, la jaula ya no tiene candados (0x6056 los borra).
+    Es un dibujo para el plano, que ensena lo que hay sin esconderlo, y lo
+    pidio theNestruo en el issue #3. Por defecto va como el cartucho la deja
+    al entrar, cerrada, que es lo que se coteja contra la VRAM.
+    """
     out = []
     for t, r in lista_del_nivel(rom, nivel):
         sala, sitio = r[0] >> 6, r[0] & 0x3F
@@ -279,8 +296,14 @@ def cosas_del_nivel(rom, nivel):
             # todavia cerrada, las 0x92- en la columna de la izquierda,
             # acabando en la tercera fila de la jaula. Nunca son mas de dos, o
             # sea que las dos cosas caben en un mismo 4x4.
+            # El tercer byte dice lo que la jaula pide y lo que guarda: 0x600C
+            # se queda con el nibble bajo -los candados, que se comparan con
+            # los que se llevan abiertos- y 0x601C mira el BIT 7: puesto,
+            # dentro esta el amigo (estado 2, 0x608C); a cero, el frasco
+            # (estado 3, 0x6098).
             cuantas = r[2] & 0x0F
-            jaula = bloque(rom, puntero(rom, 0x606C, 0), 4, 3)
+            estado = 0 if not jaulas_abiertas else (2 if r[2] & 0x80 else 3)
+            jaula = bloque(rom, puntero(rom, 0x606C, estado), 4, 3)
             dibujo = [[0] + fila for fila in jaula]
             for f in range(3 - cuantas, 3):
                 dibujo[f][0] = rom[0x60A8 - ORG + f - (3 - cuantas)]
@@ -369,22 +392,28 @@ def una_sala(rom, nivel, cual, hueco=12):
     return px[cual * alto:(cual + 1) * alto]
 
 
-def mapa_del_nivel(rom, nivel, hueco=12):
-    """Las cuatro salas, una debajo de otra, con todo lo que llevan encima."""
+def mapa_del_nivel(rom, nivel, hueco=12, rotulos=True, jaulas_abiertas=False):
+    """Las cuatro salas, una debajo de otra, con todo lo que llevan encima.
+
+    Sin hueco y sin rotulos las salas salen PEGADAS, que es como van en el
+    plano: las plataformas y las escaleras siguen de una a la de debajo.
+    """
     v = V.Vram(rom).monta(nivel).v
     salas, _, _ = V.salas(rom, nivel)
     tipo = fuente(rom)
     alto = 4 * (20 * 8 + hueco)
     px = [[(0, 0, 0)] * (32 * 8) for _ in range(alto)]
     base = [s * (20 * 8 + hueco) + hueco for s in range(4)]
-    for s in range(4):
-        rotula(px, tipo, "NIVEL %d  SALA %d" % (nivel, s + 1),
-               base[s] - hueco + 2, 4)
+    if rotulos:
+        for s in range(4):
+            rotula(px, tipo, "NIVEL %d  SALA %d" % (nivel, s + 1),
+                   base[s] - hueco + 2, 4)
     for s in range(4):
         dib = G.pinta(v, salas[s], banco_de_fila=lambda f: (f + 2) // 8)
         for y, fila in enumerate(dib):
             px[base[s] + y] = list(fila)
-    for sala, fila, col, clase, dato, _ in cosas_del_nivel(rom, nivel):
+    for sala, fila, col, clase, dato, _ in cosas_del_nivel(rom, nivel,
+                                                            jaulas_abiertas):
         # fila y col vienen YA en casillas de la sala: cosas_del_nivel les ha
         # quitado las dos filas del marcador, y a los sprites, ademas, la linea
         # que el VDP les suma. Aqui no se corrige nada mas.
@@ -477,9 +506,53 @@ def puertas_del_nivel(rom, nivel):
     return out
 
 
-def plano_del_nivel(rom, nivel, hueco=12):
-    """Las cuatro salas puestas donde el cartucho las pone, no en columna."""
-    tira = mapa_del_nivel(rom, nivel, hueco)
+def resumen_del_nivel(rom, nivel):
+    """Lo que interesa de la lista del nivel y el dibujo no dice, sala a sala.
+
+    Cuatro cosas: cuantas LLAVES hay (el tipo 4, la casilla 0x86 que
+    parpadea: es lo que 0x8254 gasta para abrir un candado, (0xE121)); que
+    guarda cada JAULA y con cuantos candados (tipo 5: el bit 7 del tercer
+    byte es el amigo, y si no el frasco; el nibble bajo, los candados); cual
+    es el OBJETO escondido (tipo 6: el tercer byte es su indice, el mismo que
+    0x6EFF mete en el inventario, y en 0x5576 esta el nivel de cada uno de los
+    23 del inventario: casa con la lista sin una excepcion); y a que nivel
+    lleva cada PUERTA DE CALAVERA (tipo 3: los seis bits bajos del tercer
+    byte, y los dos altos la entrada). Y la puerta del nivel (tipo 7) cuando
+    lleva a algun sitio: con los seis bits bajos a cero es la de ENTRADA de
+    la ronda, que se borra al usarla (0x5FA9); si no, es la SALIDA, y ese es
+    el nivel al que sale, el primero de la ronda siguiente.
+
+    Devuelve un diccionario: llaves (cuatro cuentas, una por sala), jaulas
+    [(sala, "amigo"/"frasco", candados)], objetos [(sala, indice)], puertas
+    [(sala, nivel, entrada)] y salida [(sala, nivel)]. Las salas van de 0 a 3.
+    """
+    llaves = [0, 0, 0, 0]
+    jaulas, objetos, puertas, salida = [], [], [], []
+    for t, r in lista_del_nivel(rom, nivel):
+        sala = r[0] >> 6
+        if t == 4:
+            llaves[sala] += 1
+        elif t == 5:
+            jaulas.append((sala, "amigo" if r[2] & 0x80 else "frasco",
+                           r[2] & 0x0F))
+        elif t == 6:
+            objetos.append((sala, r[2]))
+        elif t == 3:
+            puertas.append((sala, r[2] & 0x3F, r[2] >> 6))
+        elif t == 7 and r[2] & 0x3F:
+            salida.append((sala, r[2] & 0x3F))
+    return {"llaves": llaves, "jaulas": jaulas, "objetos": objetos,
+            "puertas": puertas, "salida": salida}
+
+
+def plano_del_nivel(rom, nivel, hueco=0, rotulos=False, jaulas_abiertas=True):
+    """Las cuatro salas puestas donde el cartucho las pone, no en columna.
+
+    Sin hueco ni rotulo entre salas, para que las apiladas salgan unidas, y
+    con las jaulas abiertas ensenando lo que guardan: las dos cosas que pidio
+    theNestruo en el issue #3.
+    """
+    tira = mapa_del_nivel(rom, nivel, hueco, rotulos, jaulas_abiertas)
     pos = reparto_del_nivel(rom, nivel)
     alto, ancho = 20 * 8 + hueco, 32 * 8
     cols = max(x for x, _ in pos) + 1
@@ -574,7 +647,7 @@ def punto_gordo(px, y, x, color, r=2, borde=(20, 20, 28)):
                 px[y + f][x + c] = color
 
 
-def curva(px, a, b, comba, color, centro=None):
+def curva(px, a, b, comba, color, centro=None, grosor=2):
     """Una Bezier cuadratica de a a b, combada `comba` pixeles hacia un lado.
 
     Las rayas rectas tenian dos problemas: cortaban por el medio del dibujo, y
@@ -598,8 +671,8 @@ def curva(px, a, b, comba, color, centro=None):
         u = 1.0 - s
         y = int(round(u * u * ay + 2 * u * s * cy + s * s * by))
         x = int(round(u * u * ax + 2 * u * s * cx + s * s * bx))
-        for f in (0, 1):
-            for c in (0, 1):
+        for f in range(grosor):
+            for c in range(grosor):
                 if 0 <= y + f < len(px) and 0 <= x + c < len(px[0]):
                     px[y + f][x + c] = color
 
@@ -613,12 +686,20 @@ def se_cruzan(p1, p2, p3, p4):
             and lado(p3, p4, p1) * lado(p3, p4, p2) < 0)
 
 
-def minimapa_de_la_ronda(rom, ronda, escala=4, margen=20):
+def minimapa_de_la_ronda(rom, ronda, escala=1, margen=None):
     """Los cinco niveles de una ronda, con sus puertas de calavera unidas.
 
     Cada nivel va en su propio recuadro, con su plano montado como lo monta el
     cartucho, y cada curva une DOS puertas que se emparejan de verdad: la
     puerta j del nivel A dice (B, k) y la puerta k del nivel B dice (A, j).
+
+    A escala 1 -la de ahora- los planos van a su tamano, asi que en el
+    minimapa se puede hacer zoom y ver las salas. Y las curvas van DETRAS de
+    los planos: se pintan primero y los recuadros las tapan, para no ensuciar
+    el dibujo de las salas. A la vista queda el tramo entre un recuadro y
+    otro, y dentro de cada uno la marca amarilla de la puerta. Las dos cosas
+    las pidio theNestruo en el issue #3. Las medidas -radio, comba, marcas-
+    se afinaron a escala 4 y aqui se multiplican por lo que toque.
 
     Dos cosas que este dibujo NO deduce de la ROM, y por eso se dicen aqui: el
     sitio de cada nivel en el anillo y la comba de las curvas. El cartucho no
@@ -628,10 +709,15 @@ def minimapa_de_la_ronda(rom, ronda, escala=4, margen=20):
     """
     import math
     import itertools
+    z = 4.0 / escala                       # las medidas se afinaron a escala 4
+    if margen is None:
+        margen = int(20 * z)
+    zoom = 2 if z >= 2 else 1              # los rotulos, a doble tamano
     tipo = fuente(rom)
     primero = 5 * ronda - 4
     niveles = list(range(primero, primero + 5))
-    planos = {n: encoge(plano_del_nivel(rom, n, hueco=0), escala)
+    planos = {n: (plano_del_nivel(rom, n) if escala == 1
+                  else encoge(plano_del_nivel(rom, n), escala))
               for n in niveles}
     puertas = {n: puertas_del_nivel(rom, n) for n in niveles}
     parejas = [(n, j, p[3], p[4]) for n in niveles
@@ -641,7 +727,7 @@ def minimapa_de_la_ronda(rom, ronda, escala=4, margen=20):
     # agujero enorme en el centro
     ancho_max = max(len(pl[0]) for pl in planos.values())
     alto_max = max(len(pl) for pl in planos.values())
-    rx, ry = ancho_max * 0.85 + 60, alto_max * 0.85 + 60
+    rx, ry = ancho_max * 0.85 + 60 * z, alto_max * 0.85 + 60 * z
 
     def sitios(orden):
         d = {}
@@ -671,11 +757,12 @@ def minimapa_de_la_ronda(rom, ronda, escala=4, margen=20):
     esquina = {n: (int(centros[n][0] - len(planos[n]) / 2),
                    int(centros[n][1] - len(planos[n][0]) / 2))
                for n in niveles}
-    CAB = 11
+    CAB = 8 * zoom + 3
     y0 = min(e[0] for e in esquina.values()) - CAB - margen
     x0 = min(e[1] for e in esquina.values()) - margen
     H = max(esquina[n][0] + len(planos[n]) for n in niveles) - y0 + margen
-    W = max(esquina[n][1] + max(len(planos[n][0]), 8 * len("NIVEL %d" % n) + 6)
+    W = max(esquina[n][1] + max(len(planos[n][0]),
+                                8 * zoom * len("NIVEL %d" % n) + 6)
             for n in niveles) - x0 + margen
     esquina = {n: (e[0] - y0, e[1] - x0) for n, e in esquina.items()}
     px = [[MM_FONDO] * W for _ in range(H)]
@@ -688,31 +775,35 @@ def minimapa_de_la_ronda(rom, ronda, escala=4, margen=20):
         return (ey + (y * 20 * 8 + fila * 8 + 16) // escala,
                 ex + (x * 32 * 8 + col * 8 + 12) // escala)
 
-    # los recuadros y los planos
+    # PRIMERO las curvas, que van detras, con una comba distinta por cada
+    # pareja repetida
+    veces = {}
+    for a, j, b, k in parejas:
+        veces[(a, b)] = veces.get((a, b), 0) + 1
+        comba = (16 + 22 * (veces[(a, b)] - 1)) * z
+        curva(px, sitio(a, puertas[a][j]), sitio(b, puertas[b][k]),
+              comba, MM_RAYA, (H / 2.0, W / 2.0), grosor=int(2 * z) // 2 + 1)
+
+    # luego los recuadros y los planos, que las tapan
     for n in niveles:
         ey, ex = esquina[n]
         alto, ancho = len(planos[n]), len(planos[n][0])
         # la cabecera nunca mas estrecha que su rotulo: "NIVEL 10" son 64
         # pixeles y un nivel en columna mide justo eso
-        cab_ancho = max(ancho + 2, 8 * len("NIVEL %d" % n) + 6)
+        cab_ancho = max(ancho + 2, 8 * zoom * len("NIVEL %d" % n) + 6)
         banda(px, ey - CAB, ex - 1, CAB, cab_ancho, MM_CABECERA)
         for f, fila in enumerate(planos[n]):
             px[ey + f][ex:ex + ancho] = list(fila)
         recuadro(px, ey - CAB, ex, alto + CAB, max(ancho, cab_ancho - 2),
-                 MM_MARCO)
-        rotula(px, tipo, "NIVEL %d" % n, ey - CAB + 2, ex + 2, MM_ROTULO)
+                 MM_MARCO, grosor=zoom)
+        rotula(px, tipo, "NIVEL %d" % n, ey - CAB + 2, ex + 2, MM_ROTULO,
+               zoom=zoom)
 
-    # y las curvas encima, con una comba distinta por cada pareja repetida
-    veces = {}
-    for a, j, b, k in parejas:
-        veces[(a, b)] = veces.get((a, b), 0) + 1
-        comba = 16 + 22 * (veces[(a, b)] - 1)
-        curva(px, sitio(a, puertas[a][j]), sitio(b, puertas[b][k]),
-              comba, MM_RAYA, (H / 2.0, W / 2.0))
+    # y encima solo la marca de cada puerta
     for n in niveles:
         for p in puertas[n]:
             fy, fx = sitio(n, p)
-            punto_gordo(px, fy, fx, MM_PUERTA)
+            punto_gordo(px, fy, fx, MM_PUERTA, r=int(2 * z) // 2 + 1)
     return px
 
 
@@ -728,19 +819,27 @@ def los_objetos(rom, nivel=1):
     justo el 5 y el 14, o sea que los niveles 6 y 15 no llevan objeto.
     """
     v = V.Vram(rom).monta(nivel).v
-    base = rom[0x6F68 - ORG:0x6F68 - ORG + 23]
     niveles = rom[0x5576 - ORG:0x5576 - ORG + 23]
     paso, alto = 24, 16 + 10
     px = [[(0, 0, 0)] * (23 * paso) for _ in range(alto)]
     tipo = fuente(rom)
-    for i, t in enumerate(base):
+    for i in range(23):
         x = i * paso + 4
-        for f in range(2):
-            for c in range(2):
-                for y, fila in enumerate(G.casilla(v, (t + f * 2 + c) & 0xFF,
-                                                   2)):
-                    px[f * 8 + y][x + c * 8:x + c * 8 + 8] = fila
+        for y, fila in enumerate(icono_del_objeto(rom, v, i)):
+            px[y][x:x + 16] = fila
         rotula(px, tipo, "%02d" % (niveles[i] + 1), 18, x)
+    return px
+
+
+def icono_del_objeto(rom, v, i):
+    """El icono 2x2 del objeto i, 16x16, como lo pinta 0x6EAE: la casilla de
+    0x6F68 y las tres de detras, en la fila 22, que es el tercer banco."""
+    t = rom[0x6F68 - ORG + i]
+    px = [[(0, 0, 0)] * 16 for _ in range(16)]
+    for f in range(2):
+        for c in range(2):
+            for y, fila in enumerate(G.casilla(v, (t + f * 2 + c) & 0xFF, 2)):
+                px[f * 8 + y][c * 8:c * 8 + 8] = fila
     return px
 
 
@@ -750,18 +849,21 @@ def main():
     os.makedirs(carpeta, exist_ok=True)
     G.png(os.path.join(carpeta, "objetos.png"), los_objetos(rom))
     print("  objetos.png: los 23 iconos del inventario")
+    v = V.Vram(rom).monta(1).v
+    for i in range(23):
+        # y cada icono suelto, para decir en la pagina del mapa cual es el
+        # objeto escondido de cada nivel ensenandolo, no numerandolo
+        G.png(os.path.join(carpeta, "objeto-%02d.png" % i),
+              icono_del_objeto(rom, v, i))
+    print("  objeto-00.png a objeto-22.png: los mismos, uno a uno")
     for n in range(1, 26):
-        entero = mapa_del_nivel(rom, n)
         # el mapa del nivel va con las salas DONDE EL CARTUCHO LAS PONE, que
-        # es el reparto de 0x52DB, no una encima de otra
+        # es el reparto de 0x52DB, no una encima de otra; pegadas, sin rotulo
+        # y con las jaulas abiertas. Las cien salas sueltas ya no se sacan:
+        # estan todas en los planos, y repetirlas era redundante (theNestruo,
+        # issue #3)
         G.png(os.path.join(carpeta, "mapa-nivel-%02d.png" % n),
               plano_del_nivel(rom, n))
-        # y LAS CUATRO SALAS por separado: son cien en todo el cartucho y
-        # ninguna se repite, asi que cada una merece su imagen
-        alto = 20 * 8 + 12
-        for s in range(4):
-            G.png(os.path.join(carpeta, "sala-%02d-%d.png" % (n, s + 1)),
-                  entero[s * alto:(s + 1) * alto])
         cuenta = {}
         for _, _, _, _, _, nombre in cosas_del_nivel(rom, n):
             cuenta[nombre] = cuenta.get(nombre, 0) + 1
@@ -769,11 +871,11 @@ def main():
             "%s x%d" % (k, v) for k, v in sorted(cuenta.items())),
             reparto_del_nivel(rom, n)))
     for r in range(1, 6):
-        # a escala 1: el minimapa ya trae sus propios tamanos, y doblarlo solo
-        # lo hace pesado
+        # a escala 1: los planos van dentro a su tamano, y doblarlo solo lo
+        # hace pesado
         G.png(os.path.join(carpeta, "ronda-%d.png" % r),
               minimapa_de_la_ronda(rom, r), escala=1)
-    print("  100 salas sueltas, 25 mapas de nivel y 5 minimapas de ronda")
+    print("  25 mapas de nivel y 5 minimapas de ronda")
 
 
 if __name__ == "__main__":

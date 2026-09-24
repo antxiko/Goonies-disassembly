@@ -12,8 +12,8 @@ rounds of five**, and each level is **four rooms** of 32x20 tiles.
 ## What you do in a level
 
 Get your friends out of their cages. Each one freed bumps the counter at
-`(0xE130)`, and **with seven the skull door opens** — the one that lets you
-through to the next level. The key is `(0xE121)`.
+`(0xE130)`, and **with seven the exit door opens** — the one that lets you
+out of the round. The key is `(0xE121)`.
 
 You move between rooms by walking off the sides. The link is not geometric: it
 is **two twin tables of 19 rows by 4 columns** (`0x52DB` and `0x5327`), and
@@ -44,8 +44,8 @@ creatures use exactly the same ones.
 
 ![Doors and cages](imagenes/puertas-y-jaulas.png)
 
-*The skull door — shut and open — the door to the next level, and the four
-cages: shut, open, with the friend inside and with the item inside.*
+*The exit door — shut and open — the skull door, and the four cages: shut,
+open, with the friend inside and with the item inside.*
 
 Each level brings two lists. The **level list** sits right behind the eighty
 bytes of the map and spreads things across the four rooms; the **four room
@@ -58,11 +58,11 @@ closes.
 | 0 | rising column | water jet |
 | 1 | stalactite | boulder |
 | 2 | **the chaser** | flame |
-| 3 | the door to the next level | pipe leak |
+| 3 | the skull door | pipe leak |
 | 4 | blinking pickup | the spot that drips |
 | 5 | cage | skull |
 | 6 | hidden item | bat |
-| 7 | the skull door | the many-legged creature |
+| 7 | the exit door | the many-legged creature |
 
 `0x7A9E` runs through the seven damaging hazards and leaves the bit in
 `(ix+00Ah)`, which is also where the player's colour comes from: water jet
@@ -100,6 +100,7 @@ name of the round you have just cleared. That name *is* the password, because
 they are **the same bytes**: MR SLOTH, GOON DOCKS, DOUBLOON, ONE EYED WILLY and
 GOONIES. The whole story is in [Findings](FINDINGS.html).
 
-## All one hundred rooms
+## The map
 
-They are drawn one by one in [The 25 levels](THE-LEVELS.html).
+The twenty-five levels, with all hundred rooms, are drawn in [The
+map](THE-LEVELS.html).

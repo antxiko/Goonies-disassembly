@@ -99,9 +99,10 @@ vram: $(ROM)
 # escriben en markdown y se convierten con md2html.py; la portada la monta
 # make_web.py, que declara las cifras medidas de ESTE cartucho.
 #
-# La pagina de LAS CIEN SALAS no se escribe a mano: la genera
-# paginas_niveles.py recorriendo las listas de cada nivel, para que la cuenta
-# que va debajo de cada sala este medida y no escrita a ojo.
+# La pagina de EL MAPA no se escribe a mano: la genera paginas_niveles.py
+# recorriendo las listas de cada nivel, para que lo que va debajo de cada
+# nivel -llaves, jaulas, objeto escondido, puertas- este medido y no escrito
+# a ojo.
 #
 # Y las imagenes se REHACEN aqui, no se copian a mano: si una herramienta de
 # dibujo se queda fuera de este target, la lamina se queda vieja sin que nadie

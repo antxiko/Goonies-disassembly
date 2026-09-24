@@ -18,6 +18,7 @@ body{margin:0;background:var(--fondo);color:var(--tinta);padding:0 1.25rem 6rem;
 h1,h2,h3,h4{font-weight:400;text-wrap:balance}
 a{color:var(--cyan)}
 img{image-rendering:pixelated;max-width:100%;height:auto;display:block}
+img.enlinea{display:inline-block;vertical-align:middle;margin:0 .15em}
 header.top{display:flex;flex-direction:column;align-items:center;gap:1.5rem;
   padding:4rem 0 2rem;text-align:center}
 header.top img{width:min(100%,642px)}
@@ -82,7 +83,7 @@ footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--linea);
 .galeria figcaption{color:var(--suave);font-size:13px;margin-top:.5rem}
 audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 </style>
-<div class="w"><nav class="top"><a href="index.html">Home</a><a href="GETTING-STARTED.html">Start</a><a href="THE-GAME.html">The game</a><a href="THE-LEVELS.html">The 100 rooms</a><a href="THE-CARTRIDGE.html">The cartridge</a><a href="THE-CODE.html">The code</a><a href="FINDINGS.html" style=color:var(--tinta)>Findings</a><a href="IN-THE-EMULATOR.html">In the emulator</a><a href="OPEN-QUESTIONS.html">Open questions</a><a href="es/HALLAZGOS.html" style="margin-left:auto;color:var(--oro)">Castellano</a></nav>
+<div class="w"><nav class="top"><a href="index.html">Home</a><a href="GETTING-STARTED.html">Start</a><a href="THE-GAME.html">The game</a><a href="THE-LEVELS.html">The map</a><a href="THE-CARTRIDGE.html">The cartridge</a><a href="THE-CODE.html">The code</a><a href="FINDINGS.html" style=color:var(--tinta)>Findings</a><a href="IN-THE-EMULATOR.html">In the emulator</a><a href="OPEN-QUESTIONS.html">Open questions</a><a href="es/HALLAZGOS.html" style="margin-left:auto;color:var(--oro)">Castellano</a></nav>
 <h1 id="findings">Findings</h1>
 <h2 id="the-four-rooms-of-a-level-are-not-a-column-they-are-a-plan">The four rooms of a level are not a column: they are a plan</h2>
 <p><em>Found by <b><a href="https://github.com/theNestruo">theNestruo</a></b>, in <a href="https://github.com/antxiko/Goonies-disassembly/issues/1">issue #1</a>. This page used to publish the hundred rooms one by one, with no plan, and he was the one who said that in the game they are grouped per level and in different shapes - citing levels 1, 2, 3, 8 and 11 as examples. Every one of them proves him right. What follows is only the job of finding in the bytes what he already knew.</em></p>
@@ -95,8 +96,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p>The twenty-five arrangements, counted off those bytes:</p>
 <table><tr><th>shape</th><th>levels</th></tr><tr><td>a row of four</td><td>1, 10, 15</td></tr><tr><td>a column of four</td><td>2, 19</td></tr><tr><td>2x2</td><td>3, 9, 13, 17, 24, 25</td></tr><tr><td>two columns by three rows</td><td>4, 6, 8, 11, 14, 21</td></tr><tr><td>three columns by two rows</td><td>5, 7, 12, 16, 18, 20, 22, 23</td></tr></table>
 <p>The proof that the arrangement is right is in the picture: put together like this, <b>platforms and ladders carry on from one room into the next</b>, and the water at the bottom runs through.</p>
-<p><img src="imagenes/mapa-nivel-08.png?v=effdc530" alt="Level 8"></p>
-<p>All twenty-five maps in <a href="THE-LEVELS.html">The 100 rooms</a> are redrawn with it.</p>
+<p><img src="imagenes/mapa-nivel-08.png?v=ab3e16c2" alt="Level 8"></p>
+<p>All twenty-five maps in <a href="THE-LEVELS.html">The map</a> are redrawn with it.</p>
 <h2 id="the-cartridge-defends-itself-copy-protection">The cartridge defends itself: copy protection</h2>
 <p>Two instructions in the start-up write inside the cartridge itself:</p>
 <ul><li><b>0x4022</b> puts a <code>pop hl</code> and a <code>ret</code> over the <code>djnz</code> at 0x411C. It loads <code>0xC9E1</code> into HL and drops it in one go: in memory those two bytes are <code>E1 C9</code>, which read as <code>pop hl</code> and <code>ret</code>.</li><li><b>0x4050</b> leaves a zero at 0x4129, which is not data: it is the operand of the <code>jp</code> at 0x4128. In memory that turns it into <code>jp 00000h</code>, a dead reset.</li></ul>
@@ -106,8 +107,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><em>Also <b><a href="https://github.com/theNestruo">theNestruo</a></b>, in the same issue: he asked for a minimap per round with the doors joined by lines. There was no way to draw one without knowing which door goes with which, and going after that is what turned this up.</em></p>
 <p>Each skull door is three bytes, and out of the third <code>0x8DA8</code> takes <b>two things</b>: the low six bits are the level it leads to and the <b>top two the ENTRANCE</b>, which is the number of the door you come out of over there.</p>
 <p>That turns the doors into checkable pairs: if door <em>j</em> of level A says (B, <em>k</em>), then door <em>k</em> of level B has to say (A, <em>j</em>). <b>All 64 in the cartridge do</b>, without one exception, and on top of that <b>none leaves its round</b>: the 25 levels are five closed groups of five.</p>
-<p><img src="imagenes/ronda-1.png?v=5d5e688f" alt="Round 1"></p>
-<p>Every line on that minimap joins two doors that really pair up. There is one per round in <a href="THE-LEVELS.html">The 100 rooms</a>.</p>
+<p><img src="imagenes/ronda-1.png?v=f161d5ce" alt="Round 1"></p>
+<p>Every line on that minimap joins two doors that really pair up. There is one per round in <a href="THE-LEVELS.html">The map</a>.</p>
 <h2 id="the-name-of-the-round-is-its-password">The name of the round is its password</h2>
 <p>You can type on the title screen. <code>0x53C8</code> reads the keyboard with SNSMAT and piles what you type into <code>0xE4C0</code> — up to sixteen letters, with the index in <code>(0xE074)</code> — and on release it calls <code>0x5444</code>, which matches those sixteen bytes against <b>five names</b>, from <code>0x546E</code> onwards and <b>nineteen bytes apart</b>.</p>
 <p>If one matches, <code>0x5421</code> uses which it was as an index into the table at <code>0x543A</code>:</p>

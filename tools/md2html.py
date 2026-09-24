@@ -54,7 +54,7 @@ def version_de(src):
 # dibujados, que son cien salas y no caben en la pagina del juego.
 NAV_EN = [("index.html", "Home"), ("GETTING-STARTED.html", "Start"),
           ("THE-GAME.html", "The game"),
-          ("THE-LEVELS.html", "The 100 rooms"),
+          ("THE-LEVELS.html", "The map"),
           ("THE-CARTRIDGE.html", "The cartridge"),
           ("THE-CODE.html", "The code"),
           ("FINDINGS.html", "Findings"),
@@ -62,7 +62,7 @@ NAV_EN = [("index.html", "Home"), ("GETTING-STARTED.html", "Start"),
           ("OPEN-QUESTIONS.html", "Open questions")]
 NAV_ES = [("index.html", "Portada"), ("EMPEZAR.html", "Empezar"),
           ("EL-JUEGO.html", "El juego"),
-          ("LOS-NIVELES.html", "Las 100 salas"),
+          ("LOS-NIVELES.html", "El mapa"),
           ("EL-CARTUCHO.html", "El cartucho"),
           ("EL-CODIGO.html", "El código"),
           ("HALLAZGOS.html", "Hallazgos"),
@@ -109,8 +109,14 @@ def enlinea(t):
         return "\x00%d\x01" % (len(codigos) - 1)
 
     s = html.escape(re.sub(r"`([^`]+)`", aparta, t))
+    # Una imagen que es toda la linea va en bloque, como siempre; una que va
+    # entre texto -el icono del objeto escondido, en la pagina del mapa- se
+    # queda en linea, con la clase que la CSS pone en linea.
+    suelta = re.fullmatch(r"\s*!\[[^\]]*\]\([^)]+\)\s*", t) is not None
     s = re.sub(r"!\[([^\]]*)\]\(([^)]+)\)", lambda m:
-               '<img src="%s" alt="%s">' % (version_de(m.group(2)), m.group(1)),
+               '<img src="%s" alt="%s"%s>' % (
+                   version_de(m.group(2)), m.group(1),
+                   "" if suelta else ' class="enlinea"'),
                s)
     s = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", lambda m:
                f'<a href="{ruta(m.group(2))}">{m.group(1)}</a>', s)

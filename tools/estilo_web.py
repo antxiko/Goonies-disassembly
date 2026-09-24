@@ -23,6 +23,7 @@ body{margin:0;background:var(--fondo);color:var(--tinta);padding:0 1.25rem 6rem;
 h1,h2,h3,h4{font-weight:400;text-wrap:balance}
 a{color:var(--cyan)}
 img{image-rendering:pixelated;max-width:100%;height:auto;display:block}
+img.enlinea{display:inline-block;vertical-align:middle;margin:0 .15em}
 header.top{display:flex;flex-direction:column;align-items:center;gap:1.5rem;
   padding:4rem 0 2rem;text-align:center}
 header.top img{width:min(100%,642px)}

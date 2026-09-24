@@ -18,6 +18,7 @@ body{margin:0;background:var(--fondo);color:var(--tinta);padding:0 1.25rem 6rem;
 h1,h2,h3,h4{font-weight:400;text-wrap:balance}
 a{color:var(--cyan)}
 img{image-rendering:pixelated;max-width:100%;height:auto;display:block}
+img.enlinea{display:inline-block;vertical-align:middle;margin:0 .15em}
 header.top{display:flex;flex-direction:column;align-items:center;gap:1.5rem;
   padding:4rem 0 2rem;text-align:center}
 header.top img{width:min(100%,642px)}
@@ -82,7 +83,7 @@ footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--linea);
 .galeria figcaption{color:var(--suave);font-size:13px;margin-top:.5rem}
 audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 </style>
-<div class="w"><nav class="top"><a href="index.html">Home</a><a href="GETTING-STARTED.html" style=color:var(--tinta)>Start</a><a href="THE-GAME.html">The game</a><a href="THE-LEVELS.html">The 100 rooms</a><a href="THE-CARTRIDGE.html">The cartridge</a><a href="THE-CODE.html">The code</a><a href="FINDINGS.html">Findings</a><a href="IN-THE-EMULATOR.html">In the emulator</a><a href="OPEN-QUESTIONS.html">Open questions</a><a href="es/EMPEZAR.html" style="margin-left:auto;color:var(--oro)">Castellano</a></nav>
+<div class="w"><nav class="top"><a href="index.html">Home</a><a href="GETTING-STARTED.html" style=color:var(--tinta)>Start</a><a href="THE-GAME.html">The game</a><a href="THE-LEVELS.html">The map</a><a href="THE-CARTRIDGE.html">The cartridge</a><a href="THE-CODE.html">The code</a><a href="FINDINGS.html">Findings</a><a href="IN-THE-EMULATOR.html">In the emulator</a><a href="OPEN-QUESTIONS.html">Open questions</a><a href="es/EMPEZAR.html" style="margin-left:auto;color:var(--oro)">Castellano</a></nav>
 <h1 id="getting-started">Getting started</h1>
 <p>This repository holds the commented disassembly of Konami&#x27;s <b>The Goonies</b> for the MSX (RC-734, 1986). It does not hold the cartridge: the ROM image is not distributed.</p>
 <h2 id="what-you-need">What you need</h2>
@@ -103,7 +104,7 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 in total: 8774 instructions, 3236 comments, 36.9 %</code></pre>
 <h2 id="the-pictures">The pictures</h2>
 <pre><code>make imagenes</code></pre>
-<p>Draws into <code>work/gfx/</code> the title screen, <b>all one hundred rooms</b> plus the twenty-five level maps with their creatures and hazards, the player&#x27;s figures in colour, the tile sheet and the twenty-three inventory icons. None of them is a capture: they are built by running in Python the same steps the Z80 runs.</p>
+<p>Draws into <code>work/gfx/</code> the title screen, the <b>twenty-five level maps</b> with their creatures and hazards, the five round minimaps, the player&#x27;s figures in colour, the tile sheet and the twenty-three inventory icons. None of them is a capture: they are built by running in Python the same steps the Z80 runs.</p>
 <h2 id="checking-against-the-emulator">Checking against the emulator</h2>
 <pre><code>make vram</code></pre>
 <p>Boots openMSX with the cartridge, lets it run <b>from cold</b> and dumps VRAM at five instants; then it subtracts that VRAM from the one <code>tools/vram.py</code> builds. No playing and nothing to load: the intro, the title and the demo come up on their own and are deterministic, because <a href="FINDINGS.html">the demo is a recorded game</a>.</p>

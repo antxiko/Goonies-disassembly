@@ -47,8 +47,8 @@ above, the listing is lying somewhere.
 
     make imagenes
 
-Draws into `work/gfx/` the title screen, **all one hundred rooms** plus the
-twenty-five level maps with their creatures and hazards, the player's figures in
+Draws into `work/gfx/` the title screen, the **twenty-five level maps** with
+their creatures and hazards, the five round minimaps, the player's figures in
 colour, the tile sheet and the twenty-three inventory icons. None of them is a
 capture: they are built by running in Python the same steps the Z80 runs.
 

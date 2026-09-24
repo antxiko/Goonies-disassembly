@@ -1,605 +1,215 @@
-# The 100 rooms
+# The map
 
-Here are **all one hundred rooms** in the cartridge, one by one. Twenty-five
-levels of four rooms each, and **not one repeats**: compared tile by tile, all
-hundred come out different. Every one drawn from the bytes of the ROM, not a
-single capture.
+Twenty-five levels of four rooms each: **one hundred rooms, and not one
+repeats**. Compared tile by tile, all hundred come out different, and every one
+is drawn from the bytes of the ROM, not a single capture.
 
-Each room is 32x20 tiles coming out of eighty bytes that point at 8x4 blocks;
-they get decompressed, and then on top goes - at the exact spot the cartridge
-puts it - every item from the level's two lists: the cages, the doors, the
-hazards, the creatures and the hidden item.
+Each room is 32x20 tiles that come out of eighty bytes pointing at 8x4 blocks;
+they get decompressed, and on top goes - at the exact spot the cartridge puts
+it - every item from the level's two lists: the cages, the doors, the hazards,
+the creatures and the hidden item. The **64,000 tiles** fit in **2,983 bytes**
+of cartridge; how, is worked out in [The code](THE-CODE.html).
 
-The **64,000 tiles** you see here fit in **2,983 bytes** of cartridge. How, is
-worked out in [The code](THE-CODE.html).
+The four rooms of a level are placed where the cartridge places them: the
+arrangement `0x52DB` gives it, which is not the same for all - there are
+columns, rows, 2x2 and fourteen odd shapes. Put together like this, platforms
+and ladders carry on from one room into the next, so the rooms are drawn
+touching, with no caption in between. The cages are drawn **open, showing what
+they hold** - the friend or the potion - but with their padlocks on, which is a
+picture the cartridge never paints: once open, a cage has no padlocks left.
 
-Under each room is what it carries, counted by walking the lists with the same
-rules the Z80 uses. The captions are written in the cartridge's own font.
+Under each level goes only what the picture cannot say: how many keys there
+are, what each cage holds, which item is hidden, and which level each skull
+door leads to. Rooms are numbered in reading order of the arrangement: on a
+2x2, room 1 is top left and room 4 bottom right.
 
-And they are not on their own. Before each level comes **the whole plan**, with
-the four rooms placed where the cartridge places them: the arrangement `0x52DB`
-gives it, which is not the same for all - there are columns, rows, 2x2 and
-fourteen odd shapes. Put together like this, platforms and ladders carry on
-from one room into the next. Before each round comes **the minimap of its five
-levels**, with the skull doors joined up.
+Before each round comes **the minimap of its five levels**, at 1:1 so it can
+be zoomed into, with the skull doors joined up. The lines run behind the
+levels, so as not to spoil the rooms.
+
+*This section was reworked after [issue
+#3](https://github.com/antxiko/Goonies-disassembly/issues/3) by
+**[theNestruo](https://github.com/theNestruo)**: the plan with no captions, the
+cages open, the lists cut down to what the picture cannot say, and the minimaps
+at 1:1 with the lines behind. Everything on this page comes from there.*
 
 ## Round 1 — levels 1 to 5
 
 ![Round 1](imagenes/ronda-1.png)
 
-*The five levels of round 1 and their skull doors. Each level is laid out with the room arrangement 0x52DB gives it, and every line joins TWO doors that really pair up: door j of level A says (B, k) and door k of level B says (A, j). All 64 in the cartridge pair up like that, and none leaves its round. Two things in this picture do NOT come from the ROM, so they are said out loud: where each level sits on the ring -of the twelve possible orders the one with fewest crossings is picked- and the bow of the curves, which separates the pairs of levels joined by TWO doors.*
+*The five levels of round 1 and their skull doors, at 1:1. Each level is laid out with the room arrangement 0x52DB gives it, and every line joins TWO doors that really pair up: door j of level A says (B, k) and door k of level B says (A, j). All 64 in the cartridge pair up like that, and none leaves its round. The lines run behind the levels; the yellow mark is the door. Two things in this picture do NOT come from the ROM, so they are said out loud: where each level sits on the ring -of the twelve possible orders the one with fewest crossings is picked- and the bow of the curves, which separates the pairs of levels joined by TWO doors.*
 
 ### Level 1
 
 ![Level 1](imagenes/mapa-nivel-01.png)
 
-*The four rooms of level 1, placed where the cartridge places them: a row of four. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
-
-![Level 1 room 1](imagenes/sala-01-1.png)
-
-*Level 1, room 1. It carries: 2 stalactite, 2 drip, 1 blinking pickup, 1 cage, 1 hidden item, 1 skull door, 1 skull.*
-
-![Level 1 room 2](imagenes/sala-01-2.png)
-
-*Level 1, room 2. It carries: 2 skull, 1 stalactite, 1 blinking pickup, 1 water jet, 1 drip.*
-
-![Level 1 room 3](imagenes/sala-01-3.png)
-
-*Level 1, room 3. It carries: 3 stalactite, 3 skull, 2 drip, 1 chaser, 1 blinking pickup, 1 cage, 1 boulder.*
-
-![Level 1 room 4](imagenes/sala-01-4.png)
-
-*Level 1, room 4. It carries: 3 skull, 2 stalactite, 2 door to the next level, 1 blinking pickup, 1 cage, 1 drip.*
+*Level 1, the four rooms in a row. Keys: four, one in room 1, one in room 2, one in room 3 and one in room 4. Cages: a potion behind one padlock in room 1, a friend behind one padlock in room 3 and a friend behind two padlocks in room 4. Hidden item: ![item 16](imagenes/objeto-16.png) in room 1. Skull doors: to level 2 from room 4 and to level 5 from room 4.*
 
 ### Level 2
 
 ![Level 2](imagenes/mapa-nivel-02.png)
 
-*The four rooms of level 2, placed where the cartridge places them: a column of four. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
-
-![Level 2 room 1](imagenes/sala-02-1.png)
-
-*Level 2, room 1. It carries: 1 chaser, 1 door to the next level, 1 cage, 1 hidden item.*
-
-![Level 2 room 2](imagenes/sala-02-2.png)
-
-*Level 2, room 2. It carries: 2 stalactite, 2 skull, 1 blinking pickup, 1 cage.*
-
-![Level 2 room 3](imagenes/sala-02-3.png)
-
-*Level 2, room 3. It carries: 3 skull, 1 blinking pickup, 1 cage, 1 drip.*
-
-![Level 2 room 4](imagenes/sala-02-4.png)
-
-*Level 2, room 4. It carries: 2 skull, 1 door to the next level, 1 blinking pickup, 1 drip.*
+*Level 2, the four rooms in a column. Keys: three, one in room 2, one in room 3 and one in room 4. Cages: a potion behind one padlock in room 1, a friend behind one padlock in room 2 and a friend behind one padlock in room 3. Hidden item: ![item 0](imagenes/objeto-00.png) in room 1. Skull doors: to level 1 from room 1 and to level 3 from room 4.*
 
 ### Level 3
 
 ![Level 3](imagenes/mapa-nivel-03.png)
 
-*The four rooms of level 3, placed where the cartridge places them: 2x2. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
-
-![Level 3 room 1](imagenes/sala-03-1.png)
-
-*Level 3, room 1. It carries: 6 pipe leak, 1 stalactite, 1 chaser, 1 door to the next level, 1 blinking pickup, 1 cage, 1 drip.*
-
-![Level 3 room 2](imagenes/sala-03-2.png)
-
-*Level 3, room 2. It carries: 3 pipe leak, 2 stalactite, 1 cage, 1 drip, 1 skull.*
-
-![Level 3 room 3](imagenes/sala-03-3.png)
-
-*Level 3, room 3. It carries: 4 pipe leak, 2 stalactite, 2 blinking pickup, 2 skull, 1 door to the next level, 1 water jet.*
-
-![Level 3 room 4](imagenes/sala-03-4.png)
-
-*Level 3, room 4. It carries: 3 pipe leak, 3 drip, 1 door to the next level, 1 blinking pickup, 1 hidden item, 1 water jet, 1 skull.*
+*Level 3, the four rooms in a 2x2. Keys: four, one in room 1, two in room 3 and one in room 4. Cages: a friend behind two padlocks in room 1 and a potion behind one padlock in room 2. Hidden item: ![item 10](imagenes/objeto-10.png) in room 4. Skull doors: to level 2 from room 1, to level 5 from room 3, and to level 4 from room 4.*
 
 ### Level 4
 
 ![Level 4](imagenes/mapa-nivel-04.png)
 
-*The four rooms of level 4, placed where the cartridge places them: 2x3, `-1 / -2 / 34`. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
-
-![Level 4 room 1](imagenes/sala-04-1.png)
-
-*Level 4, room 1. It carries: 2 blinking pickup, 2 drip, 2 skull, 1 stalactite, 1 chaser, 1 door to the next level, 1 boulder.*
-
-![Level 4 room 2](imagenes/sala-04-2.png)
-
-*Level 4, room 2. It carries: 2 stalactite, 2 drip, 2 skull, 1 cage, 1 boulder.*
-
-![Level 4 room 3](imagenes/sala-04-3.png)
-
-*Level 4, room 3. It carries: 3 blinking pickup, 3 drip, 2 skull, 1 stalactite, 1 door to the next level.*
-
-![Level 4 room 4](imagenes/sala-04-4.png)
-
-*Level 4, room 4. It carries: 2 cage, 2 skull, 1 stalactite, 1 chaser, 1 hidden item, 1 drip, 1 bat.*
+*Level 4, the rooms laid out `-1 / -2 / 34`. Keys: five, two in room 1 and three in room 3. Cages: a potion behind one padlock in room 2, a friend behind one padlock in room 4 and a potion behind one padlock in room 4. Hidden item: ![item 9](imagenes/objeto-09.png) in room 4. Skull doors: to level 3 from room 1 and to level 5 from room 3.*
 
 ### Level 5
 
 ![Level 5](imagenes/mapa-nivel-05.png)
 
-*The four rooms of level 5, placed where the cartridge places them: 3x2, `123 / --4`. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
-
-![Level 5 room 1](imagenes/sala-05-1.png)
-
-*Level 5, room 1. It carries: 2 water jet, 1 door to the next level, 1 blinking pickup, 1 hidden item, 1 drip, 1 skull.*
-
-![Level 5 room 2](imagenes/sala-05-2.png)
-
-*Level 5, room 2. It carries: 2 stalactite, 1 blinking pickup, 1 cage, 1 hidden item, 1 water jet, 1 drip, 1 bat.*
-
-![Level 5 room 3](imagenes/sala-05-3.png)
-
-*Level 5, room 3. It carries: 6 stalactite, 2 drip, 1 door to the next level, 1 boulder, 1 skull.*
-
-![Level 5 room 4](imagenes/sala-05-4.png)
-
-*Level 5, room 4. It carries: 4 drip, 2 blinking pickup, 2 skull, 1 chaser, 1 door to the next level, 1 cage, 1 skull door.*
+*Level 5, the rooms laid out `123 / --4`. Keys: four, one in room 1, one in room 2 and two in room 4. Cages: a friend behind two padlocks in room 2 and a potion behind two padlocks in room 4. Hidden items: ![item 17](imagenes/objeto-17.png) in room 1 and points in room 2. Skull doors: to level 1 from room 1, to level 3 from room 3, and to level 4 from room 4. Exit door: to level 6, the first of round 2, in room 4.*
 
 ## Round 2 — levels 6 to 10
 
 ![Round 2](imagenes/ronda-2.png)
 
-*The five levels of round 2 and their skull doors. Each level is laid out with the room arrangement 0x52DB gives it, and every line joins TWO doors that really pair up: door j of level A says (B, k) and door k of level B says (A, j). All 64 in the cartridge pair up like that, and none leaves its round. Two things in this picture do NOT come from the ROM, so they are said out loud: where each level sits on the ring -of the twelve possible orders the one with fewest crossings is picked- and the bow of the curves, which separates the pairs of levels joined by TWO doors.*
+*The five levels of round 2 and their skull doors, at 1:1. Each level is laid out with the room arrangement 0x52DB gives it, and every line joins TWO doors that really pair up: door j of level A says (B, k) and door k of level B says (A, j). All 64 in the cartridge pair up like that, and none leaves its round. The lines run behind the levels; the yellow mark is the door. Two things in this picture do NOT come from the ROM, so they are said out loud: where each level sits on the ring -of the twelve possible orders the one with fewest crossings is picked- and the bow of the curves, which separates the pairs of levels joined by TWO doors.*
 
 ### Level 6
 
 ![Level 6](imagenes/mapa-nivel-06.png)
 
-*The four rooms of level 6, placed where the cartridge places them: 2x3, `1- / 23 / 4-`. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
-
-![Level 6 room 1](imagenes/sala-06-1.png)
-
-*Level 6, room 1. It carries: 6 rising column, 3 drip, 2 boulder, 1 chaser, 1 door to the next level, 1 cage, 1 skull door, 1 skull.*
-
-![Level 6 room 2](imagenes/sala-06-2.png)
-
-*Level 6, room 2. It carries: 2 chaser, 2 skull, 1 blinking pickup, 1 cage, 1 bat.*
-
-![Level 6 room 3](imagenes/sala-06-3.png)
-
-*Level 6, room 3. It carries: 2 blinking pickup, 2 drip, 1 chaser, 1 door to the next level, 1 cage, 1 hidden item, 1 skull.*
-
-![Level 6 room 4](imagenes/sala-06-4.png)
-
-*Level 6, room 4. It carries: 6 rising column, 3 skull, 2 stalactite, 2 drip, 1 door to the next level, 1 blinking pickup, 1 bat.*
+*Level 6, the rooms laid out `1- / 23 / 4-`. Keys: four, one in room 2, two in room 3 and one in room 4. Cages: a potion behind one padlock in room 1, a friend behind two padlocks in room 2 and a potion behind one padlock in room 3. Hidden item: points in room 3. Skull doors: to level 7 from rooms 1 and 3, and to level 10 from room 4.*
 
 ### Level 7
 
 ![Level 7](imagenes/mapa-nivel-07.png)
 
-*The four rooms of level 7, placed where the cartridge places them: 3x2, `12- / -34`. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
-
-![Level 7 room 1](imagenes/sala-07-1.png)
-
-*Level 7, room 1. It carries: 4 stalactite, 4 drip, 2 boulder, 1 chaser, 1 door to the next level, 1 blinking pickup, 1 cage, 1 hidden item.*
-
-![Level 7 room 2](imagenes/sala-07-2.png)
-
-*Level 7, room 2. It carries: 3 stalactite, 3 drip, 2 boulder, 1 chaser, 1 blinking pickup, 1 cage, 1 skull.*
-
-![Level 7 room 3](imagenes/sala-07-3.png)
-
-*Level 7, room 3. It carries: 3 stalactite, 1 chaser, 1 door to the next level, 1 blinking pickup, 1 water jet, 1 boulder, 1 skull.*
-
-![Level 7 room 4](imagenes/sala-07-4.png)
-
-*Level 7, room 4. It carries: 1 stalactite, 1 chaser, 1 door to the next level, 1 blinking pickup, 1 cage, 1 water jet, 1 drip.*
+*Level 7, the rooms laid out `12- / -34`. Keys: four, one in room 1, one in room 2, one in room 3 and one in room 4. Cages: a friend behind two padlocks in room 1, a potion behind one padlock in room 2 and a friend behind one padlock in room 4. Hidden item: ![item 18](imagenes/objeto-18.png) in room 1. Skull doors: to level 6 from rooms 1 and 3, and to level 8 from room 4.*
 
 ### Level 8
 
 ![Level 8](imagenes/mapa-nivel-08.png)
 
-*The four rooms of level 8, placed where the cartridge places them: 2x3, `12 / -3 / -4`. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
-
-![Level 8 room 1](imagenes/sala-08-1.png)
-
-*Level 8, room 1. It carries: 6 rising column, 3 stalactite, 2 drip, 2 skull, 1 chaser, 1 blinking pickup, 1 cage.*
-
-![Level 8 room 2](imagenes/sala-08-2.png)
-
-*Level 8, room 2. It carries: 6 rising column, 4 drip, 1 stalactite, 1 chaser, 1 blinking pickup, 1 hidden item, 1 skull, 1 bat.*
-
-![Level 8 room 3](imagenes/sala-08-3.png)
-
-*Level 8, room 3. It carries: 2 stalactite, 2 drip, 2 skull, 1 chaser, 1 door to the next level, 1 cage.*
-
-![Level 8 room 4](imagenes/sala-08-4.png)
-
-*Level 8, room 4. It carries: 2 blinking pickup, 2 boulder, 1 chaser, 1 door to the next level, 1 cage.*
+*Level 8, the rooms laid out `12 / -3 / -4`. Keys: four, one in room 1, one in room 2 and two in room 4. Cages: a potion behind one padlock in room 1, a potion behind one padlock in room 3 and a friend behind two padlocks in room 4. Hidden item: ![item 5](imagenes/objeto-05.png) in room 2. Skull doors: to level 7 from room 3 and to level 9 from room 4.*
 
 ### Level 9
 
 ![Level 9](imagenes/mapa-nivel-09.png)
 
-*The four rooms of level 9, placed where the cartridge places them: 2x2. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
-
-![Level 9 room 1](imagenes/sala-09-1.png)
-
-*Level 9, room 1. It carries: 7 pipe leak, 2 drip, 1 stalactite, 1 chaser, 1 blinking pickup, 1 cage, 1 skull door, 1 skull.*
-
-![Level 9 room 2](imagenes/sala-09-2.png)
-
-*Level 9, room 2. It carries: 7 pipe leak, 1 stalactite, 1 door to the next level, 1 drip, 1 skull.*
-
-![Level 9 room 3](imagenes/sala-09-3.png)
-
-*Level 9, room 3. It carries: 5 pipe leak, 2 blinking pickup, 2 skull, 1 chaser, 1 door to the next level, 1 hidden item.*
-
-![Level 9 room 4](imagenes/sala-09-4.png)
-
-*Level 9, room 4. It carries: 7 pipe leak, 2 chaser, 1 stalactite, 1 blinking pickup, 1 cage, 1 drip, 1 skull.*
+*Level 9, the four rooms in a 2x2. Keys: four, one in room 1, two in room 3 and one in room 4. Cages: a friend behind one padlock in room 1 and a friend behind two padlocks in room 4. Hidden item: ![item 6](imagenes/objeto-06.png) in room 3. Skull doors: to level 8 from room 2 and to level 10 from room 3. Exit door: to level 11, the first of round 3, in room 1.*
 
 ### Level 10
 
 ![Level 10](imagenes/mapa-nivel-10.png)
 
-*The four rooms of level 10, placed where the cartridge places them: a row of four. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
-
-![Level 10 room 1](imagenes/sala-10-1.png)
-
-*Level 10, room 1. It carries: 2 drip, 1 chaser, 1 door to the next level, 1 blinking pickup, 1 boulder.*
-
-![Level 10 room 2](imagenes/sala-10-2.png)
-
-*Level 10, room 2. It carries: 2 water jet, 1 blinking pickup, 1 drip.*
-
-![Level 10 room 3](imagenes/sala-10-3.png)
-
-*Level 10, room 3. It carries: 2 water jet, 1 stalactite, 1 cage, 1 drip, 1 bat.*
-
-![Level 10 room 4](imagenes/sala-10-4.png)
-
-*Level 10, room 4. It carries: 1 stalactite, 1 chaser, 1 door to the next level, 1 blinking pickup, 1 hidden item, 1 boulder, 1 drip, 1 bat.*
+*Level 10, the four rooms in a row. Keys: three, one in room 1, one in room 2 and one in room 4. Cages: a friend behind two padlocks in room 3. Hidden item: ![item 7](imagenes/objeto-07.png) in room 4. Skull doors: to level 6 from room 1 and to level 9 from room 4.*
 
 ## Round 3 — levels 11 to 15
 
 ![Round 3](imagenes/ronda-3.png)
 
-*The five levels of round 3 and their skull doors. Each level is laid out with the room arrangement 0x52DB gives it, and every line joins TWO doors that really pair up: door j of level A says (B, k) and door k of level B says (A, j). All 64 in the cartridge pair up like that, and none leaves its round. Two things in this picture do NOT come from the ROM, so they are said out loud: where each level sits on the ring -of the twelve possible orders the one with fewest crossings is picked- and the bow of the curves, which separates the pairs of levels joined by TWO doors.*
+*The five levels of round 3 and their skull doors, at 1:1. Each level is laid out with the room arrangement 0x52DB gives it, and every line joins TWO doors that really pair up: door j of level A says (B, k) and door k of level B says (A, j). All 64 in the cartridge pair up like that, and none leaves its round. The lines run behind the levels; the yellow mark is the door. Two things in this picture do NOT come from the ROM, so they are said out loud: where each level sits on the ring -of the twelve possible orders the one with fewest crossings is picked- and the bow of the curves, which separates the pairs of levels joined by TWO doors.*
 
 ### Level 11
 
 ![Level 11](imagenes/mapa-nivel-11.png)
 
-*The four rooms of level 11, placed where the cartridge places them: 2x3, `-1 / 23 / -4`. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
-
-![Level 11 room 1](imagenes/sala-11-1.png)
-
-*Level 11, room 1. It carries: 2 stalactite, 1 chaser, 1 door to the next level, 1 cage.*
-
-![Level 11 room 2](imagenes/sala-11-2.png)
-
-*Level 11, room 2. It carries: 2 chaser, 2 boulder, 1 blinking pickup, 1 skull door, 1 drip, 1 skull, 1 bat.*
-
-![Level 11 room 3](imagenes/sala-11-3.png)
-
-*Level 11, room 3. It carries: 2 skull, 1 blinking pickup, 1 drip, 1 bat.*
-
-![Level 11 room 4](imagenes/sala-11-4.png)
-
-*Level 11, room 4. It carries: 6 rising column, 3 skull, 1 chaser, 1 door to the next level, 1 blinking pickup, 1 hidden item, 1 boulder, 1 drip, 1 bat.*
+*Level 11, the rooms laid out `-1 / 23 / -4`. Keys: three, one in room 2, one in room 3 and one in room 4. Cages: a friend behind two padlocks in room 1. Hidden item: ![item 3](imagenes/objeto-03.png) in room 4. Skull doors: to level 12 from room 1 and to level 15 from room 4.*
 
 ### Level 12
 
 ![Level 12](imagenes/mapa-nivel-12.png)
 
-*The four rooms of level 12, placed where the cartridge places them: 3x2, `123 / 4--`. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
-
-![Level 12 room 1](imagenes/sala-12-1.png)
-
-*Level 12, room 1. It carries: 4 stalactite, 2 blinking pickup, 2 skull, 1 chaser, 1 door to the next level, 1 boulder, 1 drip.*
-
-![Level 12 room 2](imagenes/sala-12-2.png)
-
-*Level 12, room 2. It carries: 1 blinking pickup, 1 drip.*
-
-![Level 12 room 3](imagenes/sala-12-3.png)
-
-*Level 12, room 3. It carries: 6 rising column, 1 chaser, 1 door to the next level, 1 blinking pickup, 1 cage, 1 hidden item, 1 drip, 1 skull.*
-
-![Level 12 room 4](imagenes/sala-12-4.png)
-
-*Level 12, room 4. It carries: 4 skull, 3 stalactite, 1 chaser, 1 door to the next level, 1 cage.*
+*Level 12, the rooms laid out `123 / 4--`. Keys: four, two in room 1, one in room 2 and one in room 3. Cages: a friend behind one padlock in room 3 and a friend behind one padlock in room 4. Hidden item: ![item 11](imagenes/objeto-11.png) in room 3. Skull doors: to level 11 from room 1, to level 13 from room 3, and to level 15 from room 4.*
 
 ### Level 13
 
 ![Level 13](imagenes/mapa-nivel-13.png)
 
-*The four rooms of level 13, placed where the cartridge places them: 2x2. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
-
-![Level 13 room 1](imagenes/sala-13-1.png)
-
-*Level 13, room 1. It carries: 3 stalactite, 2 drip, 2 skull, 1 door to the next level, 1 blinking pickup, 1 many-legged creature.*
-
-![Level 13 room 2](imagenes/sala-13-2.png)
-
-*Level 13, room 2. It carries: 2 skull, 1 stalactite, 1 chaser, 1 blinking pickup, 1 cage, 1 drip, 1 bat.*
-
-![Level 13 room 3](imagenes/sala-13-3.png)
-
-*Level 13, room 3. It carries: 3 stalactite, 1 chaser, 1 door to the next level, 1 blinking pickup, 1 cage, 1 water jet, 1 drip, 1 skull.*
-
-![Level 13 room 4](imagenes/sala-13-4.png)
-
-*Level 13, room 4. It carries: 2 stalactite, 2 drip, 2 skull, 1 blinking pickup, 1 cage, 1 hidden item, 1 water jet.*
+*Level 13, the four rooms in a 2x2. Keys: four, one in room 1, one in room 2, one in room 3 and one in room 4. Cages: a friend behind one padlock in room 2, a potion behind one padlock in room 3 and a friend behind two padlocks in room 4. Hidden item: ![item 2](imagenes/objeto-02.png) in room 4. Skull doors: to level 12 from room 1 and to level 14 from room 3.*
 
 ### Level 14
 
 ![Level 14](imagenes/mapa-nivel-14.png)
 
-*The four rooms of level 14, placed where the cartridge places them: 2x3, `1- / 2- / 34`. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
-
-![Level 14 room 1](imagenes/sala-14-1.png)
-
-*Level 14, room 1. It carries: 2 pipe leak, 1 stalactite, 1 door to the next level, 1 flame.*
-
-![Level 14 room 2](imagenes/sala-14-2.png)
-
-*Level 14, room 2. It carries: 4 pipe leak, 1 stalactite, 1 chaser, 1 blinking pickup, 1 cage, 1 skull, 1 bat.*
-
-![Level 14 room 3](imagenes/sala-14-3.png)
-
-*Level 14, room 3. It carries: 5 pipe leak, 2 stalactite, 2 blinking pickup, 2 flame, 2 skull, 1 chaser, 1 cage, 1 skull door, 1 drip.*
-
-![Level 14 room 4](imagenes/sala-14-4.png)
-
-*Level 14, room 4. It carries: 4 pipe leak, 3 stalactite, 2 chaser, 1 door to the next level, 1 blinking pickup, 1 cage, 1 hidden item, 1 skull, 1 bat.*
+*Level 14, the rooms laid out `1- / 2- / 34`. Keys: four, one in room 2, two in room 3 and one in room 4. Cages: a friend behind one padlock in room 2, a potion behind one padlock in room 3 and a friend behind one padlock in room 4. Hidden item: ![item 12](imagenes/objeto-12.png) in room 4. Skull doors: to level 15 from room 1 and to level 13 from room 4. Exit door: to level 16, the first of round 4, in room 3.*
 
 ### Level 15
 
 ![Level 15](imagenes/mapa-nivel-15.png)
 
-*The four rooms of level 15, placed where the cartridge places them: a row of four. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
-
-![Level 15 room 1](imagenes/sala-15-1.png)
-
-*Level 15, room 1. It carries: 4 stalactite, 1 chaser, 1 door to the next level, 1 hidden item, 1 drip.*
-
-![Level 15 room 2](imagenes/sala-15-2.png)
-
-*Level 15, room 2. It carries: 3 stalactite, 2 drip, 1 chaser, 1 blinking pickup.*
-
-![Level 15 room 3](imagenes/sala-15-3.png)
-
-*Level 15, room 3. It carries: 2 boulder, 1 stalactite, 1 door to the next level, 1 blinking pickup, 1 cage, 1 drip.*
-
-![Level 15 room 4](imagenes/sala-15-4.png)
-
-*Level 15, room 4. It carries: 2 drip, 1 chaser, 1 door to the next level, 1 cage, 1 bat.*
+*Level 15, the four rooms in a row. Keys: two, one in room 2 and one in room 3. Cages: a potion behind one padlock in room 3 and a potion behind one padlock in room 4. Hidden item: energy in room 1. Skull doors: to level 11 from room 1, to level 12 from room 3, and to level 14 from room 4.*
 
 ## Round 4 — levels 16 to 20
 
 ![Round 4](imagenes/ronda-4.png)
 
-*The five levels of round 4 and their skull doors. Each level is laid out with the room arrangement 0x52DB gives it, and every line joins TWO doors that really pair up: door j of level A says (B, k) and door k of level B says (A, j). All 64 in the cartridge pair up like that, and none leaves its round. Two things in this picture do NOT come from the ROM, so they are said out loud: where each level sits on the ring -of the twelve possible orders the one with fewest crossings is picked- and the bow of the curves, which separates the pairs of levels joined by TWO doors.*
+*The five levels of round 4 and their skull doors, at 1:1. Each level is laid out with the room arrangement 0x52DB gives it, and every line joins TWO doors that really pair up: door j of level A says (B, k) and door k of level B says (A, j). All 64 in the cartridge pair up like that, and none leaves its round. The lines run behind the levels; the yellow mark is the door. Two things in this picture do NOT come from the ROM, so they are said out loud: where each level sits on the ring -of the twelve possible orders the one with fewest crossings is picked- and the bow of the curves, which separates the pairs of levels joined by TWO doors.*
 
 ### Level 16
 
 ![Level 16](imagenes/mapa-nivel-16.png)
 
-*The four rooms of level 16, placed where the cartridge places them: 3x2, `123 / -4-`. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
-
-![Level 16 room 1](imagenes/sala-16-1.png)
-
-*Level 16, room 1. It carries: 1 stalactite, 1 door to the next level, 1 blinking pickup, 1 cage, 1 hidden item, 1 water jet, 1 boulder, 1 skull.*
-
-![Level 16 room 2](imagenes/sala-16-2.png)
-
-*Level 16, room 2. It carries: 2 stalactite, 2 chaser, 2 drip, 1 blinking pickup, 1 skull door, 1 bat.*
-
-![Level 16 room 3](imagenes/sala-16-3.png)
-
-*Level 16, room 3. It carries: 2 cage, 2 drip, 1 chaser, 1 door to the next level, 1 skull.*
-
-![Level 16 room 4](imagenes/sala-16-4.png)
-
-*Level 16, room 4. It carries: 2 water jet, 1 chaser, 1 door to the next level, 1 blinking pickup, 1 hidden item.*
+*Level 16, the rooms laid out `123 / -4-`. Keys: three, one in room 1, one in room 2 and one in room 4. Cages: a friend behind one padlock in room 1, a potion behind one padlock in room 3 and a potion behind one padlock in room 3. Hidden items: ![item 8](imagenes/objeto-08.png) in room 4 and the second bar in room 1. Skull doors: to level 20 from room 1, to level 17 from room 3, and to level 19 from room 4.*
 
 ### Level 17
 
 ![Level 17](imagenes/mapa-nivel-17.png)
 
-*The four rooms of level 17, placed where the cartridge places them: 2x2. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
-
-![Level 17 room 1](imagenes/sala-17-1.png)
-
-*Level 17, room 1. It carries: 8 pipe leak, 1 chaser, 1 door to the next level, 1 skull.*
-
-![Level 17 room 2](imagenes/sala-17-2.png)
-
-*Level 17, room 2. It carries: 1 stalactite, 1 blinking pickup, 1 cage, 1 boulder, 1 flame, 1 drip, 1 skull.*
-
-![Level 17 room 3](imagenes/sala-17-3.png)
-
-*Level 17, room 3. It carries: 6 rising column, 3 skull, 2 blinking pickup, 2 drip, 1 stalactite, 1 chaser, 1 door to the next level, 1 cage, 1 hidden item, 1 pipe leak, 1 bat.*
-
-![Level 17 room 4](imagenes/sala-17-4.png)
-
-*Level 17, room 4. It carries: 2 drip, 2 skull, 1 stalactite, 1 chaser, 1 door to the next level, 1 blinking pickup, 1 flame, 1 pipe leak.*
+*Level 17, the four rooms in a 2x2. Keys: four, one in room 2, two in room 3 and one in room 4. Cages: a friend behind two padlocks in room 2 and a potion behind one padlock in room 3. Hidden item: ![item 14](imagenes/objeto-14.png) in room 3. Skull doors: to level 16 from room 1, to level 19 from room 3, and to level 18 from room 4.*
 
 ### Level 18
 
 ![Level 18](imagenes/mapa-nivel-18.png)
 
-*The four rooms of level 18, placed where the cartridge places them: 3x2, `-1- / 234`. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
-
-![Level 18 room 1](imagenes/sala-18-1.png)
-
-*Level 18, room 1. It carries: 2 blinking pickup, 2 flame, 2 drip, 1 stalactite, 1 chaser, 1 door to the next level, 1 skull.*
-
-![Level 18 room 2](imagenes/sala-18-2.png)
-
-*Level 18, room 2. It carries: 2 flame, 1 chaser, 1 door to the next level, 1 blinking pickup, 1 boulder, 1 drip, 1 bat.*
-
-![Level 18 room 3](imagenes/sala-18-3.png)
-
-*Level 18, room 3. It carries: 1 chaser, 1 hidden item, 1 skull door, 1 flame, 1 drip, 1 skull.*
-
-![Level 18 room 4](imagenes/sala-18-4.png)
-
-*Level 18, room 4. It carries: 3 flame, 2 cage, 1 chaser, 1 blinking pickup, 1 drip, 1 skull, 1 many-legged creature.*
+*Level 18, the rooms laid out `-1- / 234`. Keys: four, two in room 1, one in room 2 and one in room 4. Cages: a friend behind two padlocks in room 4 and a friend behind one padlock in room 4. Hidden item: ![item 21](imagenes/objeto-21.png) in room 3. Skull doors: to level 17 from room 1 and to level 20 from room 2. Exit door: to level 21, the first of round 5, in room 3.*
 
 ### Level 19
 
 ![Level 19](imagenes/mapa-nivel-19.png)
 
-*The four rooms of level 19, placed where the cartridge places them: a column of four. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
-
-![Level 19 room 1](imagenes/sala-19-1.png)
-
-*Level 19, room 1. It carries: 2 door to the next level, 1 stalactite, 1 chaser, 1 blinking pickup.*
-
-![Level 19 room 2](imagenes/sala-19-2.png)
-
-*Level 19, room 2. It carries: 1 chaser.*
-
-![Level 19 room 3](imagenes/sala-19-3.png)
-
-*Level 19, room 3. It carries: 2 chaser, 1 stalactite, 1 blinking pickup, 1 cage, 1 hidden item, 1 bat.*
-
-![Level 19 room 4](imagenes/sala-19-4.png)
-
-*Level 19, room 4. It carries: 2 blinking pickup, 2 water jet, 1 stalactite, 1 door to the next level, 1 cage, 1 drip, 1 bat.*
+*Level 19, the four rooms in a column. Keys: four, one in room 1, one in room 3 and two in room 4. Cages: a friend behind two padlocks in room 3 and a potion behind one padlock in room 4. Hidden item: ![item 4](imagenes/objeto-04.png) in room 3. Skull doors: to level 16 from room 1, to level 17 from room 1, and to level 20 from room 4.*
 
 ### Level 20
 
 ![Level 20](imagenes/mapa-nivel-20.png)
 
-*The four rooms of level 20, placed where the cartridge places them: 3x2, `1-- / 234`. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
-
-![Level 20 room 1](imagenes/sala-20-1.png)
-
-*Level 20, room 1. It carries: 2 skull, 1 stalactite, 1 chaser, 1 door to the next level, 1 blinking pickup, 1 flame, 1 drip.*
-
-![Level 20 room 2](imagenes/sala-20-2.png)
-
-*Level 20, room 2. It carries: 2 chaser, 2 blinking pickup, 1 water jet, 1 skull.*
-
-![Level 20 room 3](imagenes/sala-20-3.png)
-
-*Level 20, room 3. It carries: 3 cage, 1 stalactite, 1 door to the next level, 1 hidden item, 1 flame, 1 bat, 1 many-legged creature.*
-
-![Level 20 room 4](imagenes/sala-20-4.png)
-
-*Level 20, room 4. It carries: 1 stalactite, 1 chaser, 1 door to the next level, 1 blinking pickup, 1 boulder.*
+*Level 20, the rooms laid out `1-- / 234`. Keys: four, one in room 1, two in room 2 and one in room 4. Cages: a friend behind one padlock in room 3, a potion behind two padlocks in room 3 and a friend behind one padlock in room 3. Hidden item: ![item 15](imagenes/objeto-15.png) in room 3. Skull doors: to level 16 from room 1, to level 19 from room 3, and to level 18 from room 4.*
 
 ## Round 5 — levels 21 to 25
 
 ![Round 5](imagenes/ronda-5.png)
 
-*The five levels of round 5 and their skull doors. Each level is laid out with the room arrangement 0x52DB gives it, and every line joins TWO doors that really pair up: door j of level A says (B, k) and door k of level B says (A, j). All 64 in the cartridge pair up like that, and none leaves its round. Two things in this picture do NOT come from the ROM, so they are said out loud: where each level sits on the ring -of the twelve possible orders the one with fewest crossings is picked- and the bow of the curves, which separates the pairs of levels joined by TWO doors.*
+*The five levels of round 5 and their skull doors, at 1:1. Each level is laid out with the room arrangement 0x52DB gives it, and every line joins TWO doors that really pair up: door j of level A says (B, k) and door k of level B says (A, j). All 64 in the cartridge pair up like that, and none leaves its round. The lines run behind the levels; the yellow mark is the door. Two things in this picture do NOT come from the ROM, so they are said out loud: where each level sits on the ring -of the twelve possible orders the one with fewest crossings is picked- and the bow of the curves, which separates the pairs of levels joined by TWO doors.*
 
 ### Level 21
 
 ![Level 21](imagenes/mapa-nivel-21.png)
 
-*The four rooms of level 21, placed where the cartridge places them: 2x3, `12 / 3- / 4-`. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
-
-![Level 21 room 1](imagenes/sala-21-1.png)
-
-*Level 21, room 1. It carries: 2 drip, 1 stalactite, 1 chaser, 1 cage, 1 skull door, 1 skull.*
-
-![Level 21 room 2](imagenes/sala-21-2.png)
-
-*Level 21, room 2. It carries: 1 stalactite, 1 door to the next level, 1 cage, 1 water jet, 1 skull.*
-
-![Level 21 room 3](imagenes/sala-21-3.png)
-
-*Level 21, room 3. It carries: 4 blinking pickup, 2 chaser, 1 door to the next level, 1 hidden item.*
-
-![Level 21 room 4](imagenes/sala-21-4.png)
-
-*Level 21, room 4. It carries: 3 drip, 2 stalactite, 1 chaser, 1 cage, 1 skull.*
+*Level 21, the rooms laid out `12 / 3- / 4-`. Keys: four, all in room 3. Cages: a potion behind one padlock in room 1, a potion behind one padlock in room 2 and a potion behind one padlock in room 4. Hidden item: ![item 1](imagenes/objeto-01.png) in room 3. Skull doors: to level 22 from room 2 and to level 25 from room 3.*
 
 ### Level 22
 
 ![Level 22](imagenes/mapa-nivel-22.png)
 
-*The four rooms of level 22, placed where the cartridge places them: 3x2, `12- / -34`. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
-
-![Level 22 room 1](imagenes/sala-22-1.png)
-
-*Level 22, room 1. It carries: 2 stalactite, 2 skull, 1 chaser, 1 door to the next level, 1 blinking pickup, 1 cage, 1 flame, 1 drip.*
-
-![Level 22 room 2](imagenes/sala-22-2.png)
-
-*Level 22, room 2. It carries: 2 stalactite, 2 flame, 2 skull, 1 chaser, 1 blinking pickup, 1 hidden item, 1 boulder, 1 drip, 1 bat.*
-
-![Level 22 room 3](imagenes/sala-22-3.png)
-
-*Level 22, room 3. It carries: 2 stalactite, 2 flame, 2 drip, 2 skull, 1 door to the next level, 1 blinking pickup, 1 bat.*
-
-![Level 22 room 4](imagenes/sala-22-4.png)
-
-*Level 22, room 4. It carries: 3 stalactite, 2 chaser, 1 door to the next level, 1 cage, 1 boulder, 1 flame, 1 drip, 1 skull, 1 bat.*
+*Level 22, the rooms laid out `12- / -34`. Keys: three, one in room 1, one in room 2 and one in room 3. Cages: a friend behind two padlocks in room 1 and a friend behind one padlock in room 4. Hidden item: ![item 20](imagenes/objeto-20.png) in room 2. Skull doors: to level 21 from room 1, to level 23 from room 3, and to level 24 from room 4.*
 
 ### Level 23
 
 ![Level 23](imagenes/mapa-nivel-23.png)
 
-*The four rooms of level 23, placed where the cartridge places them: 3x2, `-1- / 234`. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
-
-![Level 23 room 1](imagenes/sala-23-1.png)
-
-*Level 23, room 1. It carries: 2 stalactite, 2 drip, 1 chaser, 1 door to the next level, 1 cage.*
-
-![Level 23 room 2](imagenes/sala-23-2.png)
-
-*Level 23, room 2. It carries: 3 skull, 2 drip, 1 stalactite, 1 chaser, 1 door to the next level, 1 blinking pickup, 1 cage, 1 bat.*
-
-![Level 23 room 3](imagenes/sala-23-3.png)
-
-*Level 23, room 3. It carries: 2 blinking pickup, 2 boulder, 1 chaser, 1 skull door, 1 drip, 1 skull, 1 bat.*
-
-![Level 23 room 4](imagenes/sala-23-4.png)
-
-*Level 23, room 4. It carries: 1 chaser, 1 door to the next level, 1 blinking pickup, 1 cage, 1 hidden item, 1 water jet, 1 many-legged creature.*
+*Level 23, the rooms laid out `-1- / 234`. Keys: four, one in room 2, two in room 3 and one in room 4. Cages: a potion behind one padlock in room 1, a potion behind one padlock in room 2 and a friend behind two padlocks in room 4. Hidden item: ![item 13](imagenes/objeto-13.png) in room 4. Skull doors: to level 24 from room 4, to level 22 from room 1, and to level 25 from room 2. Exit door: to level 1, the first of round 1, in room 3.*
 
 ### Level 24
 
 ![Level 24](imagenes/mapa-nivel-24.png)
 
-*The four rooms of level 24, placed where the cartridge places them: 2x2. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
-
-![Level 24 room 1](imagenes/sala-24-1.png)
-
-*Level 24, room 1. It carries: 4 pipe leak, 2 stalactite, 1 cage, 1 drip, 1 skull.*
-
-![Level 24 room 2](imagenes/sala-24-2.png)
-
-*Level 24, room 2. It carries: 3 pipe leak, 2 stalactite, 2 drip, 1 chaser, 1 door to the next level, 1 blinking pickup, 1 cage, 1 hidden item, 1 skull.*
-
-![Level 24 room 3](imagenes/sala-24-3.png)
-
-*Level 24, room 3. It carries: 6 rising column, 6 pipe leak, 2 blinking pickup, 2 skull, 1 stalactite, 1 chaser, 1 door to the next level, 1 drip.*
-
-![Level 24 room 4](imagenes/sala-24-4.png)
-
-*Level 24, room 4. It carries: 2 pipe leak, 2 drip, 2 skull, 1 door to the next level, 1 cage.*
+*Level 24, the four rooms in a 2x2. Keys: three, one in room 2 and two in room 3. Cages: a friend behind one padlock in room 1, a potion behind one padlock in room 2 and a friend behind one padlock in room 4. Hidden item: ![item 22](imagenes/objeto-22.png) in room 2. Skull doors: to level 23 from room 2, to level 25 from room 3, and to level 22 from room 4.*
 
 ### Level 25
 
 ![Level 25](imagenes/mapa-nivel-25.png)
 
-*The four rooms of level 25, placed where the cartridge places them: 2x2. The arrangement comes from the high nibble of 0x52DB, which is the row times four plus the column.*
-
-![Level 25 room 1](imagenes/sala-25-1.png)
-
-*Level 25, room 1. It carries: 8 rising column, 3 stalactite, 2 blinking pickup, 2 boulder, 1 chaser, 1 skull, 1 bat.*
-
-![Level 25 room 2](imagenes/sala-25-2.png)
-
-*Level 25, room 2. It carries: 2 drip, 1 stalactite, 1 door to the next level, 1 cage, 1 boulder, 1 skull, 1 many-legged creature.*
-
-![Level 25 room 3](imagenes/sala-25-3.png)
-
-*Level 25, room 3. It carries: 12 rising column, 3 stalactite, 2 drip, 2 skull, 1 chaser, 1 door to the next level, 1 blinking pickup, 1 cage, 1 many-legged creature.*
-
-![Level 25 room 4](imagenes/sala-25-4.png)
-
-*Level 25, room 4. It carries: 12 rising column, 2 drip, 2 skull, 1 stalactite, 1 chaser, 1 door to the next level, 1 blinking pickup, 1 cage, 1 hidden item.*
+*Level 25, the four rooms in a 2x2. Keys: four, two in room 1, one in room 3 and one in room 4. Cages: a friend behind one padlock in room 2, a potion behind one padlock in room 3 and a friend behind one padlock in room 4. Hidden item: ![item 19](imagenes/objeto-19.png) in room 4. Skull doors: to level 21 from room 2, to level 24 from room 3, and to level 23 from room 4.*
 

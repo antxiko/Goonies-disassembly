@@ -18,6 +18,7 @@ body{margin:0;background:var(--fondo);color:var(--tinta);padding:0 1.25rem 6rem;
 h1,h2,h3,h4{font-weight:400;text-wrap:balance}
 a{color:var(--cyan)}
 img{image-rendering:pixelated;max-width:100%;height:auto;display:block}
+img.enlinea{display:inline-block;vertical-align:middle;margin:0 .15em}
 header.top{display:flex;flex-direction:column;align-items:center;gap:1.5rem;
   padding:4rem 0 2rem;text-align:center}
 header.top img{width:min(100%,642px)}
@@ -82,13 +83,13 @@ footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--linea);
 .galeria figcaption{color:var(--suave);font-size:13px;margin-top:.5rem}
 audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 </style>
-<div class="w"><nav class="top"><a href="index.html">Home</a><a href="GETTING-STARTED.html">Start</a><a href="THE-GAME.html" style=color:var(--tinta)>The game</a><a href="THE-LEVELS.html">The 100 rooms</a><a href="THE-CARTRIDGE.html">The cartridge</a><a href="THE-CODE.html">The code</a><a href="FINDINGS.html">Findings</a><a href="IN-THE-EMULATOR.html">In the emulator</a><a href="OPEN-QUESTIONS.html">Open questions</a><a href="es/EL-JUEGO.html" style="margin-left:auto;color:var(--oro)">Castellano</a></nav>
+<div class="w"><nav class="top"><a href="index.html">Home</a><a href="GETTING-STARTED.html">Start</a><a href="THE-GAME.html" style=color:var(--tinta)>The game</a><a href="THE-LEVELS.html">The map</a><a href="THE-CARTRIDGE.html">The cartridge</a><a href="THE-CODE.html">The code</a><a href="FINDINGS.html">Findings</a><a href="IN-THE-EMULATOR.html">In the emulator</a><a href="OPEN-QUESTIONS.html">Open questions</a><a href="es/EL-JUEGO.html" style="margin-left:auto;color:var(--oro)">Castellano</a></nav>
 <h1 id="the-game">The game</h1>
 <p><img src="imagenes/rotulo.png?v=f6ce4fad" alt="The title screen"></p>
 <p><em>The title screen, drawn from the ROM. The caption reads <b>© KONAMI 1986</b>, with the 1985 Warner Bros. trademark notice below.</em></p>
 <p>Mikey goes down into the Astoria caves to rescue the other seven Goonies and find One-Eyed Willy&#x27;s treasure. There are <b>twenty-five levels across five rounds of five</b>, and each level is <b>four rooms</b> of 32x20 tiles.</p>
 <h2 id="what-you-do-in-a-level">What you do in a level</h2>
-<p>Get your friends out of their cages. Each one freed bumps the counter at <code>(0xE130)</code>, and <b>with seven the skull door opens</b> — the one that lets you through to the next level. The key is <code>(0xE121)</code>.</p>
+<p>Get your friends out of their cages. Each one freed bumps the counter at <code>(0xE130)</code>, and <b>with seven the exit door opens</b> — the one that lets you out of the round. The key is <code>(0xE121)</code>.</p>
 <p>You move between rooms by walking off the sides. The link is not geometric: it is <b>two twin tables of 19 rows by 4 columns</b> (<code>0x52DB</code> and <code>0x5327</code>), and which one gets consulted depends on which side you leave by — the left one if the column drops below <code>0x15</code>, the right one if it reaches <code>0xC0</code>. The row is picked by the level&#x27;s <em>room layout</em>, one of the 25 bytes at <code>0x9D67</code>.</p>
 <h2 id="the-player">The player</h2>
 <p><img src="imagenes/jugador.png?v=fac8a24c" alt="The sixteen poses"></p>
@@ -98,9 +99,9 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p>You climb and descend them, and they are not decoration: <b>tile <code>0x41</code> is the foot of a rope</b> and you go up by pressing up; <b>tile <code>0x53</code> is the head</b>, the one hanging from a platform, and you go down by pressing down (<code>0x66E4</code>). The creatures use exactly the same ones.</p>
 <h2 id="the-hazards">The hazards</h2>
 <p><img src="imagenes/puertas-y-jaulas.png?v=bfee4b76" alt="Doors and cages"></p>
-<p><em>The skull door — shut and open — the door to the next level, and the four cages: shut, open, with the friend inside and with the item inside.</em></p>
+<p><em>The exit door — shut and open — the skull door, and the four cages: shut, open, with the friend inside and with the item inside.</em></p>
 <p>Each level brings two lists. The <b>level list</b> sits right behind the eighty bytes of the map and spreads things across the four rooms; the <b>four room lists</b> hang off a per-level table. Both are read the same way (<code>0x8D64</code> and <code>0x8E73</code>): a byte <code>0xF0+type</code> opens a run, its records follow, and <code>0xFF</code> closes.</p>
-<table><tr><th>type</th><th>LEVEL list</th><th>ROOM list</th></tr><tr><td>0</td><td>rising column</td><td>water jet</td></tr><tr><td>1</td><td>stalactite</td><td>boulder</td></tr><tr><td>2</td><td><b>the chaser</b></td><td>flame</td></tr><tr><td>3</td><td>the door to the next level</td><td>pipe leak</td></tr><tr><td>4</td><td>blinking pickup</td><td>the spot that drips</td></tr><tr><td>5</td><td>cage</td><td>skull</td></tr><tr><td>6</td><td>hidden item</td><td>bat</td></tr><tr><td>7</td><td>the skull door</td><td>the many-legged creature</td></tr></table>
+<table><tr><th>type</th><th>LEVEL list</th><th>ROOM list</th></tr><tr><td>0</td><td>rising column</td><td>water jet</td></tr><tr><td>1</td><td>stalactite</td><td>boulder</td></tr><tr><td>2</td><td><b>the chaser</b></td><td>flame</td></tr><tr><td>3</td><td>the skull door</td><td>pipe leak</td></tr><tr><td>4</td><td>blinking pickup</td><td>the spot that drips</td></tr><tr><td>5</td><td>cage</td><td>skull</td></tr><tr><td>6</td><td>hidden item</td><td>bat</td></tr><tr><td>7</td><td>the exit door</td><td>the many-legged creature</td></tr></table>
 <p><code>0x7A9E</code> runs through the seven damaging hazards and leaves the bit in <code>(ix+00Ah)</code>, which is also where the player&#x27;s colour comes from: water jet <code>0x01</code>, stalactite <code>0x02</code>, drip <code>0x04</code>, flame <code>0x08</code>, column <code>0x10</code>, leak <code>0x20</code> and boulder <code>0x40</code>.</p>
 <p><img src="imagenes/bichos.png?v=5481e63f" alt="The creatures"></p>
 <p><em>The single-square sprite patterns, in the six colours the game uses. The colour is not in the drawing: it lives in the attribute.</em></p>
@@ -112,6 +113,6 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p>The table at <code>0x5576</code> says which level each is in: twenty-three distinct values between 0 and 24, and <b>5 and 14 are exactly the ones missing</b>. Levels 6 and 15 are the only two with no item.</p>
 <h2 id="the-password">The password</h2>
 <p>At the end of each round, <code>0x53A7</code> shows you, under the <code>KEYWORD</code> caption, the name of the round you have just cleared. That name <em>is</em> the password, because they are <b>the same bytes</b>: MR SLOTH, GOON DOCKS, DOUBLOON, ONE EYED WILLY and GOONIES. The whole story is in <a href="FINDINGS.html">Findings</a>.</p>
-<h2 id="all-one-hundred-rooms">All one hundred rooms</h2>
-<p>They are drawn one by one in <a href="THE-LEVELS.html">The 25 levels</a>.</p>
+<h2 id="the-map">The map</h2>
+<p>The twenty-five levels, with all hundred rooms, are drawn in <a href="THE-LEVELS.html">The map</a>.</p>
 <footer><p><em>The Goonies</em> was published by Konami for the MSX in 1986; its catalogue number is RC-734 and it is 32 KB. The game is based on the Richard Donner film (Warner Bros., 1985). All rights in the game remain with their holders. This is preservation, study and documentation work, and the cartridge image is not distributed.</p></footer></div>
